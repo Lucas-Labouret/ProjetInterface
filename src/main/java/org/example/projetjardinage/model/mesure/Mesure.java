@@ -1,2 +1,4 @@
-package org.example.projetjardinage.model.mesure;public class Mesure {
+package org.example.projetjardinage.model.mesure;
+
+public class Mesure {
 }
