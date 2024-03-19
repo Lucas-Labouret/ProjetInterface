@@ -15,4 +15,5 @@ public class SpeciesListView implements Body{
     public Pane getBody(){
         return new Pane();
     }
+    public void updateSize(double width, double height) {}
 }

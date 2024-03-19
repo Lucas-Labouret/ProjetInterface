@@ -1,5 +1,6 @@
 package org.example.projetjardinage.view.mainBody;
 
+import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
 
 public class GalleryView implements Body {
@@ -13,6 +14,10 @@ public class GalleryView implements Body {
     }
 
     public Pane getBody() {
-        return new Pane();
+        Pane pane = new Pane();
+        pane.getChildren().add(new Label("Galerie"));
+        return pane;
     }
+
+    public void updateSize(double width, double height) {}
 }

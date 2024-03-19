@@ -76,4 +76,10 @@ public class SpeciesView implements Body {
     public Pane getBody() {
         return fullView;
     }
+
+    public void updateSize(double width, double height) {
+        fullView.setPrefWidth(width);
+        leftSide.setPrefWidth(3./4 * width);
+        rightSide.setPrefWidth(1./4 * width);
+    }
 }
