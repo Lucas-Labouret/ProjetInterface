@@ -18,14 +18,14 @@ public class MainWindow {
         SPECIMEN,
         GALLERY
     }
-    private View currentView;
+    private Body currentView;
 
     private final Scene scene;
     private final HBox buttons;
     private final VBox fullWindow;
     private final Pane body;
 
-    private MainWindow(){
+    private MainWindow(double width, double height){
         buttons = new HBox();
         body = new Pane();
         fullWindow = new VBox();
@@ -35,20 +35,20 @@ public class MainWindow {
         Button speciesButton = new Button("Espèces");
         Button galleryButton = new Button("Galerie");
         buttons.getChildren().addAll(toDoButton, speciesButton, galleryButton);
-        for(Button button : new Button[]{toDoButton, speciesButton, galleryButton}){
-            button.setPrefWidth(fullWindow.getWidth() / 3);
-        }
+
         toDoButton.setOnAction(e -> switchView(View.TODO_LIST));
         speciesButton.setOnAction(e -> switchView(View.SPECIES)); //TODO: change to SPECIES_LIST
         galleryButton.setOnAction(e -> switchView(View.GALLERY));
 
-        currentView = View.SPECIES;
-        body.getChildren().add(SpeciesView.getInstance(null).getBody());
+        currentView = SpeciesView.getInstance(null);
+        body.getChildren().add(currentView.getBody());
         fullWindow.getChildren().addAll(buttons, body);
+
+        updateWindowSize(width, height);
     }
 
-    public static MainWindow getInstance(){
-        if(instance == null){ instance = new MainWindow(); }
+    public static MainWindow getInstance(double width, double height){
+        if(instance == null){ instance = new MainWindow(width, height); }
         return instance;
     }
 
@@ -59,31 +59,23 @@ public class MainWindow {
     public void switchView(View view){
         switch(view){
             case TODO_LIST:
-                currentView = View.TODO_LIST;
-                body.getChildren().clear();
-                body.getChildren().add(TodoListView.getInstance().getBody());
+                currentView = TodoListView.getInstance();
                 break;
             case SPECIES_LIST:
-                currentView = View.SPECIES_LIST;
-                body.getChildren().clear();
-                body.getChildren().add(SpeciesListView.getInstance().getBody());
+                currentView = SpeciesListView.getInstance();
                 break;
             case SPECIES:
-                currentView = View.SPECIES;
-                body.getChildren().clear();
-                body.getChildren().add(SpeciesView.getInstance(null).getBody());
+                currentView = SpeciesView.getInstance(null);
                 break;
             case SPECIMEN:
-                currentView = View.SPECIMEN;
-                body.getChildren().clear();
-                body.getChildren().add(SpecimenView.getInstance(null).getBody());
+                currentView = SpecimenView.getInstance(null);
                 break;
             case GALLERY:
-                currentView = View.GALLERY;
-                body.getChildren().clear();
-                body.getChildren().add(GalleryView.getInstance().getBody());
+                currentView = GalleryView.getInstance();
                 break;
         }
+        body.getChildren().clear();
+        body.getChildren().add(currentView.getBody());
     }
 
     public void updateWindowSize(double width, double height) {
@@ -92,28 +84,6 @@ public class MainWindow {
             Button button = (Button) node;
             button.setPrefWidth(width / 3);
         }
-        switch (currentView){
-            case TODO_LIST:
-                body.getChildren().clear();
-                TodoListView.getInstance().updateSize(width, height);
-                break;
-            case SPECIES_LIST:
-                body.getChildren().clear();
-                SpeciesListView.getInstance().updateSize(width, height);
-                break;
-            case SPECIES:
-                body.getChildren().clear();
-                SpeciesView.getInstance(null).updateSize(width, height);
-                break;
-            case SPECIMEN:
-                body.getChildren().clear();
-                SpecimenView.getInstance(null).updateSize(width, height);
-                break;
-            case GALLERY:
-                body.getChildren().clear();
-                GalleryView.getInstance().updateSize(width, height);
-                break;
-        }
-        switchView(currentView); //Reload le body pour que les changements de taille soient pris en compte
+        currentView.updateSize(width, height);
     }
 }

@@ -3,7 +3,7 @@ package org.example.projetjardinage.view.mainBody;
 import javafx.scene.layout.Pane;
 import org.example.projetjardinage.model.Specimen;
 
-public class SpecimenView {
+public class SpecimenView implements Body {
     private static SpecimenView instance;
 
     private Specimen specimen;
