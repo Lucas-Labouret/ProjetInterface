@@ -1,18 +1,31 @@
 package org.example.projetjardinage.view;
 
+import javafx.scene.layout.Pane;
 import org.example.projetjardinage.model.Plant;
 import org.example.projetjardinage.model.Species;
 
-public class PlantView implements Observer {
-    private final Plant plant;
-    private final Species species;
+public class PlantView {
+    private static PlantView instance;
 
-    PlantView(Plant p){
+    private Plant plant;
+    private Species species;
+
+    private PlantView(Plant p){
         plant = p;
         species = p.getSpecies();
-        this.subscribeTo(plant);
-        this.subscribeTo(species);
     }
 
-    public void update() {}
+    public static PlantView getInstance(Plant p) {
+        if (instance == null) instance = new PlantView(p);
+        return instance;
+    }
+
+    public void switchPlant(Plant p) {
+        plant = p;
+        species = p.getSpecies();
+    }
+
+    public Pane getPlantView() {
+        return new Pane();
+    }
 }
