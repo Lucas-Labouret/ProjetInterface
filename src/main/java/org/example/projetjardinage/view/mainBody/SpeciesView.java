@@ -1,4 +1,4 @@
-package org.example.projetjardinage.view;
+package org.example.projetjardinage.view.mainBody;
 
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
@@ -6,8 +6,9 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import org.example.projetjardinage.model.Species;
+import org.example.projetjardinage.view.TasksViewer;
 
-public class SpeciesView {
+public class SpeciesView implements Body {
     private static SpeciesView instance;
 
     private final HBox fullView;
@@ -72,7 +73,7 @@ public class SpeciesView {
         return instance;
     }
 
-    public Pane getSpeciesView() {
+    public Pane getBody() {
         return fullView;
     }
 }

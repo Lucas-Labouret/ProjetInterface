@@ -1,8 +1,8 @@
-package org.example.projetjardinage.view;
+package org.example.projetjardinage.view.mainBody;
 
 import javafx.scene.layout.Pane;
 
-public class GalleryView {
+public class GalleryView implements Body {
     private static GalleryView instance;
 
     private GalleryView() {}
@@ -12,7 +12,7 @@ public class GalleryView {
         return instance;
     }
 
-    public Pane getGalleryView() {
+    public Pane getBody() {
         return new Pane();
     }
 }

@@ -6,14 +6,16 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
-import org.example.projetjardinage.model.Species;
+import org.example.projetjardinage.view.mainBody.*;
 
 public class MainWindow {
     private static MainWindow instance;
 
     public enum View {
         TODO_LIST,
+        SPECIES_LIST,
         SPECIES,
+        SPECIMEN,
         GALLERY
     }
 
@@ -28,15 +30,15 @@ public class MainWindow {
         fullWindow = new VBox();
         scene = new Scene(fullWindow);
 
-        Button button1 = new Button("To-do List");
-        Button button2 = new Button("Espèces");
-        Button button3 = new Button("Galerie");
-        buttons.getChildren().addAll(button1, button2, button3);
-        for(Button button : new Button[]{button1, button2, button3}){
+        Button toDoButton = new Button("To-do List");
+        Button speciesButton = new Button("Espèces");
+        Button galleryButton = new Button("Galerie");
+        buttons.getChildren().addAll(toDoButton, speciesButton, galleryButton);
+        for(Button button : new Button[]{toDoButton, speciesButton, galleryButton}){
             button.setPrefWidth(fullWindow.getWidth() / 3);
         }
 
-        body.getChildren().add(SpeciesView.getInstance(new Species()).getSpeciesView());
+        body.getChildren().add(SpeciesView.getInstance(null).getBody());
         fullWindow.getChildren().addAll(buttons, body);
     }
 
@@ -53,15 +55,23 @@ public class MainWindow {
         switch(view){
             case TODO_LIST:
                 body.getChildren().clear();
-                body.getChildren().add(TodoListView.getInstance().getTodoListView());
+                body.getChildren().add(TodoListView.getInstance().getBody());
+                break;
+            case SPECIES_LIST:
+                body.getChildren().clear();
+                body.getChildren().add(SpeciesListView.getInstance().getBody());
                 break;
             case SPECIES:
                 body.getChildren().clear();
-                body.getChildren().add(SpeciesView.getInstance(new Species()).getSpeciesView());
+                body.getChildren().add(SpeciesView.getInstance(null).getBody());
+                break;
+            case SPECIMEN:
+                body.getChildren().clear();
+                body.getChildren().add(SpecimenView.getInstance(null).getBody());
                 break;
             case GALLERY:
                 body.getChildren().clear();
-                body.getChildren().add(GalleryView.getInstance().getGalleryView());
+                body.getChildren().add(GalleryView.getInstance().getBody());
                 break;
         }
     }

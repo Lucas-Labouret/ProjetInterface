@@ -10,7 +10,7 @@ public class Task implements Observable {
     private boolean done;
     private final ArrayList<Task> subTasks = new ArrayList<>();
 
-    private final ArrayList<Plant> linkedPlants = new ArrayList<>();
+    private final ArrayList<Specimen> linkedSpecimens = new ArrayList<>();
     private final ArrayList<Species> linkedSpecies = new ArrayList<>();
 
     public Task(String name, String description) {

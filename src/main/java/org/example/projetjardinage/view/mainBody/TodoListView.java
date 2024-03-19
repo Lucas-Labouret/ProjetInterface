@@ -1,8 +1,8 @@
-package org.example.projetjardinage.view;
+package org.example.projetjardinage.view.mainBody;
 
 import javafx.scene.layout.Pane;
 
-public class TodoListView {
+public class TodoListView implements Body {
     private static TodoListView instance;
 
     private TodoListView() {}
@@ -12,7 +12,7 @@ public class TodoListView {
         return instance;
     }
 
-    public Pane getTodoListView() {
+    public Pane getBody() {
         return new Pane();
     }
 }

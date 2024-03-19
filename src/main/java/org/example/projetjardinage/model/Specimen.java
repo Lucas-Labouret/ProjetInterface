@@ -2,7 +2,7 @@ package org.example.projetjardinage.model;
 
 import java.time.LocalDate;
 
-public class Plant implements Observable {
+public class Specimen implements Observable {
     private final Species species;
     private String name;
     private boolean alive;
@@ -11,7 +11,7 @@ public class Plant implements Observable {
     private String noteSecimen;
     private String noteEntretien;
     
-    public Plant(Species species, String name, LocalDate miseEnTerre) {
+    public Specimen(Species species, String name, LocalDate miseEnTerre) {
         this.species = species;
         this.name = name;
         this.alive = true;
