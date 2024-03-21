@@ -14,6 +14,13 @@ public class SpecimenView implements Body {
 
     public static SpecimenView getInstance(Specimen p) {
         if (instance == null) instance = new SpecimenView(p);
+        else instance.switchSpecimen(p);
+        return instance;
+    }
+
+    public static SpecimenView getInstance(){
+        if (instance == null)
+            throw new ExceptionInInitializerError("Must call getInstance(Specimen) at least once before getInstance()");
         return instance;
     }
 

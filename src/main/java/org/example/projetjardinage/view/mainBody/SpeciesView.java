@@ -6,10 +6,12 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import org.example.projetjardinage.model.Species;
-import org.example.projetjardinage.view.TasksViewer;
+import org.example.projetjardinage.view.TasksViewFactory;
 
 public class SpeciesView implements Body {
     private static SpeciesView instance;
+
+    Species species;
 
     private final HBox fullView;
 
@@ -28,9 +30,11 @@ public class SpeciesView implements Body {
     private final VBox rightSide;
     private final HBox mesuresRecommendation;
     private final VBox mesuresAffichage;
-    private final TasksViewer relatedTasks;
+    private final Pane relatedTasks;
 
     private SpeciesView(Species s){
+        species = s;
+
         fullView = new HBox();
 
         leftSide = new VBox();
@@ -48,7 +52,7 @@ public class SpeciesView implements Body {
         rightSide = new VBox();
         mesuresRecommendation = new HBox();
         mesuresAffichage = new VBox();
-        relatedTasks = new TasksViewer();
+        relatedTasks = TasksViewFactory.getView(species.getRelatedTasks());
 
         fullView.getChildren().addAll(leftSide, rightSide);
 
@@ -60,9 +64,9 @@ public class SpeciesView implements Body {
         galleryModif.getChildren().addAll(new Label("Galerie : "), new Label("voici un bouton modifier"));
         gallerySelect.getChildren().addAll(new Label("bouton 1"), new Label("bouton 2"), new Label("bouton 3"));
         galleryPhotos.add(new Label("photo 1"), 0, 0);
-        galleryPhotos.add(new Label("photo 2"), 0, 2);
-        galleryPhotos.add(new Label("photo 3"), 0, 3);
-        galleryPhotos.add(new Label("photo 4"), 0, 4);
+        galleryPhotos.add(new Label("photo 2"), 0, 1);
+        galleryPhotos.add(new Label("photo 3"), 0, 2);
+        galleryPhotos.add(new Label("photo 4"), 0, 3);
         galleryPhotos.add(new Label("photo 5"), 1, 0);
 
         rightSide.getChildren().addAll(new Label("photo"), mesuresRecommendation, mesuresAffichage, new Label("bouton ajout tache") ,relatedTasks);
@@ -70,7 +74,18 @@ public class SpeciesView implements Body {
 
     public static SpeciesView getInstance(Species s) {
         if (instance == null) instance = new SpeciesView(s);
+        else instance.switchSpecies(s);
         return instance;
+    }
+
+    public static SpeciesView getInstance(){
+        if (instance == null)
+            throw new ExceptionInInitializerError("must call getInstance(Species) at least once before getInstance");
+        return instance;
+    }
+
+    public void switchSpecies(Species s){
+        species = s;
     }
 
     public Pane getBody() {

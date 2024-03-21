@@ -6,6 +6,7 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import org.example.projetjardinage.model.Species;
 import org.example.projetjardinage.view.mainBody.*;
 
 public class MainWindow {
@@ -40,7 +41,7 @@ public class MainWindow {
         speciesButton.setOnAction(e -> switchView(View.SPECIES)); //TODO: change to SPECIES_LIST
         galleryButton.setOnAction(e -> switchView(View.GALLERY));
 
-        currentView = SpeciesView.getInstance(null);
+        currentView = SpeciesView.getInstance(new Species());
         body.getChildren().add(currentView.getBody());
         fullWindow.getChildren().addAll(buttons, body);
 
@@ -65,10 +66,10 @@ public class MainWindow {
                 currentView = SpeciesListView.getInstance();
                 break;
             case SPECIES:
-                currentView = SpeciesView.getInstance(null);
+                currentView = SpeciesView.getInstance();
                 break;
             case SPECIMEN:
-                currentView = SpecimenView.getInstance(null);
+                currentView = SpecimenView.getInstance();
                 break;
             case GALLERY:
                 currentView = GalleryView.getInstance();

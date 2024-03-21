@@ -15,4 +15,8 @@ public class Species implements Observable {
 
     int getNbSpecimens() { return specimens.size(); }
     void addSpecimen(Specimen p){ specimens.add(p); }
+
+    public ArrayList<Task> getRelatedTasks() {
+        return taskList;
+    }
 }
