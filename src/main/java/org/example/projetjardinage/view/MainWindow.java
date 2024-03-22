@@ -1,5 +1,7 @@
 package org.example.projetjardinage.view;
 
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -8,6 +10,8 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import org.example.projetjardinage.model.Species;
 import org.example.projetjardinage.view.mainBody.*;
+
+import java.io.IOException;
 
 public class MainWindow {
     private static MainWindow instance;
@@ -22,20 +26,35 @@ public class MainWindow {
     private Body currentView;
 
     private final Scene scene;
-    private final HBox buttons;
-    private final VBox fullWindow;
-    private final Pane body;
+
+    @FXML
+    private VBox fullWindow;
+    @FXML
+    HBox buttons;
+    @FXML
+    private Pane body;
+
+    @FXML
+    private Button toDoButton;
+    @FXML
+    private Button speciesButton;
+    @FXML
+    private Button galleryButton;
 
     private MainWindow(double width, double height){
-        buttons = new HBox();
-        body = new Pane();
-        fullWindow = new VBox();
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("MainWindow.fxml"));
+        fxmlLoader.setRoot(this);
+        fxmlLoader.setController(this);
+        try { fxmlLoader.load(); }
+        catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
         scene = new Scene(fullWindow);
 
-        Button toDoButton = new Button("To-do List");
-        Button speciesButton = new Button("Espèces");
-        Button galleryButton = new Button("Galerie");
-        buttons.getChildren().addAll(toDoButton, speciesButton, galleryButton);
+        toDoButton.setText("To-Do List");
+        speciesButton.setText("Espèces");
+        galleryButton.setText("Galerie");
 
         toDoButton.setOnAction(e -> switchView(View.TODO_LIST));
         speciesButton.setOnAction(e -> switchView(View.SPECIES)); //TODO: change to SPECIES_LIST
@@ -43,13 +62,17 @@ public class MainWindow {
 
         currentView = SpeciesView.getInstance(new Species());
         body.getChildren().add(currentView.getBody());
-        fullWindow.getChildren().addAll(buttons, body);
-
-        updateWindowSize(width, height);
     }
 
     public static MainWindow getInstance(double width, double height){
         if(instance == null){ instance = new MainWindow(width, height); }
+        instance.updateWindowSize(width, height);
+        return instance;
+    }
+
+    public static MainWindow getInstance(){
+        if (instance == null)
+            throw new ExceptionInInitializerError("Must call getInstance(double, double) at least once before getInstance()");
         return instance;
     }
 

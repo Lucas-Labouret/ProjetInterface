@@ -2,9 +2,17 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.control.Button?>
-<VBox id="fullWindow">
-    <HBox id="buttons">
-        <Button id="toDoButton"/> <Button id="speciesButton"/><Button id="galleryButton"/>
-    </HBox>
-    <Pane id="body"/>
-</VBox>
+
+<?import javafx.scene.layout.AnchorPane?>
+<fx:root xmlns:fx="http://javafx.com/fxml"
+         xmlns="http://javafx.com/javafx"
+         type="Pane">
+    <VBox fx:id="fullWindow">
+        <HBox id="buttons">
+            <Button fx:id="toDoButton"/>
+            <Button fx:id="speciesButton"/>
+            <Button fx:id="galleryButton"/>
+        </HBox>
+        <Pane fx:id="body"/>
+    </VBox>
+</fx:root>
