@@ -3,6 +3,7 @@ package org.example.projetjardinage;
 import javafx.application.Application;
 import javafx.beans.value.ChangeListener;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import org.example.projetjardinage.view.MainWindow;
 
@@ -27,6 +28,9 @@ public class App extends Application {
         primaryStage.heightProperty().addListener(stageSizeListener);
 
         primaryStage.setTitle("Le projet UwU");
+
+        Image image = new Image("C:\\Users\\Fran\\IdeaProjects\\ProjetInterface\\src\\main\\ressource\\icons\\267203.png");
+        primaryStage.getIcons().add(image);
         primaryStage.setScene(scene);
         primaryStage.show();
     }
