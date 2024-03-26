@@ -11,7 +11,8 @@ module org.example.projetjardinage {
     requires eu.hansolo.tilesfx;
     requires com.almasb.fxgl.all;
 
-    opens org.example.projetjardinage to javafx.fxml;
     exports org.example.projetjardinage;
+    opens org.example.projetjardinage to javafx.fxml;
     opens org.example.projetjardinage.controller to javafx.fxml;
+    opens org.example.projetjardinage.controller.mainBody to javafx.fxml;
 }

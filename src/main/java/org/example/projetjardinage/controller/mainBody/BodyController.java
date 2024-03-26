@@ -1,8 +1,6 @@
 package org.example.projetjardinage.controller.mainBody;
 
-import javafx.scene.layout.Pane;
 
-public interface Body {
-    Pane getBody();
+public interface BodyController {
     void updateSize(double width, double height);
 }

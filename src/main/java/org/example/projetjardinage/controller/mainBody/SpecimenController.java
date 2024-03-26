@@ -3,19 +3,15 @@ package org.example.projetjardinage.controller.mainBody;
 import javafx.scene.layout.Pane;
 import org.example.projetjardinage.model.Specimen;
 
-public class SpecimenController implements Body {
+public class SpecimenController implements BodyController {
     private Specimen specimen;
 
-    public SpecimenController(Specimen p){
-        specimen = p;
-    }
+    public SpecimenController(){}
+    private void initialize(){}
 
     public void switchSpecimen(Specimen p) {
         specimen = p;
     }
 
-    public Pane getBody() {
-        return new Pane();
-    }
     public void updateSize(double width, double height) {}
 }

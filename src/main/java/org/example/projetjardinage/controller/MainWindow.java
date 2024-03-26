@@ -1,28 +1,36 @@
 package org.example.projetjardinage.controller;
 
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
-import org.example.projetjardinage.model.Species;
 import org.example.projetjardinage.controller.mainBody.*;
 
 public class MainWindow {
-    public enum Controller {
+    public enum Display {
         TODO_LIST,
         SPECIES_LIST,
         SPECIES,
         SPECIMEN,
         GALLERY
     }
-    private Body currentView;
+    private BodyController currentController;
     private TodoListController todoListController;
     private SpeciesListController speciesListController;
     private SpeciesController speciesController;
     private SpecimenController specimenController;
     private GalleryController galleryController;
+
+    private Parent currentView;
+    private Parent toDoListView;
+    private Parent speciesListView;
+    private Parent speciesView;
+    private Parent specimenView;
+    private Parent galleryView;
 
     @FXML
     private VBox fullWindow;
@@ -41,43 +49,68 @@ public class MainWindow {
     public MainWindow(){}
 
     public void initialize() {
-        todoListController = new TodoListController();
-        speciesListController = new SpeciesListController();
-        speciesController = new SpeciesController(new Species());
-        specimenController = new SpecimenController(null);
-        galleryController = new GalleryController();
+        loadViewsControllers();
 
         toDoButton.setText("To-Do List");
         speciesButton.setText("Espèces");
         galleryButton.setText("Galerie");
 
-        toDoButton.setOnAction(e -> switchController(Controller.TODO_LIST));
-        speciesButton.setOnAction(e -> switchController(Controller.SPECIES)); //TODO: change to SPECIES_LIST
-        galleryButton.setOnAction(e -> switchController(Controller.GALLERY));
+        toDoButton.setOnAction(e -> switchController(Display.TODO_LIST));
+        speciesButton.setOnAction(e -> switchController(Display.SPECIES)); //TODO: change to SPECIES_LIST
+        galleryButton.setOnAction(e -> switchController(Display.GALLERY));
 
-        switchController(Controller.SPECIES);
+        switchController(Display.SPECIES);
     }
 
-    public void switchController(Controller controller){
-        switch(controller){
+    private void loadViewsControllers(){
+        FXMLLoader todoListLoader    = new FXMLLoader(getClass().getResource("/mainBody/TodoListBody.fxml"));
+        FXMLLoader speciesListLoader = new FXMLLoader(getClass().getResource("/mainBody/SpeciesListBody.fxml"));
+        FXMLLoader speciesLoader     = new FXMLLoader(getClass().getResource("/mainBody/SpeciesBody.fxml"));
+        FXMLLoader specimenLoader    = new FXMLLoader(getClass().getResource("/mainBody/SpecimenBody.fxml"));
+        FXMLLoader galleryLoader     = new FXMLLoader(getClass().getResource("/mainBody/GalleryBody.fxml"));
+
+        try {
+            toDoListView = todoListLoader.load();
+            speciesListView = speciesListLoader.load();
+            speciesView = speciesLoader.load();
+            specimenView = specimenLoader.load();
+            galleryView = galleryLoader.load();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        todoListController = todoListLoader.getController();
+        speciesListController = speciesListLoader.getController();
+        speciesController = speciesLoader.getController();
+        specimenController = specimenLoader.getController();
+        galleryController = galleryLoader.getController();
+    }
+
+    public void switchController(Display display){
+        switch(display){
             case TODO_LIST:
-                currentView = todoListController;
+                currentView = toDoListView;
+                currentController = todoListController;
                 break;
             case SPECIES_LIST:
-                currentView = speciesListController;
+                currentView = speciesListView;
+                currentController = speciesListController;
                 break;
             case SPECIES:
-                currentView = speciesController;
+                currentView = speciesView;
+                currentController = speciesController;
                 break;
             case SPECIMEN:
-                currentView = specimenController;
+                currentView = specimenView;
+                currentController = specimenController;
                 break;
             case GALLERY:
-                currentView = galleryController;
+                currentView = galleryView;
+                currentController = galleryController;
                 break;
         }
         body.getChildren().clear();
-        body.getChildren().add(currentView.getBody());
+        body.getChildren().add(currentView);
     }
 
     public void updateWindowSize(double width, double height) {
@@ -86,6 +119,6 @@ public class MainWindow {
             Button button = (Button) node;
             button.setPrefWidth(width / 3);
         }
-        currentView.updateSize(width, height);
+        currentController.updateSize(width, height);
     }
 }

@@ -2,11 +2,8 @@ package org.example.projetjardinage.controller.mainBody;
 
 import javafx.scene.layout.Pane;
 
-public class SpeciesListController implements Body{
+public class SpeciesListController implements BodyController {
     public SpeciesListController(){}
 
-    public Pane getBody(){
-        return new Pane();
-    }
     public void updateSize(double width, double height) {}
 }
