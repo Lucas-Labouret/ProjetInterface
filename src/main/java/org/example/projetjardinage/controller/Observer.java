@@ -1,4 +1,4 @@
-package org.example.projetjardinage.view;
+package org.example.projetjardinage.controller;
 
 import org.example.projetjardinage.model.Observable;
 

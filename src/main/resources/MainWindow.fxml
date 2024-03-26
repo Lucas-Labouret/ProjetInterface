@@ -2,17 +2,19 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.control.Button?>
-
 <?import javafx.scene.layout.AnchorPane?>
-<fx:root xmlns:fx="http://javafx.com/fxml"
-         xmlns="http://javafx.com/javafx"
-         type="Pane">
+
+<AnchorPane
+        xmlns:fx="http://javafx.com/fxml"
+        xmlns="http://javafx.com/javafx"
+        fx:controller="org.example.projetjardinage.controller.MainWindow"
+>
     <VBox fx:id="fullWindow">
-        <HBox id="buttons">
+        <HBox fx:id="buttons">
             <Button fx:id="toDoButton"/>
             <Button fx:id="speciesButton"/>
             <Button fx:id="galleryButton"/>
         </HBox>
         <Pane fx:id="body"/>
     </VBox>
-</fx:root>
+</AnchorPane>

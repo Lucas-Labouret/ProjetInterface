@@ -1,4 +1,4 @@
-package org.example.projetjardinage.view.mainBody;
+package org.example.projetjardinage.controller.mainBody;
 
 import javafx.scene.layout.Pane;
 
