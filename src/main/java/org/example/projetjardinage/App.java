@@ -2,10 +2,14 @@ package org.example.projetjardinage;
 
 import javafx.application.Application;
 import javafx.beans.value.ChangeListener;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
-import org.example.projetjardinage.view.MainWindow;
+import org.example.projetjardinage.controller.MainWindow;
+
+import java.io.IOException;
 
 public class App extends Application {
     private final int minWidth = 600;
@@ -18,9 +22,19 @@ public class App extends Application {
     public void start(Stage primaryStage) {
         primaryStage.setMinWidth(minWidth);
         primaryStage.setMinHeight(minHeight);
-        MainWindow mainWindow = MainWindow.getInstance(primaryStage.getWidth(), primaryStage.getHeight());
-        Scene scene = mainWindow.getMainWindow();
 
+        Parent root;
+        System.out.println("here");
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(
+                "/MainWindow.fxml"
+        ));
+        try {root = fxmlLoader.load();}
+        catch (IOException e) {throw new RuntimeException(e);}
+
+        System.out.println("Root: " + root);
+        Scene scene = new Scene(root);
+
+        MainWindow mainWindow = fxmlLoader.getController();
         ChangeListener<Number> stageSizeListener =
                 (observable, oldValue, newValue) ->
                 mainWindow.updateWindowSize(primaryStage.getWidth(), primaryStage.getHeight());

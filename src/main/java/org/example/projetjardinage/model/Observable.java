@@ -1,6 +1,6 @@
 package org.example.projetjardinage.model;
 
-import org.example.projetjardinage.view.Observer;
+import org.example.projetjardinage.controller.Observer;
 
 import java.util.ArrayList;
 
