@@ -43,7 +43,8 @@ public class App extends Application {
 
         primaryStage.setTitle("Le projet UwU");
 
-        Image image = new Image("C:\\Users\\Fran\\IdeaProjects\\ProjetInterface\\src\\main\\ressource\\icons\\267203.png");
+
+        Image image = new Image(getClass().getResourceAsStream("/icons/267203.png"));
         primaryStage.getIcons().add(image);
         primaryStage.setScene(scene);
         primaryStage.show();
