@@ -1,5 +1,7 @@
 package org.example.projetjardinage;
 
+import org.example.projetjardinage.model.enregistreur.Lecteur;
+
 import javafx.application.Application;
 import javafx.beans.value.ChangeListener;
 import javafx.fxml.FXMLLoader;
@@ -14,12 +16,16 @@ public class App extends Application {
     private final int minWidth = 600;
     private final int minHeight = 450;
     public static void main(String[] args) {
-        Application.launch(args);
+
+        String test = "test.txt";
+        Lecteur AH = new Lecteur(test);
+        System.out.println("Finito.");
+        //Application.launch(args);
     }
 
     @Override
     public void start(Stage primaryStage) {
-        primaryStage.setMinWidth(minWidth);
+        /**primaryStage.setMinWidth(minWidth);
         primaryStage.setMinHeight(minHeight);
 
         Parent root;
@@ -42,6 +48,6 @@ public class App extends Application {
 
         primaryStage.setTitle("Le projet UwU");
         primaryStage.setScene(scene);
-        primaryStage.show();
+        primaryStage.show();**/
     }
 }

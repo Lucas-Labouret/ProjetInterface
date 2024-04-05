@@ -2,7 +2,7 @@ package org.example.projetjardinage.model;
 
 import java.time.LocalDate;
 
-public class Specimen implements Observable {
+public class  Specimen implements Observable {
     private final Species species;
     private String name;
     private boolean alive;
