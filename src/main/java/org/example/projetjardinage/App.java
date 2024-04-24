@@ -5,6 +5,7 @@ import javafx.beans.value.ChangeListener;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import org.example.projetjardinage.controller.MainWindow;
 
@@ -41,6 +42,10 @@ public class App extends Application {
         primaryStage.heightProperty().addListener(stageSizeListener);
 
         primaryStage.setTitle("Le projet UwU");
+
+
+        Image image = new Image(getClass().getResourceAsStream("/icons/267203.png"));
+        primaryStage.getIcons().add(image);
         primaryStage.setScene(scene);
         primaryStage.show();
     }
