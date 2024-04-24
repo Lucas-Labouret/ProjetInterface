@@ -13,6 +13,7 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
 <AnchorPane prefHeight="560.0" prefWidth="560.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.projetjardinage.controller.mainBody.SpeciesController">
@@ -116,17 +117,15 @@
             </GridPane>
          </children>
       </HBox>
-      <ScrollPane fx:id="galleryScrollPane" layoutX="52.0" layoutY="367.0" prefHeight="177.0" prefWidth="366.0">
+      <ScrollPane fx:id="galleryScrollPane" layoutX="52.0" layoutY="367.0" prefHeight="171.0" prefWidth="405.0">
          <content>
-            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0">
+            <HBox prefHeight="259.0" prefWidth="390.0">
                <children>
-                  <ImageView fx:id="galleryImageView" fitHeight="79.0" fitWidth="93.0" layoutX="14.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../icons/267203.png" />
-                     </image>
-                  </ImageView>
+                  <VBox prefHeight="256.0" prefWidth="130.0" />
+                  <VBox prefHeight="222.0" prefWidth="130.0" />
+                  <VBox prefHeight="255.0" prefWidth="130.0" />
                </children>
-            </AnchorPane>
+            </HBox>
          </content>
       </ScrollPane>
       <Button fx:id="tous" layoutX="78.0" layoutY="323.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="74.0" text="Tous" />

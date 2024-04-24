@@ -27,6 +27,7 @@ public class App extends Application {
         System.out.println("here");
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(
                 "/MainWindow.fxml"
+                //"/MesuresPopUp.fxml"
         ));
         try {root = fxmlLoader.load();}
         catch (IOException e) {throw new RuntimeException(e);}
