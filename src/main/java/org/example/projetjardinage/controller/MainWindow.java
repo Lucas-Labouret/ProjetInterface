@@ -67,7 +67,9 @@ public class MainWindow {
         FXMLLoader speciesListLoader = new FXMLLoader(getClass().getResource("/mainBody/SpeciesListBody.fxml"));
         FXMLLoader speciesLoader     = new FXMLLoader(getClass().getResource("/mainBody/SpeciesBody.fxml"));
         FXMLLoader specimenLoader    = new FXMLLoader(getClass().getResource("/mainBody/SpecimenBody.fxml"));
-        FXMLLoader galleryLoader     = new FXMLLoader(getClass().getResource("/mainBody/GalleryBody.fxml"));
+        //FXMLLoader galleryLoader     = new FXMLLoader(getClass().getResource("/mainBody/GalleryBody.fxml"));
+        FXMLLoader galleryLoader     = new FXMLLoader(getClass().getResource("/mainBody/MesuresPopUp.fxml"));
+
 
         try {
             toDoListView = todoListLoader.load();
