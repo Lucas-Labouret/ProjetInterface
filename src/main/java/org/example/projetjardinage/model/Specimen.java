@@ -10,6 +10,8 @@ public class Specimen implements Observable {
 
     private String noteSecimen;
     private String noteEntretien;
+
+    private Journal journal;
     
     public Specimen(Species species, String name, LocalDate miseEnTerre) {
         this.species = species;
@@ -31,4 +33,11 @@ public class Specimen implements Observable {
 
     public boolean isAlive(){ return alive; }
     public void setStatus(boolean alive){ this.alive = alive; }
+
+    public void addJournalEntry(LocalDate date, JournalEntry entry){
+        for (LocalDate d: journal.keySet())
+            if (date.isEqual(d)) throw new RuntimeException("Date already has an associated entry");
+
+        journal.put(date, entry);
+    }
 }
