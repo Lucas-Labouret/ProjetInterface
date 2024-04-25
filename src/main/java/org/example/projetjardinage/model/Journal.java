@@ -1,6 +1,5 @@
 package org.example.projetjardinage.model;
 
-import org.example.projetjardinage.model.mesure.Mesure;
 import org.example.projetjardinage.model.mesure.MesureHolder;
 
 import java.time.LocalDate;

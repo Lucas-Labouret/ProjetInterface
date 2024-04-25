@@ -4,8 +4,6 @@ import java.time.LocalDate;
 import java.time.Month;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.List;
-import java.util.Objects;
 
 public class Task {
     private LocalDate dueDate;
@@ -23,11 +21,7 @@ public class Task {
     public Task(List<String> elem, List<Species> esp, List<Specimen> spe){
         this.name = elem.get(0);
         int done = Integer.parseInt(elem.get(1));
-        if(done == 0){
-            this.done = false;
-        } else {
-            this.done = true;
-        }
+        this.done = (done != 0);
         this.description = elem.get(2);
 
         String date = elem.get(3);
@@ -96,6 +90,9 @@ public class Task {
 
     public Task getParent() { return parent; }
     public void setParent(Task parent) { this.parent = parent; }
+
+    public LocalDate getDueDate() { return dueDate; }
+    public void setDueDate(LocalDate dueDate) { this.dueDate = dueDate; }
 
     public boolean isDone() {
         return done;

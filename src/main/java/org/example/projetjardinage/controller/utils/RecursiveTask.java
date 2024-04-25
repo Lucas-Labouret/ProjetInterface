@@ -8,10 +8,8 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TitledPane;
 import javafx.scene.input.MouseButton;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import org.example.projetjardinage.model.Task;
 
@@ -70,19 +68,6 @@ public class RecursiveTask {
             try { box.getChildren().add(loader.load()); }
             catch (IOException e) { e.printStackTrace(); }
         }
-/*
-        description.toFront();
-        description.setVisible(false);
-        boolean[] hover = {false, false};
-        pane.hoverProperty().addListener((a, b, newValue) -> hover[0] = newValue);
-        boxAnchor.hoverProperty().addListener((a, b, newValue) -> hover[1] = newValue);
-        pane.setOnMouseMoved(e -> {
-            description.setVisible(hover[0] ^ hover[1]);
-            description.setLayoutX(e.getX() + description.getWidth()/2 + 10);
-            description.setLayoutY(e.getY() - description.getHeight()/2 - 10);
-        });
-        pane.setOnMouseExited(e -> description.setVisible(false));
- */
     }
 
     public void updateSize(double width, double height) {

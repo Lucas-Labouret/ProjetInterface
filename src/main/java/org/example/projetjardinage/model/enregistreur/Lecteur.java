@@ -23,9 +23,7 @@ public class Lecteur {
             while( ligne != null){
                 String[] placeholder = ligne.split(",");
                 ligne = reader.readLine();
-                for(int i = 0; i < placeholder.length;i++){
-                    this.text.add(placeholder[i]);
-                }
+                this.text.addAll(Arrays.asList(placeholder));
             }
             reader.close();
 
@@ -177,14 +175,14 @@ public class Lecteur {
             String current = this.text.get(i);
             for(int j = 0; j<current.length()-2; j++){
 
-                if((current.substring(j,j+3)).equals("<C>")){
+                if(current.startsWith("<C>", j)){
                     String tmp1;
                     if (j==0){
                         tmp1 = "";
                     } else {
                         tmp1 = current.substring(0, j);
                     }
-                    String tmp2 = current.substring(j+3, current.length());
+                    String tmp2 = current.substring(j+3);
 
                     this.text.set(i, tmp1 + "," + tmp2);
                     current = this.text.get(i);

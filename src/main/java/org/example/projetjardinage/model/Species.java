@@ -19,11 +19,7 @@ public class Species {
     public Species(List<String> elem){
         this.name = elem.get(0);
         int fav = Integer.parseInt((elem.get(1)));
-        if(fav == 0){
-            this.favorite = false;
-        } else {
-            this.favorite = true;
-        }
+        this.favorite = (fav != 0);
         this.profilePic = elem.get(2);
         this.notes = elem.get(3);
         List<String> opti = elem.subList(4,8);

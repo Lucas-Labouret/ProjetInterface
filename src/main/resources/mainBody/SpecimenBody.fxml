@@ -62,22 +62,20 @@
                 </HBox>
             </HBox>
             <Separator prefHeight="12.0" prefWidth="450.0" />
-         <GridPane>
-           <columnConstraints>
-             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-           </columnConstraints>
-           <rowConstraints>
-             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-           </rowConstraints>
-            <children>
-                  <Label text="Dernière coupe" GridPane.rowIndex="1" />
-                  <Label text="Dernière platation" />
-               <Label fx:id="dateLastPlantation" text="Label" GridPane.columnIndex="1" />
-               <Label fx:id="dateLastCoupe" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-            </children>
-         </GridPane>
+            <GridPane>
+                <columnConstraints>
+                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+                </columnConstraints>
+                <rowConstraints>
+                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                </rowConstraints>
+                <Label text="Dernière coupe" GridPane.rowIndex="1"/>
+                <Label text="Dernière platation"/>
+                <Label fx:id="dateLastPlantation" text="Label" GridPane.columnIndex="1"/>
+                <Label fx:id="dateLastCoupe" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+            </GridPane>
             <Separator prefHeight="11.0" prefWidth="450.0" />
             <Label text="Notes sur le spécimen" />
             <Label fx:id="notesSpecimen" text="Label" />
@@ -85,21 +83,19 @@
             <Label text="Notes d'entretien" />
             <Label fx:id="notesEntretien" text="Label" />
          <Separator prefWidth="200.0" />
-         <GridPane alignment="CENTER">
-           <columnConstraints>
-             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-               <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-           </columnConstraints>
-           <rowConstraints>
-             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-           </rowConstraints>
-            <children>
-               <Button fx:id="journalButton" mnemonicParsing="false" text="Button" />
-               <Label text="Dernière entrée" GridPane.columnIndex="1" />
-               <Label fx:id="dateLastEntry" text="Label" GridPane.columnIndex="2" />
-            </children>
-         </GridPane>
+            <GridPane alignment="CENTER">
+                <columnConstraints>
+                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+                </columnConstraints>
+                <rowConstraints>
+                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                </rowConstraints>
+                <Button fx:id="journalButton" mnemonicParsing="false" text="Button"/>
+                <Label text="Dernière entrée" GridPane.columnIndex="1"/>
+                <Label fx:id="dateLastEntry" text="Label" GridPane.columnIndex="2"/>
+            </GridPane>
             <Separator prefHeight="8.0" prefWidth="450.0" />
             <HBox prefHeight="81.0" prefWidth="450.0">
                 <VBox prefHeight="200.0" prefWidth="100.0">
@@ -122,11 +118,9 @@
                         <Label text="Label" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                     </GridPane>
                 </VBox>
-            <HBox alignment="CENTER" prefHeight="70.0" prefWidth="159.0">
-               <children>
-                  <Button mnemonicParsing="false" text="Button" />
-               </children>
-            </HBox>
+                <HBox alignment="CENTER" prefHeight="70.0" prefWidth="159.0">
+                    <Button mnemonicParsing="false" text="Button"/>
+                </HBox>
             </HBox>
             <Separator prefWidth="200.0" />
             <HBox prefHeight="38.0" prefWidth="450.0">

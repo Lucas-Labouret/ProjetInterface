@@ -1,6 +1,5 @@
 package org.example.projetjardinage.controller.mainBody;
 
-import javafx.scene.layout.Pane;
 import org.example.projetjardinage.model.Specimen;
 
 public class SpecimenController implements BodyController {

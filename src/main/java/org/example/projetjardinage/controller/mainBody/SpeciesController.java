@@ -3,12 +3,9 @@ package org.example.projetjardinage.controller.mainBody;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.shape.Line;
 import org.example.projetjardinage.model.Species;
-
-import static java.lang.Math.max;
 
 public class SpeciesController implements BodyController {
     Species species;

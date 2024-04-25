@@ -1,7 +1,5 @@
 package org.example.projetjardinage.controller.mainBody;
 
-
-import javafx.scene.layout.Pane;
 import javafx.fxml.FXML;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;

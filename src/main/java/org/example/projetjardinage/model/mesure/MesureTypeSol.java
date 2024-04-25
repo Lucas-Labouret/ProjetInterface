@@ -18,14 +18,11 @@ public class MesureTypeSol extends Mesure {
     public void setType(Type type) { this.type = type; }
 
     public void setTypeLect(String type){
-        if (Objects.equals(type, "Ar")){
-            this.type = Type.Argile;
-        } else if (Objects.equals(type, "Co")){
-            this.type = Type.Caillouteux;
-        } else if (Objects.equals(type, "Ca")){
-            this.type = Type.Calcaire;
-        } else {
-            System.out.println("Erreur typage du sol a la lecture");
+        switch (type) {
+            case "Ar" -> this.type = Type.Argile;
+            case "Co" -> this.type = Type.Caillouteux;
+            case "Ca" -> this.type = Type.Calcaire;
+            case null, default -> System.out.println("Erreur typage du sol a la lecture");
         }
     }
 }
