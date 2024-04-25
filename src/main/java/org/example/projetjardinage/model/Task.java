@@ -20,6 +20,13 @@ public class Task {
         this.parent = parent;
     }
 
+    public Task(String name, String description) {
+        this.dueDate = null;
+        this.name = name;
+        this.description = description;
+        this.done = false;
+    }
+
     public Task(String name, String description, LocalDate dueDate) {
         this.dueDate = dueDate;
         this.name = name;
@@ -29,7 +36,7 @@ public class Task {
     }
 
     public Task() {
-        this.dueDate = LocalDate.now();
+        this.dueDate = null;
         this.name = "";
         this.description = "";
         this.done = false;
@@ -41,6 +48,15 @@ public class Task {
     }
     public void setDueDate(LocalDate dueDate) {
         this.dueDate = dueDate;
+    }
+
+    public Task(String name, String description, LocalDate dueDate, boolean done, ArrayList<Specimen> Spe, ArrayList<Species> Esp){
+        this.dueDate = dueDate;
+        this.name = name;
+        this.description = description;
+        this.done = done;
+        this.linkedSpecies.addAll(Esp);
+        this.linkedSpecimens.addAll(Spe);
     }
 
     public String getName() {
@@ -67,13 +83,9 @@ public class Task {
         this.done = done;
     }
 
-    public ArrayList<Task> getSubTasks() {
-        return subTasks;
-    }
+    public ArrayList<Task> getSubTasks() { return subTasks; }
     public void addSubTasks(Task... t) { subTasks.addAll(List.of(t));}
-    public void removeSubTasks(Task... t) {
-        subTasks.removeAll(List.of(t));
-    }
+    public void removeSubTasks(Task... t) { subTasks.removeAll(List.of(t)); }
 
     public ArrayList<Species> getLinkedSpecies() { return linkedSpecies; }
     public void addLinkedSpecies(Species... s) { linkedSpecies.addAll(List.of(s)); }

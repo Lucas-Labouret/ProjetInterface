@@ -9,10 +9,27 @@ public class Species {
     private String name;
     private boolean favorite;
     private String profilePic;
+
+    private String notes;
     private final ArrayList<Specimen> specimens = new ArrayList<>();
     private final ArrayList<Task> taskList = new ArrayList<>();
 
-    private final OptimalHolder mesuresOpti = new OptimalHolder();
+    private OptimalHolder mesuresOpti ;
+
+    public Species(List<String> elem){
+        this.name = elem.get(0);
+        int fav = Integer.parseInt((elem.get(1)));
+        if(fav == 0){
+            this.favorite = false;
+        } else {
+            this.favorite = true;
+        }
+        this.profilePic = elem.get(2);
+        this.notes = elem.get(3);
+        List<String> opti = elem.subList(4,8);
+        opti.add(elem.get(8));
+        this.mesuresOpti = new OptimalHolder(opti);
+    }
 
     public String getName() { return name; }
     public void setName(String name) { this.name = name; }

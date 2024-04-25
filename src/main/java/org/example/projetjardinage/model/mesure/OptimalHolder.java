@@ -1,11 +1,23 @@
 package org.example.projetjardinage.model.mesure;
 
+import java.util.List;
+
 public class OptimalHolder {
-    private MesureExposition exp;
-    private MesureArrosage arr;
-    private MesureTypeSol ts;
-    private MesureNumerique ph;
-    private MesureNumerique espaceAuSol;
+    private MesureExposition exp = new MesureExposition();
+    private MesureArrosage arr = new MesureArrosage();
+    private MesureTypeSol ts = new MesureTypeSol();
+    private MesureNumerique ph = new MesureNumerique((float)0, "");
+    private MesureNumerique espaceAuSol = new MesureNumerique((float)0, "cm2") ;
+
+    public OptimalHolder(List<String> elem){
+
+
+        exp.setForceLect(elem.get(0));
+        arr.setNiveauLect(elem.get(1));
+        ts.setTypeLect(elem.get(2));
+        ph.setValueLect(elem.get(3));
+        espaceAuSol.setValueLect(elem.get(4));
+    }
 
     public MesureExposition getExp() { return exp; }
     public void setExposition(MesureExposition.Force force) { exp.setForce(force); }
