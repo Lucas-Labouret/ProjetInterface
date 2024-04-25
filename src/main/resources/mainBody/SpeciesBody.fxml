@@ -7,7 +7,7 @@
 <?import javafx.scene.shape.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="560.0" prefWidth="560.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.projetjardinage.controller.mainBody.SpeciesController">
+<AnchorPane prefHeight="560.0" prefWidth="560.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.projetjardinage.controller.mainBody.SpeciesController">
    <children>
       <Button fx:id="editName" alignment="CENTER" contentDisplay="CENTER" ellipsisString="" layoutX="196.0" layoutY="32.0" mnemonicParsing="false" prefHeight="16.0" prefWidth="16.0" text="editer nom">
          <font>
@@ -24,7 +24,7 @@
             </ImageView>
          </graphic>
       </Button>
-      <TextField fx:id="name" disable="true" layoutX="24.0" layoutY="24.0" prefHeight="31.0" prefWidth="166.0" text="Nom de l' espece">
+      <TextField fx:id="name" editable="false" layoutX="24.0" layoutY="24.0" prefHeight="31.0" prefWidth="166.0" text="Nom de l' espece">
          <font>
             <Font size="19.0" />
          </font>
@@ -83,7 +83,7 @@
             </ImageView>
          </graphic>
       </Button>
-      <TextField fx:id="nbSpecimen" disable="true" layoutX="41.0" layoutY="75.0" text="nombre specimens" />
+      <TextField fx:id="nbSpecimen" editable="false" layoutX="41.0" layoutY="75.0" text="nombre specimens" />
       <Label fx:id="moyenneLabel" layoutX="33.0" layoutY="116.0" text="Mesures moyennes :" />
       <Button fx:id="addTask" alignment="CENTER" ellipsisString="" layoutX="435.0" layoutY="216.0" mnemonicParsing="false" prefHeight="66.0" prefWidth="126.0" text="Ajouter tâche">
          <font>

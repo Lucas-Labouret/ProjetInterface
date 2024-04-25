@@ -2,6 +2,7 @@ package org.example.projetjardinage.model;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
 
 public class Task implements Observable {
     private LocalDate dueDate;
@@ -12,13 +13,6 @@ public class Task implements Observable {
 
     private final ArrayList<Specimen> linkedSpecimens = new ArrayList<>();
     private final ArrayList<Species> linkedSpecies = new ArrayList<>();
-
-    public Task(String name, String description) {
-        this.dueDate = null;
-        this.name = name;
-        this.description = description;
-        this.done = false;
-    }
 
     public Task(String name, String description, LocalDate dueDate) {
         this.dueDate = dueDate;
@@ -55,8 +49,8 @@ public class Task implements Observable {
         this.dueDate = dueDate;
     }
 
-    public void addSubTask(Task t) {
-        subTasks.add(t);
+    public void addSubTasks(Task... t) {
+        subTasks.addAll(List.of(t));
     }
     public void removeSubTask(Task t) {
         subTasks.remove(t);

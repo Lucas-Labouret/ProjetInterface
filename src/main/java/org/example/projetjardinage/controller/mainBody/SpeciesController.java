@@ -58,7 +58,7 @@ public class SpeciesController implements BodyController {
         reposition(0);
     }
 
-    private void reposition(int offset){
+    private void reposition(double offset){
         name.setLayoutX(offset + 20);
         name.setLayoutY(10);
         name.setPrefHeight(30);
@@ -143,9 +143,9 @@ public class SpeciesController implements BodyController {
 
     @Override
     public void updateSize(double width, double height) {
-        int offset;
+        double offset;
         if (width>height){
-            offset = (int) (width-height)/2;
+            offset = (width-height)/2;
             width = height;
         }
         else offset = 0;

@@ -15,4 +15,5 @@ module org.example.projetjardinage {
     opens org.example.projetjardinage to javafx.fxml;
     opens org.example.projetjardinage.controller to javafx.fxml;
     opens org.example.projetjardinage.controller.mainBody to javafx.fxml;
+    opens org.example.projetjardinage.controller.utils to javafx.fxml;
 }
