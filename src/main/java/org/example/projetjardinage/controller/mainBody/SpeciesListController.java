@@ -28,25 +28,15 @@ public class SpeciesListController implements BodyController{
 
     private List<EspeceController> controleurs;
 
-    private Stage stage;
-
-
-    public SpeciesListController(Stage stage) {
-
-        plantes = GlobalData.getPlantes();
-        controleurs = new ArrayList<>();
-        this.stage = stage;
-    }
-
     public SpeciesListController(){
-        plantes = GlobalData.getPlantes();
+        plantes = GlobalData.plantes;
         controleurs = new ArrayList<>();
     }
 
     public void initialize()  {
         for( int i = 0; i < plantes.size(); i++) {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/utils/Espece.fxml"));
-            EspeceController especeControler = new EspeceController(stage,i);
+            EspeceController especeControler = new EspeceController(i);
             controleurs.add(especeControler);
             loader.setController(especeControler);
             try{

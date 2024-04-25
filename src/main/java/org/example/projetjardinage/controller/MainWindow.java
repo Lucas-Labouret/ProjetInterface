@@ -61,10 +61,10 @@ public class MainWindow {
         galleryButton.setText("Galerie");
 
         toDoButton.setOnAction(e -> switchController(Display.TODO_LIST));
-        speciesButton.setOnAction(e -> switchController(Display.SPECIES)); //TODO: change to SPECIES_LIST
+        speciesButton.setOnAction(e -> switchController(Display.SPECIES_LIST));
         galleryButton.setOnAction(e -> switchController(Display.GALLERY));
 
-        switchController(Display.SPECIES);
+        switchController(Display.TODO_LIST);
     }
 
     private void loadViewsControllers(){
@@ -117,6 +117,10 @@ public class MainWindow {
         body.getChildren().clear();
         body.getChildren().add(currentView);
         currentController.updateSize(lastWidth, lastHeight);
+    }
+
+    public SpeciesController getSpeciesController() {
+        return speciesController;
     }
 
     public void update(){

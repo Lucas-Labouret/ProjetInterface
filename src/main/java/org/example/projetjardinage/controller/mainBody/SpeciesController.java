@@ -52,11 +52,19 @@ public class SpeciesController implements BodyController {
     public SpeciesController(){}
 
     public void initialize(){
+        editName.setOnAction(e -> {
+            name.setEditable(!name.isEditable());
+        });
+        name.setOnKeyReleased(e -> {
+            species.setName(name.getText());
+        });
         reposition(0);
     }
 
     public void switchSpecies(Species s){
         species = s;
+
+        name.setText(s.getName());
     }
 
     public void update(){}

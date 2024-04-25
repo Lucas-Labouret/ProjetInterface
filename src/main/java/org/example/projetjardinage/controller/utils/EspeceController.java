@@ -11,13 +11,15 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import org.example.projetjardinage.GlobalData;
+import org.example.projetjardinage.controller.MainWindow;
+import org.example.projetjardinage.controller.Observer;
 import org.example.projetjardinage.model.Species;
 
 import java.io.IOException;
 import java.nio.file.InvalidPathException;
 import java.nio.file.Paths;
 
-public class EspeceController {
+public class EspeceController implements Observer {
 
     @FXML
     private AnchorPane espece;
@@ -30,16 +32,9 @@ public class EspeceController {
 
     private Species species;
 
-    private Stage etage;
-
-    private int id;
-
-
-
-    public EspeceController(Stage stage , int i) {
-        int id = i;
-        this.etage = stage;
-        this.species = GlobalData.getPlantes().get(id);
+    public EspeceController(int i) {;
+        this.species = GlobalData.plantes.get(i);
+        this.subscribeTo(species);
     }
 
     public void initialize(){
@@ -51,23 +46,15 @@ public class EspeceController {
         } catch (InvalidPathException | NullPointerException ex) {
             image.setImage(new Image(getClass().getResourceAsStream("/icons/267203.png")));
         }
-
-
-
            espece.setOnMouseClicked(e -> {
             if (e.getClickCount() == 1) {
-                System.out.println("lol");
-                try {
-                    FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/mainBody/SpeciesBody.fxml"));
-                    Parent root1 = (Parent) fxmlLoader.load();
-                    etage.setScene(new Scene(root1));
-                    etage.show();
-
-                } catch (IOException ex) {
-                    throw new RuntimeException(ex);
-                }
+                MainWindow.getInstance().switchController(MainWindow.Display.SPECIES);
+                MainWindow.getInstance().getSpeciesController().switchSpecies(species);
             }
         });
+    }
 
+    public void update() {
+        text.setText(species.getName());
     }
 }

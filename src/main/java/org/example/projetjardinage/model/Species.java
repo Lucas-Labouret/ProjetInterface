@@ -5,7 +5,7 @@ import org.example.projetjardinage.model.mesure.OptimalHolder;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Species {
+public class Species implements Observable {
     private String name;
     private boolean favorite;
     private String profilePic;
@@ -28,7 +28,10 @@ public class Species {
     }
 
     public String getName() { return name; }
-    public void setName(String name) { this.name = name; }
+    public void setName(String name) {
+        this.name = name;
+        sendNotif();
+    }
 
     public boolean isFavorite() { return favorite; }
     public void setFavorite(boolean favorite) { this.favorite = favorite; }
