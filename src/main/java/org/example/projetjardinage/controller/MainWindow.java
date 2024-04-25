@@ -27,6 +27,7 @@ public class MainWindow {
         SPECIMEN,
         GALLERY
     }
+
     private BodyController currentController;
     private TodoListController todoListController;
     private SpeciesListController speciesListController;
@@ -41,21 +42,16 @@ public class MainWindow {
     private Parent specimenView;
     private Parent galleryView;
 
-    @FXML
-    private VBox fullWindow;
-    @FXML
-    HBox buttons;
-    @FXML
-    private Pane body;
+    double lastWidth;
+    double lastHeight;
 
-    @FXML
-    private Button toDoButton;
-    @FXML
-    private Button speciesButton;
-    @FXML
-    private Button galleryButton;
+    @FXML private VBox fullWindow;
+    @FXML HBox buttons;
+    @FXML private Pane body;
 
-    public MainWindow(){}
+    @FXML private Button toDoButton;
+    @FXML private Button speciesButton;
+    @FXML private Button galleryButton;
 
     public void initialize() {
         loadViewsControllers();
@@ -76,9 +72,7 @@ public class MainWindow {
         FXMLLoader speciesListLoader = new FXMLLoader(getClass().getResource("/mainBody/SpeciesListBody.fxml"));
         FXMLLoader speciesLoader     = new FXMLLoader(getClass().getResource("/mainBody/SpeciesBody.fxml"));
         FXMLLoader specimenLoader    = new FXMLLoader(getClass().getResource("/mainBody/SpecimenBody.fxml"));
-        //FXMLLoader galleryLoader     = new FXMLLoader(getClass().getResource("/mainBody/GalleryBody.fxml"));
-        FXMLLoader galleryLoader     = new FXMLLoader(getClass().getResource("/mainBody/MesuresPopUp.fxml"));
-
+        FXMLLoader galleryLoader     = new FXMLLoader(getClass().getResource("/mainBody/GalleryBody.fxml"));
 
         try {
             toDoListView = todoListLoader.load();
@@ -122,6 +116,7 @@ public class MainWindow {
         }
         body.getChildren().clear();
         body.getChildren().add(currentView);
+        currentController.updateSize(lastWidth, lastHeight);
     }
 
     public void update(){
@@ -129,6 +124,8 @@ public class MainWindow {
     }
 
     public void updateWindowSize(double width, double height) {
+        lastWidth = width;
+        lastHeight = height;
         fullWindow.resize(width, height);
         for(Node node : buttons.getChildren()){
             Button button = (Button) node;

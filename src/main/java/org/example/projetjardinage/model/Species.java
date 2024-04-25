@@ -40,9 +40,12 @@ public class Species {
     public String getProfilePicURL() { return profilePic; }
     public void setProfilePicURL(String profilePic) { this.profilePic = profilePic; }
 
-    int getNbSpecimens() { return specimens.size(); }
-    void addSpecimens(Specimen... p){ specimens.addAll(List.of(p)); }
-    void removeSpecimens(Specimen... p){ specimens.removeAll(List.of(p)); }
+    public String getNotes() { return notes; }
+    public void setNotes(String notes) { this.notes = notes; }
+
+    public int getNbSpecimens() { return specimens.size(); }
+    public void addSpecimens(Specimen... p){ specimens.addAll(List.of(p)); }
+    public void removeSpecimens(Specimen... p){ specimens.removeAll(List.of(p)); }
     public ArrayList<Specimen> getSpecimens() { return specimens; }
 
     public void addTasks(Task... t) { taskList.addAll(List.of(t)); }

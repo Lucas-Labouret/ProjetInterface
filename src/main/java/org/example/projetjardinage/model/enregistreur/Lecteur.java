@@ -177,8 +177,6 @@ public class Lecteur {
                     current = this.text.get(i);
                 }
             }
-
-
         }
     }
 

@@ -6,23 +6,13 @@ import javafx.fxml.FXML;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.control.TextField;
-public class SpeciesListController {
 
-
-    @FXML
-    private TextField RechercheEspece;
-
-    @FXML
-    private HBox HBox;
-
-    @FXML
-    private VBox VBox1;
-
-    @FXML
-    private VBox VBox2;
-
-    @FXML
-    private VBox VBox3;
+public class SpeciesListController implements BodyController{
+    @FXML private TextField RechercheEspece;
+    @FXML private HBox HBox;
+    @FXML private VBox VBox1;
+    @FXML private VBox VBox2;
+    @FXML private VBox VBox3;
 
     public SpeciesListController(){}
 
