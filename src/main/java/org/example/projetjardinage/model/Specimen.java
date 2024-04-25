@@ -4,6 +4,7 @@ import javafx.util.converter.LocalDateStringConverter;
 
 import java.time.LocalDate;
 import java.time.Month;
+import java.util.ArrayList;
 import java.util.List;
 
 public class  Specimen implements Observable {
@@ -16,6 +17,8 @@ public class  Specimen implements Observable {
 
     private String noteSpecimen;
     private String noteEntretien;
+
+    private List<Task> taskList = new ArrayList<>();
     
     public Specimen(Species species, String name, LocalDate miseEnTerre) {
         this.species = species;
@@ -58,4 +61,6 @@ public class  Specimen implements Observable {
 
     public boolean isAlive(){ return alive; }
     public void setStatus(boolean alive){ this.alive = alive; }
+
+    public void addTask(Task tache){this.taskList.add(tache);}
 }

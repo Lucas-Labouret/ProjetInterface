@@ -137,20 +137,33 @@ public class Lecteur {
         if  (!((this.text.get(this.bookmark)).equals("TASK") ) ){
             System.out.println("ERREUR_TASK");
         }
-        int nb = Integer.parseInt(this.text.get(this.bookmark + 1));
+
+        int nb = Integer.parseInt(this.text.get(this.bookmark+1));
+        this.bookmark = this.bookmark +2;
         for(int i = 0; i < nb; i=i+5){
             List<String> cas = new ArrayList<> (5);
+
             //4 cases par mesures, NOM, DONE, DEsCR, DDATE, SURTASK, REP, SPE, ESP
             for(int j = 2; j <8; j++){ //décalage des 2 premiers blocs
-                cas.add(this.text.get(this.bookmark + j + i));
+                cas.add(this.text.get(this.bookmark));
+                this.bookmark = this.bookmark+1;
             }
-            int nb2 = Integer.parseInt(this.text.get(this.bookmark + 8));  //nombre d'espece
+
+            String nbSpe = this.text.get(this.bookmark);
+            int nb2 = Integer.parseInt(nbSpe);  //nombre d'espece
+            cas.add(nbSpe);
+            this.bookmark = this.bookmark +1;
             for(int j = 1; j <= nb2; j++){ //décalage des 2 premiers blocs
-                cas.add(this.text.get(this.bookmark + 8 + j));
+                cas.add(this.text.get(this.bookmark));
+                this.bookmark = this.bookmark +1;
             }
-            nb2 = Integer.parseInt(this.text.get(this.bookmark + 1 + nb2));  //nombre de specimen
+            nbSpe = this.text.get(this.bookmark);
+            nb2 = Integer.parseInt(nbSpe);  //nombre de specimen
+            cas.add(nbSpe);
+            this.bookmark=this.bookmark+1;
             for(int j = 1; j <= nb2; j++){ //décalage des 2 premiers blocs
-                cas.add(this.text.get(this.bookmark + 8 + j));
+                cas.add(this.text.get(this.bookmark));
+                this.bookmark=this.bookmark+1;
             }
 
             task.add(cas);

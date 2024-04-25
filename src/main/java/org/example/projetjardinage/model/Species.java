@@ -38,6 +38,10 @@ public class Species implements Observable {
 
     public String getName(){return name;}
 
+    public void addTask(Task task){
+        this.taskList.add(task);
+    }
+
     public ArrayList<Task> getRelatedTasks() {
         return taskList;
     }
