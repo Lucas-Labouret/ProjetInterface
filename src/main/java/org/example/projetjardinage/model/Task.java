@@ -1,8 +1,11 @@
 package org.example.projetjardinage.model;
 
 import java.time.LocalDate;
+import java.time.Month;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.List;
+import java.util.Objects;
 
 public class Task {
     private LocalDate dueDate;
@@ -10,10 +13,35 @@ public class Task {
     private String description;
     private Task parent;
     private boolean done;
-    private final ArrayList<Task> subTasks = new ArrayList<>();
 
-    private final ArrayList<Specimen> linkedSpecimens = new ArrayList<>();
-    private final ArrayList<Species> linkedSpecies = new ArrayList<>();
+    private int recurrence;
+    private final List<Task> subTasks = new ArrayList<>();
+
+    private final List<Specimen> linkedSpecimens = new ArrayList<>();
+    private final List<Species> linkedSpecies = new ArrayList<>();
+
+    public Task(List<String> elem, List<Species> esp, List<Specimen> spe){
+        this.name = elem.get(0);
+        int done = Integer.parseInt(elem.get(1));
+        if(done == 0){
+            this.done = false;
+        } else {
+            this.done = true;
+        }
+        this.description = elem.get(2);
+
+        String date = elem.get(3);
+        int day = Integer.parseInt(date.substring(0,2));
+        int month = Integer.parseInt(date.substring(2,4));
+        int year = Integer.parseInt(date.substring(4,8));
+        this.dueDate = LocalDate.of(year, Month.of(month),day);
+
+        this.recurrence = Integer.parseInt(elem.get(5));
+
+        this.linkedSpecies.addAll(esp);
+        this.linkedSpecimens.addAll(spe);
+
+    }
 
     public Task(Task parent) {
         this();
@@ -41,13 +69,6 @@ public class Task {
         this.description = "";
         this.done = false;
         this.parent = null;
-    }
-
-    public LocalDate getDueDate() {
-        return dueDate;
-    }
-    public void setDueDate(LocalDate dueDate) {
-        this.dueDate = dueDate;
     }
 
     public Task(String name, String description, LocalDate dueDate, boolean done, ArrayList<Specimen> Spe, ArrayList<Species> Esp){
@@ -83,15 +104,15 @@ public class Task {
         this.done = done;
     }
 
-    public ArrayList<Task> getSubTasks() { return subTasks; }
+    public List<Task> getSubTasks() { return subTasks; }
     public void addSubTasks(Task... t) { subTasks.addAll(List.of(t));}
     public void removeSubTasks(Task... t) { subTasks.removeAll(List.of(t)); }
 
-    public ArrayList<Species> getLinkedSpecies() { return linkedSpecies; }
+    public List<Species> getLinkedSpecies() { return linkedSpecies; }
     public void addLinkedSpecies(Species... s) { linkedSpecies.addAll(List.of(s)); }
     public void removeLinkedSpecies(Species... s) { linkedSpecies.removeAll(List.of(s)); }
 
-    public ArrayList<Specimen> getLinkedSpecimens() { return linkedSpecimens; }
+    public List<Specimen> getLinkedSpecimens() { return linkedSpecimens; }
     public void addLinkedSpecimens(Specimen... s) { linkedSpecimens.addAll(List.of(s)); }
     public void removeLinkedSpecimens(Specimen... s) { linkedSpecimens.removeAll(List.of(s)); }
 }

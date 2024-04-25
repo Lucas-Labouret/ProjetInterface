@@ -4,6 +4,7 @@ import javafx.util.converter.LocalDateStringConverter;
 
 import java.time.LocalDate;
 import java.time.Month;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Specimen {
@@ -18,7 +19,9 @@ public class Specimen {
     private String noteEntretien;
 
     private Journal journal;
-    
+
+    private List<Task> taskList = new ArrayList<>();
+
     public Specimen(Species species, String name, LocalDate miseEnTerre) {
         this.species = species;
         this.name = name;
@@ -41,7 +44,6 @@ public class Specimen {
         this.species = spe;
     }
 
-
     public Species getSpecies() {
         return species;
     }
@@ -62,4 +64,6 @@ public class Specimen {
 
         journal.put(date, entry);
     }
+
+    public void addTask(Task tache){this.taskList.add(tache);}
 }
