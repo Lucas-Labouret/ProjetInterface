@@ -10,8 +10,8 @@ import java.util.*;
 public class GlobalData {
     private GlobalData(){} //static class
 
-    private static List<Species> plantes;
-    private static List<Task> taches;
+    public static List<Species> plantes;
+    public static List<Task> taches;
 
     public static void recuperrageDesDonnees(String path){
         plantes = new ArrayList<>();

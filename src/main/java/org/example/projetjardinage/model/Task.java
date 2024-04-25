@@ -5,7 +5,7 @@ import java.time.Month;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Task {
+public class Task implements Observable{
     private LocalDate dueDate;
     private String name;
     private String description;
@@ -79,6 +79,7 @@ public class Task {
     }
     public void setName(String name) {
         this.name = name;
+        this.sendNotif();
     }
 
     public String getDescription() {
@@ -86,28 +87,48 @@ public class Task {
     }
     public void setDescription(String description) {
         this.description = description;
+        this.sendNotif();
     }
 
     public Task getParent() { return parent; }
-    public void setParent(Task parent) { this.parent = parent; }
+    public void setParent(Task parent) {
+        this.parent = parent;
+        this.sendNotif();
+    }
 
     public LocalDate getDueDate() { return dueDate; }
-    public void setDueDate(LocalDate dueDate) { this.dueDate = dueDate; }
+    public void setDueDate(LocalDate dueDate) {
+        this.dueDate = dueDate;
+        this.sendNotif();
+    }
 
     public boolean isDone() {
         return done;
     }
     public void setDone(boolean done) {
         this.done = done;
+        this.sendNotif();
     }
 
     public List<Task> getSubTasks() { return subTasks; }
-    public void addSubTasks(Task... t) { subTasks.addAll(List.of(t));}
-    public void removeSubTasks(Task... t) { subTasks.removeAll(List.of(t)); }
+    public void addSubTasks(Task... t) {
+        subTasks.addAll(List.of(t));
+        this.sendNotif();
+    }
+    public void removeSubTasks(Task... t) {
+        subTasks.removeAll(List.of(t));
+        this.sendNotif();
+    }
 
     public List<Species> getLinkedSpecies() { return linkedSpecies; }
-    public void addLinkedSpecies(Species... s) { linkedSpecies.addAll(List.of(s)); }
-    public void removeLinkedSpecies(Species... s) { linkedSpecies.removeAll(List.of(s)); }
+    public void addLinkedSpecies(Species... s) {
+        linkedSpecies.addAll(List.of(s));
+        this.sendNotif();
+    }
+    public void removeLinkedSpecies(Species... s) {
+        linkedSpecies.removeAll(List.of(s));
+        this.sendNotif();
+    }
 
     public List<Specimen> getLinkedSpecimens() { return linkedSpecimens; }
     public void addLinkedSpecimens(Specimen... s) { linkedSpecimens.addAll(List.of(s)); }
