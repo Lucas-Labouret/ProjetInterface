@@ -1,5 +1,8 @@
 package org.example.projetjardinage;
 
+import org.example.projetjardinage.model.Species;
+import org.example.projetjardinage.model.Specimen;
+import org.example.projetjardinage.model.Task;
 import org.example.projetjardinage.model.enregistreur.Lecteur;
 
 import javafx.application.Application;
@@ -11,16 +14,24 @@ import javafx.stage.Stage;
 import org.example.projetjardinage.controller.MainWindow;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class App extends Application {
     private final int minWidth = 600;
     private final int minHeight = 450;
+
+    private static List<Species> plantes;
+    private static List<Task> taches;
     public static void main(String[] args) {
 
         String test = "test.txt";
-        Lecteur AH = new Lecteur(test);
-        System.out.println("Finito.");
+        recuperrageDesDonnees(test);
+
         //Application.launch(args);
+
     }
 
     @Override
@@ -49,5 +60,34 @@ public class App extends Application {
         primaryStage.setTitle("Le projet UwU");
         primaryStage.setScene(scene);
         primaryStage.show();**/
+    }
+
+    private static void recuperrageDesDonnees(String path){
+        plantes = new ArrayList<>();
+        taches = new ArrayList<>();
+        Lecteur lec = new Lecteur(path);
+        List<List<String>> donnees;
+
+        donnees = lec.getEsp();
+        Map<String, Integer> indexPlantes = new HashMap<>();
+
+        for (List<String> esp : donnees) {
+            if(esp.size()!=9){
+                System.out.println("Probleme taille des especes lecture.");
+            }
+
+            Species test = new Species(esp);
+            plantes.add(test);
+            indexPlantes.put(test.getName(),plantes.size()-1);
+
+        }
+
+        donnees = lec.getSpe();
+        for (List<String> spe : donnees) {
+            Species esp = plantes.get(indexPlantes.get(spe.get(4)));
+            Specimen test = new Specimen(spe, esp);
+            esp.addSpecimen(test);
+        }
+
     }
 }

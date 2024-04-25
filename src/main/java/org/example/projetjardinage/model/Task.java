@@ -27,6 +27,19 @@ public class Task implements Observable {
         this.done = false;
     }
 
+    public Task(String name, String description, LocalDate dueDate, boolean done, ArrayList<Specimen> Spe, ArrayList<Species> Esp){
+        this.dueDate = dueDate;
+        this.name = name;
+        this.description = description;
+        this.done = done;
+        for (Species species : Esp) {
+            this.linkedSpecies.add(species);
+        }
+        for (Specimen specimen : Spe) {
+            this.linkedSpecimens.add(specimen);
+        }
+    }
+
     public String getName() {
         return name;
     }
