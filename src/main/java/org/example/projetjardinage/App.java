@@ -11,11 +11,9 @@ import org.example.projetjardinage.controller.MainWindow;
 
 import java.io.IOException;
 
-
 public class App extends Application {
     private final int minWidth = 600;
     private final int minHeight = 450;
-
     public static void main(String[] args) {
         Application.launch(args);
     }
@@ -26,12 +24,15 @@ public class App extends Application {
         primaryStage.setMinHeight(minHeight);
 
         Parent root;
+        System.out.println("here");
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(
                 "/MainWindow.fxml"
+                //"/MesuresPopUp.fxml"
         ));
         try {root = fxmlLoader.load();}
         catch (IOException e) {throw new RuntimeException(e);}
 
+        System.out.println("Root: " + root);
         Scene scene = new Scene(root);
 
         MainWindow mainWindow = fxmlLoader.getController();
