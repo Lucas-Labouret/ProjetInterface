@@ -1,15 +1,20 @@
 package org.example.projetjardinage.model;
 
 import java.util.ArrayList;
+import java.util.List;
 
-public class TodoList implements Observable {
-    ArrayList<Task> tasks = new ArrayList<>();
+public class TodoList {
+    ArrayList<Task> tasks;
 
-    public void addTask(Task t) {
-        tasks.add(t);
+    public TodoList() {
+        tasks = new ArrayList<>();
     }
 
-    public void removeTask(Task t) {
-        tasks.remove(t);
+    public TodoList(ArrayList<Task> tasks) {
+        this.tasks = tasks;
     }
+
+    public ArrayList<Task> getTasks() { return tasks; }
+    public void addTasks(Task... t) { tasks.addAll(List.of(t)); }
+    public void removeTasks(Task... t) { tasks.removeAll(List.of(t)); }
 }

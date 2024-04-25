@@ -4,11 +4,10 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TitledPane;
-import javafx.scene.layout.Background;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
 import org.example.projetjardinage.controller.utils.RecursiveTask;
 import org.example.projetjardinage.model.Task;
+import org.example.projetjardinage.model.TodoList;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -19,6 +18,7 @@ public class TodoListController implements BodyController {
     @FXML private ScrollPane scroll;
     @FXML private VBox mainBox;
 
+    private TodoList todoList;
     private ArrayList<Task> tasks;
 
     public TodoListController() {
@@ -32,17 +32,18 @@ public class TodoListController implements BodyController {
                 new Task("Task 7", "Description 7", LocalDate.of(2025, 2, 5)),
                 new Task("Task 8", "Description 8", LocalDate.of(2025, 2, 6))
         ));
-        tasks.get(0).addSubTasks(
+        tasks.getFirst().addSubTasks(
                 new Task("SubTask 1", "SubDescription 1", LocalDate.of(2024, 1, 1)),
                 new Task("SubTask 2", "SubDescription 2", LocalDate.of(2024, 1, 1)),
                 new Task("SubTask 3", "SubDescription 3", LocalDate.of(2024, 1, 1))
         );
-        tasks.get(0).getSubTasks().getLast().addSubTasks(
+        tasks.getFirst().getSubTasks().getLast().addSubTasks(
                 new Task("SubSubTask 1", "SubSubDescription très très très très très très très très très très très très très très très très très très longue", LocalDate.of(2024, 1, 1)),
                 new Task("SubSubTask 2", "SubSubDescription 2", LocalDate.of(2024, 1, 1)),
                 new Task("SubSubTask 3", "SubSubDescription 3", LocalDate.of(2024, 1, 1))
         );
         this.tasks.sort(Comparator.comparing(Task::getDueDate));
+        todoList = new TodoList(tasks);
     }
 
     ArrayList<RecursiveTask> recursiveTasks;
@@ -86,6 +87,10 @@ public class TodoListController implements BodyController {
             try { dayBox.getChildren().add(recursiveTaskLoader.load()); }
             catch (Exception e) { e.printStackTrace(); }
         }
+    }
+
+    public void update() {
+        initialize();
     }
 
     public void updateSize(double width, double height) {

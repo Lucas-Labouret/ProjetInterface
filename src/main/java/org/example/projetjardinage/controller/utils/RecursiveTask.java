@@ -45,8 +45,10 @@ public class RecursiveTask {
 
         pane.setOnMouseClicked(e -> {
             if (e.getButton() == MouseButton.SECONDARY) {
+                Stage stage = new Stage();
+
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/utils/TaskPopUp.fxml"));
-                TaskPopUp taskPopUp = new TaskPopUp(task);
+                TaskPopUp taskPopUp = new TaskPopUp(stage, task);
                 loader.setController(taskPopUp);
 
                 Parent taskPopUpView = null;
@@ -55,7 +57,6 @@ public class RecursiveTask {
                 if (taskPopUpView == null) throw new AssertionError();
 
                 Scene scene = new Scene(taskPopUpView);
-                Stage stage = new Stage();
                 stage.setScene(scene);
                 stage.show();
             }

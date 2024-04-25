@@ -4,21 +4,43 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Task implements Observable {
+public class Task {
     private LocalDate dueDate;
     private String name;
     private String description;
+    private Task parent;
     private boolean done;
     private final ArrayList<Task> subTasks = new ArrayList<>();
 
     private final ArrayList<Specimen> linkedSpecimens = new ArrayList<>();
     private final ArrayList<Species> linkedSpecies = new ArrayList<>();
 
+    public Task(Task parent) {
+        this();
+        this.parent = parent;
+    }
+
     public Task(String name, String description, LocalDate dueDate) {
         this.dueDate = dueDate;
         this.name = name;
         this.description = description;
         this.done = false;
+        this.parent = null;
+    }
+
+    public Task() {
+        this.dueDate = LocalDate.now();
+        this.name = "";
+        this.description = "";
+        this.done = false;
+        this.parent = null;
+    }
+
+    public LocalDate getDueDate() {
+        return dueDate;
+    }
+    public void setDueDate(LocalDate dueDate) {
+        this.dueDate = dueDate;
     }
 
     public String getName() {
@@ -35,6 +57,9 @@ public class Task implements Observable {
         this.description = description;
     }
 
+    public Task getParent() { return parent; }
+    public void setParent(Task parent) { this.parent = parent; }
+
     public boolean isDone() {
         return done;
     }
@@ -42,20 +67,19 @@ public class Task implements Observable {
         this.done = done;
     }
 
-    public LocalDate getDueDate() {
-        return dueDate;
-    }
-    public void setDueDate(LocalDate dueDate) {
-        this.dueDate = dueDate;
-    }
-
-    public void addSubTasks(Task... t) {
-        subTasks.addAll(List.of(t));
-    }
-    public void removeSubTask(Task t) {
-        subTasks.remove(t);
-    }
     public ArrayList<Task> getSubTasks() {
         return subTasks;
     }
+    public void addSubTasks(Task... t) { subTasks.addAll(List.of(t));}
+    public void removeSubTasks(Task... t) {
+        subTasks.removeAll(List.of(t));
+    }
+
+    public ArrayList<Species> getLinkedSpecies() { return linkedSpecies; }
+    public void addLinkedSpecies(Species... s) { linkedSpecies.addAll(List.of(s)); }
+    public void removeLinkedSpecies(Species... s) { linkedSpecies.removeAll(List.of(s)); }
+
+    public ArrayList<Specimen> getLinkedSpecimens() { return linkedSpecimens; }
+    public void addLinkedSpecimens(Specimen... s) { linkedSpecimens.addAll(List.of(s)); }
+    public void removeLinkedSpecimens(Specimen... s) { linkedSpecimens.removeAll(List.of(s)); }
 }

@@ -1,4 +1,4 @@
-package org.example.projetjardinage.controller.mainBody;
+package org.example.projetjardinage.controller.utils;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;

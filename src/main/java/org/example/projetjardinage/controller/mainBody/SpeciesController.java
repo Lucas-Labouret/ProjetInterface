@@ -58,6 +58,12 @@ public class SpeciesController implements BodyController {
         reposition(0);
     }
 
+    public void switchSpecies(Species s){
+        species = s;
+    }
+
+    public void update(){}
+
     private void reposition(double offset){
         name.setLayoutX(offset + 20);
         name.setLayoutY(10);
@@ -137,11 +143,6 @@ public class SpeciesController implements BodyController {
         addTask.setPrefHeight(30);
     }
 
-    public void switchSpecies(Species s){
-        species = s;
-    }
-
-    @Override
     public void updateSize(double width, double height) {
         double offset;
         if (width>height){

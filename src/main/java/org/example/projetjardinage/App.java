@@ -29,6 +29,7 @@ public class App extends Application {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(
                 "/MainWindow.fxml"
         ));
+        fxmlLoader.setControllerFactory(c -> MainWindow.getInstance());
         try {root = fxmlLoader.load();}
         catch (IOException e) {throw new RuntimeException(e);}
 
@@ -42,7 +43,6 @@ public class App extends Application {
         primaryStage.heightProperty().addListener(stageSizeListener);
 
         primaryStage.setTitle("Le projet UwU");
-
 
         Image image = new Image(getClass().getResourceAsStream("/icons/267203.png"));
         primaryStage.getIcons().add(image);

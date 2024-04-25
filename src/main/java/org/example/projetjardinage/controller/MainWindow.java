@@ -14,6 +14,15 @@ import org.example.projetjardinage.model.Task;
 import java.util.List;
 
 public class MainWindow {
+    private static MainWindow instance;
+    private MainWindow() {}
+    public static MainWindow getInstance() {
+        if (instance == null) {
+            instance = new MainWindow();
+        }
+        return instance;
+    }
+
     public enum Display {
         TODO_LIST,
         SPECIES_LIST,
@@ -113,6 +122,10 @@ public class MainWindow {
         body.getChildren().clear();
         body.getChildren().add(currentView);
         currentController.updateSize(lastWidth, lastHeight);
+    }
+
+    public void update(){
+        currentController.update();
     }
 
     public void updateWindowSize(double width, double height) {
