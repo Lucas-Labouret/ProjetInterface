@@ -8,6 +8,7 @@ import java.util.List;
 public class Specimen {
     private Species species;
     private String name;
+    private String oldName;
     private boolean alive;
     private LocalDate miseEnTerre;
 
@@ -29,6 +30,7 @@ public class Specimen {
 
     public Specimen(List<String> elem, Species spe){
         this.name = elem.get(0);
+        this.oldName = elem.get(0);
         String date = elem.get(1);
         int day = Integer.parseInt(date.substring(0,2));
         int month = Integer.parseInt(date.substring(2,4));
@@ -51,6 +53,13 @@ public class Specimen {
     }
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getOldName() {
+        return oldName;
+    }
+    public void setOldName(String oldName) {
+        this.oldName = oldName;
     }
 
     public boolean isAlive(){ return alive; }

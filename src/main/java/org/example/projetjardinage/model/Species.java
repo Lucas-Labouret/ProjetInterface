@@ -7,6 +7,7 @@ import java.util.List;
 
 public class Species implements Observable {
     private String name;
+    private String oldName;
     private boolean favorite;
     private String profilePic;
 
@@ -18,6 +19,7 @@ public class Species implements Observable {
 
     public Species(List<String> elem){
         this.name = elem.get(0);
+        this.oldName = elem.get(0);
         int fav = Integer.parseInt((elem.get(1)));
         this.favorite = (fav != 0);
         this.profilePic = elem.get(2);
@@ -32,6 +34,15 @@ public class Species implements Observable {
         this.name = name;
         sendNotif();
     }
+
+    public String getOldName() {
+        return oldName;
+    }
+    public void setOldName(String oldName) {
+        this.oldName = oldName;
+    }
+
+
 
     public boolean isFavorite() { return favorite; }
     public void setFavorite(boolean favorite) { this.favorite = favorite; }

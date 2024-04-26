@@ -55,7 +55,7 @@ public class SpeciesController implements BodyController {
         editName.setOnAction(e -> {
             name.setEditable(!name.isEditable());
         });
-        name.setOnKeyReleased(e -> {
+        name.setOnKeyTyped(e -> {
             species.setName(name.getText());
         });
         reposition(0);

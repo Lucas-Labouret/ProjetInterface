@@ -8,8 +8,14 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import org.example.projetjardinage.controller.MainWindow;
+import org.example.projetjardinage.model.Species;
 
+import java.io.File;
 import java.io.IOException;
+import java.nio.file.FileSystems;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.ArrayList;
 
 public class App extends Application {
     private final int minWidth = 600;
@@ -49,5 +55,47 @@ public class App extends Application {
         primaryStage.getIcons().add(image);
         primaryStage.setScene(scene);
         primaryStage.show();
+
+        primaryStage.setOnHidden(e -> {
+            //for (Species spece: GlobalData.plantes) {
+            for (int i = 0; i < GlobalData.plantes.size(); i++) {
+
+                Path absolutePath = FileSystems.getDefault().getPath("src/main/resources/galerie/"+GlobalData.plantes.get(i).getOldName()).toAbsolutePath();
+                //Path absolutePath = FileSystems.getDefault().getPath("src/main/resources/galerie/Kougoro").toAbsolutePath();
+
+                char [] a = absolutePath.toString().toCharArray();
+
+                String t = "";
+
+                ArrayList<Character> path =new ArrayList<Character>();
+                for(char c :a ){
+                    path.add(c);
+                    t += c ;
+                    if(i == '\\'){
+                        path.add(c);
+                        t += c ;
+                    }
+                }
+
+                //System.out.println(t);
+
+
+                //ArrayList<Character> path =new ArrayList<Character>( absolutePath.toString().toCharArray());
+                //File ancienDossier = new File("C:\\Users\\Fran\\IdeaProjects\\ProjetInterface\\src\\main\\resources\\galerie\\Kougoro");
+                File ancienDossier = new File(t);
+                System.out.println(ancienDossier + "");
+
+                File nouveauDossier = new File(ancienDossier.getParentFile(), GlobalData.plantes.get(i).getName());
+
+                System.out.println(nouveauDossier + "");
+
+                if (ancienDossier.renameTo(nouveauDossier)) {
+                    System.out.println("Le dossier a été renommé avec succès !");
+                } else {
+                    System.out.println("Le renommage du dossier a échoué.");
+                }
+            }
+
+        });
     }
 }

@@ -13,6 +13,8 @@ public class GlobalData {
     public static List<Species> plantes;
     public static List<Task> taches;
 
+    public static HashMap<String , String> vieuxnoms , nomsvieux;
+
     public static void recuperrageDesDonnees(String path){
         plantes = new ArrayList<>();
         taches = new ArrayList<>();
@@ -81,5 +83,17 @@ public class GlobalData {
                 surTache.addSubTasks(task);
             }
         }
+
+        vieuxnoms = new HashMap<String,String>();
+        nomsvieux = new HashMap<String,String>();
+        for (Species spece: plantes) {
+            vieuxnoms.put(spece.getName(), spece.getName());
+            nomsvieux.put(spece.getName(), spece.getName());
+            for (Specimen specimen: spece.getSpecimens()) {
+                vieuxnoms.put(spece.getName(), spece.getName());
+                nomsvieux.put(spece.getName(), spece.getName());
+            }
+        }
     }
+
 }
