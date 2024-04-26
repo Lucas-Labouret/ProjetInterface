@@ -3,6 +3,7 @@ package org.example.projetjardinage.controller.mainBody;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
@@ -12,6 +13,7 @@ import org.example.projetjardinage.controller.utils.EspeceController;
 import org.example.projetjardinage.model.Species;
 import org.example.projetjardinage.model.Specimen;
 
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -219,6 +221,10 @@ public class SpeciesController implements BodyController {
         name.setText(s.getName());
         nbSpecimen.setText(String.valueOf(species.getSpecimens().size()));
         notes.setText(species.getNotes());
+        Paths.get(species.getProfilePicURL());
+        speciesImage.setImage(new Image(getClass().getResourceAsStream(species.getProfilePicURL())));
+        moyenne1.setText(species.getMesures().getMesures().get(0).getName() +"JSP QUOI METTRE" +  species.getMesures().getMesures().get(0).getUnit());
+        moyenne2.setText(species.getMesures().getMesures().get(1).getName() +"JSP QUOI METTRE" +  species.getMesures().getMesures().get(1).getUnit());
         if(species.getFavorite()){
             heart.setText("♥");
         }
@@ -284,7 +290,6 @@ public class SpeciesController implements BodyController {
         nbSpecimen.setLayoutX(offset + 20);
         nbSpecimen.setLayoutY(50);
         nbSpecimen.setPrefHeight(20);
-        nbSpecimen.setText("nbSpecimen");
 
         addSpecimen.setLayoutY(50);
         addSpecimen.setPrefHeight(25);
