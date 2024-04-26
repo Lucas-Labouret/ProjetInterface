@@ -34,7 +34,6 @@ public class RecursiveTask extends Observer {
         this.depth = depth;
         this.task = task;
         this.subscribeTo(task);
-         if (task.getParent() != null) System.out.println(task.getName() + task.OBSERVERS + " " + this + " " + task.getParent().OBSERVERS);
     }
 
     public RecursiveTask(Task task, int depth, boolean open) {

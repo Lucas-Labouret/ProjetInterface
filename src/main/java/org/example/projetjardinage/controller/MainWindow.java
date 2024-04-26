@@ -127,10 +127,6 @@ public class MainWindow {
         return specimenController;
     }
 
-    public void update(){
-        currentController.update();
-    }
-
     public void updateWindowSize(double width, double height) {
         lastWidth = width;
         lastHeight = height;
