@@ -5,7 +5,7 @@ import org.example.projetjardinage.model.mesure.OptimalHolder;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Species implements Observable {
+public class Species extends Observable {
     private String name;
     private boolean favorite;
     private String profilePic;

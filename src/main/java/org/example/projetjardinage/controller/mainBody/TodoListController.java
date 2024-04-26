@@ -1,5 +1,6 @@
 package org.example.projetjardinage.controller.mainBody;
 
+import javafx.beans.value.ChangeListener;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.ScrollPane;
@@ -15,7 +16,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class TodoListController implements Observer, BodyController {
+public class TodoListController extends Observer implements BodyController {
     static final class MonthKey implements Comparable<MonthKey> {
         public int year, month;
         public MonthKey(int year, int month){
@@ -87,10 +88,6 @@ public class TodoListController implements Observer, BodyController {
     public void initialize() {
         recursiveTasks = new ArrayList<>();
 
-        VBox dayBox = null;
-        TitledPane monthPane = null;
-        VBox monthBox = null;
-
         Integer day = null;
         Integer month = null;
         Integer year = null;
@@ -102,29 +99,11 @@ public class TodoListController implements Observer, BodyController {
                 month = task.getDueDate().getMonthValue();
 
                 monthOpen.put(new MonthKey(year, month), false);
-
-                monthBox = new VBox();
-                monthPane = new TitledPane(task.getDueDate().getMonth().toString() + " " + year, monthBox);
-                mainBox.getChildren().add(monthPane);
-
-                int tmpYear = year;
-                int tmpMonth = month;
-                monthPane.setOnMouseClicked(e -> monthPaneClicked(tmpYear, tmpMonth));
             }
             if (task.getDueDate().getDayOfMonth() != day) {
                 day = task.getDueDate().getDayOfMonth();
 
                 dayOpen.put(new DayKey(year, month, day), false);
-
-                dayBox = new VBox();
-                TitledPane dayPane = new TitledPane(String.valueOf(day), dayBox);
-                monthBox.getChildren().add(dayPane);
-                day = task.getDueDate().getDayOfMonth();
-
-                int tmpYear = year;
-                int tmpMonth = month;
-                int tmpDay = day;
-                dayPane.setOnMouseClicked(e -> dayPaneClicked(tmpYear, tmpMonth, tmpDay));
             }
 
             FXMLLoader recursiveTaskLoader = new FXMLLoader(getClass().getResource("/utils/RecursiveTask.fxml"));
@@ -132,10 +111,9 @@ public class TodoListController implements Observer, BodyController {
             recursiveTasks.add(recursiveTask);
             dayTasks.putIfAbsent(new DayKey(year, month, day), new ArrayList<>());
             dayTasks.get(new DayKey(year, month, day)).add(recursiveTask);
-            recursiveTaskLoader.setController(recursiveTask);
-            try { dayBox.getChildren().add(recursiveTaskLoader.load()); }
-            catch (Exception e) { e.printStackTrace(); }
         }
+
+        update();
     }
 
     private void monthPaneClicked(int year, int month) {
@@ -158,7 +136,22 @@ public class TodoListController implements Observer, BodyController {
         Integer year = null;
         Integer month = null;
         Integer day = null;
-        for (DayKey date: dayTasks.keySet().toArray(new DayKey[0])) {
+        for (DayKey date: dates) {
+
+            ArrayList<RecursiveTask> toRemove = new ArrayList<>();
+            for (RecursiveTask recursiveTask : dayTasks.get(date)) {
+                if (!tasks.getTasks().contains(recursiveTask.getTask())) {
+                    toRemove.add(recursiveTask);
+                }
+            }
+            for (RecursiveTask recursiveTask : toRemove) {
+                dayTasks.get(date).remove(recursiveTask);
+            }
+
+            if (dayTasks.get(date).isEmpty()) {
+                continue;
+            }
+
             if (year == null || date.year != year || date.month != month) {
                 year = date.year;
                 month = date.month;
@@ -170,7 +163,9 @@ public class TodoListController implements Observer, BodyController {
 
                 int tmpYear = year;
                 int tmpMonth = month;
-                monthPane.lookup(".title").setOnMouseClicked(e -> monthPaneClicked(tmpYear, tmpMonth));
+                ChangeListener<Boolean> openedListener =
+                        (observable, oldValue, newValue) -> monthPaneClicked(tmpYear, tmpMonth);
+                monthPane.expandedProperty().addListener(openedListener);
             }
             if (day == null || date.day != day) {
                 day = date.day;
@@ -183,20 +178,22 @@ public class TodoListController implements Observer, BodyController {
                 int tmpYear = year;
                 int tmpMonth = month;
                 int tmpDay = day;
-                dayPane.lookup(".title").setOnMouseClicked(e -> dayPaneClicked(tmpYear, tmpMonth, tmpDay));
+                ChangeListener<Boolean> openedListener =
+                        (observable, oldValue, newValue) -> dayPaneClicked(tmpYear, tmpMonth, tmpDay);
+                dayPane.expandedProperty().addListener(openedListener);
             }
 
             for (RecursiveTask recursiveTask : dayTasks.get(date)) {
-                FXMLLoader recursiveTaskLoader = new FXMLLoader(getClass().getResource("/utils/RecursiveTask.fxml"));
-                recursiveTaskLoader.setController(recursiveTask);
-                try { dayBox.getChildren().add(recursiveTaskLoader.load()); }
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/utils/RecursiveTask.fxml"));
+                loader.setController(recursiveTask);
+                try {dayBox.getChildren().add(loader.load()); }
                 catch (Exception e) { e.printStackTrace(); }
             }
         }
     }
 
     public void updateSize(double width, double height) {
-        scroll.setPrefSize(width, height);
+        scroll.setPrefSize(width, height - 40);
         mainBox.setPrefWidth(width);
 
         for (RecursiveTask recursiveTask : recursiveTasks) {

@@ -5,7 +5,7 @@ import java.time.Month;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Task implements Observable{
+public class Task extends Observable {
     private LocalDate dueDate;
     private String name;
     private String description;
@@ -74,17 +74,12 @@ public class Task implements Observable{
         this.linkedSpecimens.addAll(Spe);
     }
 
-    public String getName() {
-        return name;
-    }
+    public String getName() { return name; }
     public void setName(String name) {
         this.name = name;
-        this.sendNotif();
     }
 
-    public String getDescription() {
-        return description;
-    }
+    public String getDescription() { return description; }
     public void setDescription(String description) {
         this.description = description;
         this.sendNotif();
@@ -131,6 +126,12 @@ public class Task implements Observable{
     }
 
     public List<Specimen> getLinkedSpecimens() { return linkedSpecimens; }
-    public void addLinkedSpecimens(Specimen... s) { linkedSpecimens.addAll(List.of(s)); }
-    public void removeLinkedSpecimens(Specimen... s) { linkedSpecimens.removeAll(List.of(s)); }
+    public void addLinkedSpecimens(Specimen... s) {
+        linkedSpecimens.addAll(List.of(s));
+        this.sendNotif();
+    }
+    public void removeLinkedSpecimens(Specimen... s) {
+        linkedSpecimens.removeAll(List.of(s));
+        this.sendNotif();
+    }
 }
