@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.time.Month;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class Task {
     private LocalDate dueDate;
@@ -18,7 +19,7 @@ public class Task {
     private final List<Specimen> linkedSpecimens = new ArrayList<>();
     private final List<Species> linkedSpecies = new ArrayList<>();
 
-    public Task(List<String> elem, List<Species> esp, List<Specimen> spe){
+    public Task(List<String> elem, List<Species> esp, List<Specimen> spe, Task surtache){
         this.name = elem.get(0);
         int done = Integer.parseInt(elem.get(1));
         this.done = (done != 0);
@@ -32,6 +33,9 @@ public class Task {
 
         this.recurrence = Integer.parseInt(elem.get(5));
 
+        if( !(Objects.equals(elem.get(4), "<N>") )){
+            this.parent = surtache;
+        }
         this.linkedSpecies.addAll(esp);
         this.linkedSpecimens.addAll(spe);
 

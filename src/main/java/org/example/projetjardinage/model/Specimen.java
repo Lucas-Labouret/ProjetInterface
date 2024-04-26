@@ -1,5 +1,7 @@
 package org.example.projetjardinage.model;
 
+import org.example.projetjardinage.model.mesure.PlageMesure;
+
 import java.time.LocalDate;
 import java.time.Month;
 import java.util.ArrayList;
@@ -27,7 +29,7 @@ public class Specimen {
         this.miseEnTerre = miseEnTerre;
     }
 
-    public Specimen(List<String> elem, Species spe){
+    public Specimen(List<String> elem, Species spe, List<List<String>> journ){
         this.name = elem.get(0);
         String date = elem.get(1);
         int day = Integer.parseInt(date.substring(0,2));
@@ -40,10 +42,26 @@ public class Specimen {
         this.noteSpecimen = elem.get(5);
         this.noteEntretien = elem.get(6);
         this.species = spe;
+        if(journ.size()!=0){
+            this.journal = new Journal(journ, spe.getMesures());
+        }
+
+
+
     }
 
     public Species getSpecies() {
         return species;
+    }
+
+    public PlageMesure getMesuresPoss(){
+        return this.species.getMesures();
+    }
+
+    public void newJournalEntry(List<String> elem){
+        int nb = Integer.parseInt(elem.get(0));
+
+
     }
 
     public String getName() {

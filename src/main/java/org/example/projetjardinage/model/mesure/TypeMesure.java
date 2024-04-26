@@ -1,7 +1,8 @@
 package org.example.projetjardinage.model.mesure;
 
 public enum TypeMesure {
-    Texte,     //string
+    Texte, //string
+    Bool,    //boolean
     Numerique, //float
     TypeSol,   //enum
     Arrosage,  //enum

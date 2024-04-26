@@ -24,9 +24,6 @@ public class GlobalData {
         Map<String, Integer> indexPlantes = new HashMap<>();
 
         for (List<String> esp : donnees) {
-            if(esp.size()!=9){
-                System.out.println("Probleme taille des especes lecture.");
-            }
 
             Species test = new Species(esp);
             plantes.add(test);
@@ -38,8 +35,20 @@ public class GlobalData {
         Map<String, Specimen> indexSpecimen = new HashMap<>();
 
         for (List<String> spe : donnees) {
+
             Species esp = plantes.get(indexPlantes.get(spe.get(4)));
-            Specimen test = new Specimen(spe, esp);
+            List<List<String>> journ = new ArrayList<>();
+            int nbEntree = Integer.parseInt(spe.get(7));
+            int nbMes = esp.getNbMesures()+1;
+            for(int i = 0;i<nbEntree;i++){
+                if(8+(i+1)*nbMes == spe.size()){
+                    List<String> tmp = (spe.subList(8+i*nbMes,8+nbMes+(i*nbMes)));
+                    journ.add(tmp);
+                } else{
+                    journ.add(spe.subList(8+i*nbMes,8+(i+1)*nbMes));
+                }
+            }
+            Specimen test = new Specimen(spe, esp, journ);
             esp.addSpecimens(test);
             indexSpecimen.put(test.getName(),test);
         }
@@ -63,9 +72,14 @@ public class GlobalData {
                 Specimen current = indexSpecimen.get(tas.get(7+nbEsp+i));
                 spe.add(current);
             }
+
+            Task surTache = new Task();
+            if( !(Objects.equals(tas.get(4), "<N>") )) {
+                surTache = indexTask.get(tas.get(4));
+            }
              
 
-            Task task = new Task(tas, esp, spe);
+            Task task = new Task(tas, esp, spe, surTache);
             LocalDate hui = LocalDate.now();
             LocalDate passe = hui.minusDays(30);
 
@@ -96,7 +110,6 @@ public class GlobalData {
 
                 //sous-tache
                 if( !(Objects.equals(tas.get(4), "<N>") )) {
-                    Task surTache = indexTask.get(tas.get(4));
                     surTache.addSubTasks(task);
                 }
             }

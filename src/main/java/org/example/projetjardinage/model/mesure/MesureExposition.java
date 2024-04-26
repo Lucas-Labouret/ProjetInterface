@@ -14,6 +14,10 @@ public class MesureExposition extends Mesure {
         this.force = force;
     }
 
+    public MesureExposition(String val){
+        this.setForceLect(val);
+    }
+
     public void setForceLect(String mes){
         switch (mes) {
             case "O" -> this.force = Force.Ombrage;

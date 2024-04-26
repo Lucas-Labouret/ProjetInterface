@@ -10,6 +10,8 @@ public class MesureArrosage extends Mesure {
         this.niveau = niveau;
     }
 
+    public MesureArrosage(String val){ this.setNiveauLect(val);}
+
     public Niveau getNiveau(){ return niveau; }
     public void setNiveau(Niveau niveau) { this.niveau = niveau; }
     public void setNiveauLect(String niv){

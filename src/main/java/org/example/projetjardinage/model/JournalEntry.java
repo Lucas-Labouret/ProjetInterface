@@ -1,21 +1,33 @@
 package org.example.projetjardinage.model;
 
+import org.example.projetjardinage.model.mesure.InfoMesure;
 import org.example.projetjardinage.model.mesure.MesureHolder;
+import org.example.projetjardinage.model.mesure.PlageMesure;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class JournalEntry {
-    private final ArrayList<MesureHolder> mesures;
+    private final ArrayList<MesureHolder> mesures = new ArrayList<>();
     private String notes;
 
     JournalEntry() {
-        mesures = new ArrayList<>();
         notes = "";
     }
 
     JournalEntry(ArrayList<MesureHolder> m, String n){
-        mesures = m;
+        mesures.addAll(m);
         notes = n;
+    }
+
+    public JournalEntry(PlageMesure infos, List<String> vals){
+        int nb = infos.getTaille();
+
+        for(int i = 0; i < nb;i++){
+            if(! (vals.get(i).equals("<N>")) ) {
+                mesures.add(new MesureHolder(infos.getAll().get(i), vals.get(i)));
+            }
+        }
     }
 
     public ArrayList<MesureHolder> getMesures() {return mesures;}
