@@ -22,6 +22,8 @@ public class GlobalData {
     public static List<Species> plantes;
     public static TodoList tasks;
 
+    public static Stage primaryStage;
+
     public static void recuperrageDesDonnees(String path){
         plantes = new ArrayList<>();
         ArrayList<Task> taches = new ArrayList<>();

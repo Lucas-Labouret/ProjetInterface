@@ -49,5 +49,7 @@ public class App extends Application {
         primaryStage.getIcons().add(image);
         primaryStage.setScene(scene);
         primaryStage.show();
+
+        GlobalData.primaryStage = primaryStage;
     }
 }

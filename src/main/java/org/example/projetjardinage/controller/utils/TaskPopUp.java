@@ -5,6 +5,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseButton;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import org.example.projetjardinage.GlobalData;
 import org.example.projetjardinage.controller.MainWindow;
@@ -18,6 +19,34 @@ import javafx.scene.layout.HBox;
 import java.io.IOException;
 
 public class TaskPopUp {
+    public static TaskPopUp newTaskPopUp(Task task) {
+        return newTaskPopUp(new Stage(), task, false);
+    }
+
+    public static TaskPopUp newTaskPopUp(Stage stage, Task task) {
+        return newTaskPopUp(stage, task, false);
+    }
+
+    public static TaskPopUp newTaskPopUp(Stage stage, Task task, boolean creation) {
+        stage.initModality(Modality.WINDOW_MODAL);
+        stage.initOwner(GlobalData.primaryStage);
+
+        FXMLLoader loader = new FXMLLoader(TaskPopUp.class.getResource("/utils/TaskPopUp.fxml"));
+        TaskPopUp taskPopUp = new TaskPopUp(stage, task, creation);
+        loader.setController(taskPopUp);
+
+        Parent taskPopUpView = null;
+        try { taskPopUpView = loader.load(); }
+        catch (IOException ex) { ex.printStackTrace(); }
+        if (taskPopUpView == null) throw new AssertionError();
+
+        Scene scene = new Scene(taskPopUpView);
+        stage.setScene(scene);
+        stage.show();
+
+        return taskPopUp;
+    }
+
     private final Task task;
     private final Task dummy = new Task();
     private final Stage stage;
@@ -133,13 +162,14 @@ public class TaskPopUp {
         });
 
         valider.setOnAction(e -> {
+            dummy.setName(name.getText());
+            dummy.setDescription(description.getText());
+            dummy.setDueDate(datePicker.getValue());
+            dummy.setDone(radioYes.isSelected());
+            validateChanges();
+            validated = true;
+
             if (!creation) {
-                dummy.setName(name.getText());
-                dummy.setDescription(description.getText());
-                dummy.setDueDate(datePicker.getValue());
-                dummy.setDone(radioYes.isSelected());
-                validateChanges();
-                validated = true;
                 stage.close();
             } else{
                 if (name.getText().isEmpty()){
@@ -149,8 +179,11 @@ public class TaskPopUp {
                     GlobalData.newAlert("Veuillez renseigner une date pour la tâche.");
                 }
                 else {
-                    if (task != null) task.addSubTasks(dummy);
-                    else GlobalData.tasks.addTasks(dummy);
+                    if (task.getParent() != null) {
+                        System.out.println("Parent not null");
+                        task.getParent().addSubTasks(task);
+                    }
+                    else GlobalData.tasks.addTasks(task);
                     stage.close();
                 }
             }
@@ -166,18 +199,7 @@ public class TaskPopUp {
             Stage newStage = new Stage();
             Task newTask = new Task(task);
 
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/utils/TaskPopUp.fxml"));
-            TaskPopUp taskPopUp = new TaskPopUp(newStage, newTask, true);
-            loader.setController(taskPopUp);
-
-            Parent taskPopUpView = null;
-            try { taskPopUpView = loader.load(); }
-            catch (IOException ex) { ex.printStackTrace(); }
-            if (taskPopUpView == null) throw new AssertionError();
-
-            Scene scene = new Scene(taskPopUpView);
-            newStage.setScene(scene);
-            newStage.show();
+            TaskPopUp taskPopUp = TaskPopUp.newTaskPopUp(newStage, newTask, true);
 
             newStage.setOnHidden(f -> {
                 if (taskPopUp.wasValidated()) {
