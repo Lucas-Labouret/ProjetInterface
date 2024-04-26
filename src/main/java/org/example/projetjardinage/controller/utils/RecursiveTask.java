@@ -24,10 +24,17 @@ public class RecursiveTask {
 
     private Task task;
     int depth;
+    boolean open = false;
 
     public RecursiveTask(Task task, int depth) {
         this.depth = depth;
         this.task = task;
+    }
+
+    public RecursiveTask(Task task, int depth, boolean open) {
+        this.depth = depth;
+        this.task = task;
+        this.open = open;
     }
 
     private ArrayList<RecursiveTask> recursiveTasks;
@@ -37,12 +44,20 @@ public class RecursiveTask {
 
         check.setSelected(task.isDone());
         pane.setText(task.getName());
+        pane.setExpanded(open);
         description.setText(task.getDescription());
 
         check.setOnAction(e -> task.setDone(check.isSelected()));
 
         pane.setOnMouseClicked(e -> {
+            if (e.getButton() == MouseButton.PRIMARY) {
+                open = !open;
+                System.out.println(open);
+            }
             if (e.getButton() == MouseButton.SECONDARY) {
+                System.out.println("Right click " + open);
+                pane.setExpanded(open);
+
                 Stage stage = new Stage();
 
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/utils/TaskPopUp.fxml"));

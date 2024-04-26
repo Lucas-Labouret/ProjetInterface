@@ -123,10 +123,6 @@ public class MainWindow {
         return speciesController;
     }
 
-    public void update(){
-        currentController.update();
-    }
-
     public void updateWindowSize(double width, double height) {
         lastWidth = width;
         lastHeight = height;

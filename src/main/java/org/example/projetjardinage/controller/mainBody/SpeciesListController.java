@@ -2,18 +2,13 @@ package org.example.projetjardinage.controller.mainBody;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.control.TitledPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.control.TextField;
-import javafx.stage.Stage;
 import org.example.projetjardinage.GlobalData;
 import org.example.projetjardinage.controller.utils.EspeceController;
-import org.example.projetjardinage.controller.utils.RecursiveTask;
 import org.example.projetjardinage.model.Species;
-import org.example.projetjardinage.model.Task;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -60,7 +55,7 @@ public class SpeciesListController implements BodyController{
         }
 
     }
-    public void update() {initialize();}
+
     public void updateSize(double width, double height) {}
 }
 

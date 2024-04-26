@@ -67,8 +67,6 @@ public class SpeciesController implements BodyController {
         name.setText(s.getName());
     }
 
-    public void update(){}
-
     private void reposition(double offset){
         name.setLayoutX(offset + 20);
         name.setLayoutY(10);
