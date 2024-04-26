@@ -116,11 +116,17 @@ public class MainWindow {
         }
         body.getChildren().clear();
         body.getChildren().add(currentView);
+        System.out.println(specimenController);
         currentController.updateSize(lastWidth, lastHeight);
     }
 
     public SpeciesController getSpeciesController() {
         return speciesController;
+    }
+
+    public SpecimenController getSpecimenController() {
+
+        return specimenController;
     }
 
     public void update(){

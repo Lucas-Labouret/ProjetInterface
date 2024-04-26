@@ -46,7 +46,7 @@ public class Species implements Observable {
 
     public boolean isFavorite() { return favorite; }
     public void setFavorite(boolean favorite) { this.favorite = favorite; }
-
+    public boolean getFavorite() { return this.favorite; }
     public String getProfilePicURL() { return profilePic; }
     public void setProfilePicURL(String profilePic) { this.profilePic = profilePic; }
 

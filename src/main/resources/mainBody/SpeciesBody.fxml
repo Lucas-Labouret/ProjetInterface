@@ -7,7 +7,7 @@
 <?import javafx.scene.shape.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="560.0" prefWidth="560.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.projetjardinage.controller.mainBody.SpeciesController">
+<AnchorPane prefHeight="560.0" prefWidth="560.0" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.projetjardinage.controller.mainBody.SpeciesController">
    <Button fx:id="editName" alignment="CENTER" contentDisplay="CENTER" ellipsisString="" layoutX="196.0" layoutY="32.0" mnemonicParsing="false" prefHeight="16.0" prefWidth="16.0" text="editer nom">
       <font>
          <Font size="1.0" />
@@ -28,7 +28,6 @@
          <Font size="19.0" />
       </font>
    </TextField>
-   <Button fx:id="heart" layoutX="341.0" layoutY="24.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="33.0" text="COEUR" />
    <ImageView fx:id="speciesImage" fitHeight="88.0" fitWidth="153.0" layoutX="435.0" layoutY="11.0" pickOnBounds="true" preserveRatio="true">
       <image>
          <Image url="@../icons/267203.png" />
@@ -66,9 +65,9 @@
          </ImageView>
       </graphic>
    </Button>
-   <TextArea fx:id="notes" disable="true" layoutX="33.0" layoutY="198.0" prefHeight="101.0" prefWidth="342.0" />
+   <TextArea fx:id="notes" editable="false" layoutX="33.0" layoutY="198.0" prefHeight="101.0" prefWidth="342.0" />
    <Label fx:id="notesLabel" layoutX="33.0" layoutY="176.0" text="Notes :" />
-   <Button fx:id="editNotes" alignment="CENTER" contentDisplay="CENTER" ellipsisString="" layoutX="87.0" layoutY="181.0" mnemonicParsing="false" prefHeight="14.0" prefWidth="14.0" text="editer nom">
+   <Button fx:id="editNotes" alignment="CENTER" contentDisplay="CENTER" ellipsisString="" layoutX="87.0" layoutY="181.0" mnemonicParsing="false" prefHeight="14.0" prefWidth="14.0" text="editer notes">
       <font>
          <Font size="1.0" />
       </font>
@@ -83,7 +82,7 @@
          </ImageView>
       </graphic>
    </Button>
-   <TextField fx:id="nbSpecimen" disable="true" layoutX="41.0" layoutY="75.0" text="nombre specimens" />
+   <TextField fx:id="nbSpecimen" editable="false" layoutX="57.0" layoutY="75.0" prefHeight="25.0" prefWidth="126.0" text="nombre specimens" />
    <Label fx:id="moyenneLabel" layoutX="33.0" layoutY="116.0" text="Mesures moyennes :" />
    <Button fx:id="addTask" alignment="CENTER" ellipsisString="" layoutX="435.0" layoutY="216.0" mnemonicParsing="false" prefHeight="66.0" prefWidth="126.0" text="Ajouter tâche">
       <font>
@@ -105,7 +104,16 @@
          <Label fx:id="moyenne3" text="Label" GridPane.rowIndex="2" />
       </children>
    </GridPane>
-   <ScrollPane fx:id="galleryScrollPane" layoutX="52.0" layoutY="367.0" prefHeight="177.0" prefWidth="366.0" />
+   <ScrollPane fx:id="galleryScrollPane" layoutX="52.0" layoutY="367.0" prefHeight="177.0" prefWidth="366.0">
+      <content>
+         <HBox prefHeight="174.0" prefWidth="363.0">
+            <children>
+               <VBox fx:id="VBox1" prefHeight="200.0" prefWidth="150.0" />
+               <VBox fx:id="VBox2" prefHeight="200.0" prefWidth="150.0" />
+               <VBox fx:id="VBox3" prefHeight="200.0" prefWidth="150.0" />
+            </children>
+         </HBox>
+      </content></ScrollPane>
    <Button fx:id="tous" layoutX="78.0" layoutY="323.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="74.0" text="Tous" />
    <Button fx:id="vivants" layoutX="162.0" layoutY="322.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="73.0" text="Vivants" />
    <Button fx:id="morts" layoutX="243.0" layoutY="322.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="74.0" text="Morts" />
@@ -122,4 +130,9 @@
          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0" />
       </content>
    </ScrollPane>
+   <Button fx:id="heart" layoutX="304.0" layoutY="28.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="28.0" text="Button">
+      <font>
+         <Font size="16.0" />
+      </font>
+   </Button>
 </AnchorPane>

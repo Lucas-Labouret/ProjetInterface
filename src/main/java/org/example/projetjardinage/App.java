@@ -57,8 +57,34 @@ public class App extends Application {
         primaryStage.show();
 
         primaryStage.setOnHidden(e -> {
-            //for (Species spece: GlobalData.plantes) {
             for (int i = 0; i < GlobalData.plantes.size(); i++) {
+                for (int j = 0; j < GlobalData.plantes.get(i).getSpecimens().size(); j++) {
+                    Path absolutePath = FileSystems.getDefault().getPath("src/main/resources/galerie/"+GlobalData.plantes.get(i).getOldName()+"/"+GlobalData.plantes.get(i).getSpecimens().get(j).getOldName()).toAbsolutePath();
+
+                    char [] a = absolutePath.toString().toCharArray();
+
+                    String t = "";
+
+                    for(char c :a ){
+                        t += c ;
+                        if(i == '\\'){
+                            t += c ;
+                        }
+                    }
+                    File ancienDossier = new File(t);
+                    System.out.println(ancienDossier + "");
+
+                    File nouveauDossier = new File(ancienDossier.getParentFile(), GlobalData.plantes.get(i).getSpecimens().get(j).getName());
+
+                    System.out.println(nouveauDossier + "");
+
+                    if (ancienDossier.renameTo(nouveauDossier)) {
+                        System.out.println("Le dossier a été renommé avec succès !");
+                    } else {
+                        System.out.println("Le renommage du dossier a échoué.");
+                    }
+
+                }
 
                 Path absolutePath = FileSystems.getDefault().getPath("src/main/resources/galerie/"+GlobalData.plantes.get(i).getOldName()).toAbsolutePath();
                 //Path absolutePath = FileSystems.getDefault().getPath("src/main/resources/galerie/Kougoro").toAbsolutePath();
@@ -95,6 +121,7 @@ public class App extends Application {
                     System.out.println("Le renommage du dossier a échoué.");
                 }
             }
+
 
         });
     }

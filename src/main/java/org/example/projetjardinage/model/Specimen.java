@@ -12,6 +12,8 @@ public class Specimen {
     private boolean alive;
     private LocalDate miseEnTerre;
 
+
+
     private String profilePic;
 
     private String noteSpecimen;
@@ -58,10 +60,14 @@ public class Specimen {
     public String getOldName() {
         return oldName;
     }
+
     public void setOldName(String oldName) {
         this.oldName = oldName;
     }
 
+    public String getProfilePic() {
+        return profilePic;
+    }
     public boolean isAlive(){ return alive; }
     public void setStatus(boolean alive){ this.alive = alive; }
 

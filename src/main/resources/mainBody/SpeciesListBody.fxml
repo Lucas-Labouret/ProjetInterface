@@ -1,18 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleButton?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane prefHeight="560.0" prefWidth="560.0" style="-fx-background-color: ligthgrey;"
-            xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="org.example.projetjardinage.controller.mainBody.SpeciesListController">
-   <TextField fx:id="RechercheEspece" alignment="TOP_CENTER" layoutX="111.0" layoutY="14.0" prefHeight="26.0"
-              prefWidth="337.0" promptText="Rechercher"/>
+<AnchorPane prefHeight="560.0" prefWidth="560.0" style="-fx-background-color: ligthgrey;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.projetjardinage.controller.mainBody.SpeciesListController">
+   <TextField fx:id="RechercheEspece" alignment="TOP_CENTER" layoutX="111.0" layoutY="14.0" prefHeight="26.0" prefWidth="337.0" promptText="Rechercher" />
    <HBox fx:id="HBox" layoutX="57.0" layoutY="78.0" prefHeight="448.0" prefWidth="450.0">
-      <VBox fx:id="VBox1" prefHeight="448.0" prefWidth="150.0" style="-fx-background-color: white;"/>
-      <VBox fx:id="VBox2" prefHeight="448.0" prefWidth="150.0" style="-fx-background-color: white;"/>
-      <VBox fx:id="VBox3" prefHeight="448.0" prefWidth="150.0" style="-fx-background-color: white;"/>
+      <VBox fx:id="VBox1" prefHeight="448.0" prefWidth="150.0" style="-fx-background-color: white;" />
+      <VBox fx:id="VBox2" prefHeight="448.0" prefWidth="150.0" style="-fx-background-color: white;" />
+      <VBox fx:id="VBox3" prefHeight="448.0" prefWidth="150.0" style="-fx-background-color: white;" />
    </HBox>
+   <ToggleButton fx:id="fav" layoutX="468.0" layoutY="15.0" mnemonicParsing="false" text="Favorits" />
 </AnchorPane>

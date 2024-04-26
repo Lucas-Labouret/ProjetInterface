@@ -5,6 +5,7 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
@@ -15,7 +16,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.projetjardinage.controller.mainBody.SpecimenController">
     <padding>
         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
     </padding>
@@ -26,11 +27,12 @@
     <ScrollPane hbarPolicy="NEVER" layoutX="-1.0" layoutY="-1.0" prefWidth="440.0" vbarPolicy="ALWAYS">
         <VBox prefHeight="400.0" prefWidth="450.0">
             <HBox prefHeight="75.0" prefWidth="416.0">
-                <Label alignment="CENTER" prefHeight="75.0" prefWidth="215.0" text="Nom Specimen">
-                    <font>
-                        <Font name="System Bold" size="18.0" />
-                    </font>
-                </Label>
+            <TextField fx:id="nom" alignment="CENTER" editable="false" layoutX="20.0" layoutY="20.0" prefHeight="56.0" prefWidth="231.0" text="Nom Specimen">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </TextField>
+            <Button fx:id="editName" mnemonicParsing="false" prefHeight="17.0" prefWidth="28.0" text="Button" />
                 <HBox alignment="CENTER" prefWidth="175.0">
                     <Button fx:id="speciesButton" alignment="CENTER" mnemonicParsing="false" prefHeight="49.0" prefWidth="125.0" text="Nom Espece" textAlignment="CENTER" />
                 </HBox>
@@ -64,17 +66,17 @@
             <Separator prefHeight="12.0" prefWidth="450.0" />
             <GridPane>
                 <columnConstraints>
-                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
-                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                 </columnConstraints>
                 <rowConstraints>
-                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
-                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                 </rowConstraints>
-                <Label text="Dernière coupe" GridPane.rowIndex="1"/>
-                <Label text="Dernière platation"/>
-                <Label fx:id="dateLastPlantation" text="Label" GridPane.columnIndex="1"/>
-                <Label fx:id="dateLastCoupe" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+                <Label text="Dernière coupe" GridPane.rowIndex="1" />
+                <Label text="Dernière platation" />
+                <Label fx:id="dateLastPlantation" text="Label" GridPane.columnIndex="1" />
+                <Label fx:id="dateLastCoupe" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="1" />
             </GridPane>
             <Separator prefHeight="11.0" prefWidth="450.0" />
             <Label text="Notes sur le spécimen" />
@@ -85,16 +87,16 @@
          <Separator prefWidth="200.0" />
             <GridPane alignment="CENTER">
                 <columnConstraints>
-                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
-                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
-                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                 </columnConstraints>
                 <rowConstraints>
-                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                 </rowConstraints>
-                <Button fx:id="journalButton" mnemonicParsing="false" text="Button"/>
-                <Label text="Dernière entrée" GridPane.columnIndex="1"/>
-                <Label fx:id="dateLastEntry" text="Label" GridPane.columnIndex="2"/>
+                <Button fx:id="journalButton" mnemonicParsing="false" text="Button" />
+                <Label text="Dernière entrée" GridPane.columnIndex="1" />
+                <Label fx:id="dateLastEntry" text="Label" GridPane.columnIndex="2" />
             </GridPane>
             <Separator prefHeight="8.0" prefWidth="450.0" />
             <HBox prefHeight="81.0" prefWidth="450.0">
@@ -119,7 +121,7 @@
                     </GridPane>
                 </VBox>
                 <HBox alignment="CENTER" prefHeight="70.0" prefWidth="159.0">
-                    <Button mnemonicParsing="false" text="Button"/>
+                    <Button mnemonicParsing="false" text="Button" />
                 </HBox>
             </HBox>
             <Separator prefWidth="200.0" />

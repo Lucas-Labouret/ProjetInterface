@@ -1,13 +1,32 @@
 package org.example.projetjardinage.controller.mainBody;
 
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.shape.Line;
+import org.example.projetjardinage.GlobalData;
+import org.example.projetjardinage.controller.utils.EspeceController;
 import org.example.projetjardinage.model.Species;
+import org.example.projetjardinage.model.Specimen;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class SpeciesController implements BodyController {
+
+
+    @FXML
+    private VBox VBox1;
+
+    @FXML
+    private VBox VBox2;
+
+    @FXML
+    private VBox VBox3;
+
     Species species;
 
     @FXML private TextField name;
@@ -49,23 +68,202 @@ public class SpeciesController implements BodyController {
     @FXML private Button addTask;
     @FXML private ScrollPane taskScrollPane;
 
-    public SpeciesController(){}
+
+    private List<Specimen> plantes ;
+
+    private List<EspeceController> controleurs = new ArrayList<EspeceController>();
+
+    /**public SpeciesController(int i){
+        species = GlobalData.plantes.get(i);
+        plantes = species.getSpecimens();
+        System.out.println("--------------------------------------");
+        controleurs = new ArrayList<>();
+    }**/
+    public SpeciesController(){
+        //plantes = species.getSpecimens();
+        //controleurs = new ArrayList<>();
+    }
 
     public void initialize(){
         editName.setOnAction(e -> {
             name.setEditable(!name.isEditable());
+
         });
         name.setOnKeyTyped(e -> {
             species.setName(name.getText());
         });
+
+        editNotes.setOnAction(e -> {
+            notes.setEditable(!notes.isEditable());
+
+        });
+
+        notes.setOnKeyTyped(e -> {
+            species.setNotes(notes.getText());
+        });
+
+        heart.setOnAction(e -> {
+            species.setFavorite(!species.getFavorite());
+            if(species.getFavorite()){
+                heart.setText("♥");
+            }
+            if(!species.getFavorite()){
+                heart.setText("♡");
+            }
+        });
+
+        tous.setOnAction(e ->{
+            VBox1.getChildren().clear();
+            VBox2.getChildren().clear();
+            VBox3.getChildren().clear();
+            for (int i = 0; i < plantes.size(); i++) {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/utils/Espece.fxml"));
+                EspeceController especeControler = new EspeceController(species, i);
+                controleurs.add(especeControler);
+                loader.setController(especeControler);
+                try {
+                    switch (i % 3) {
+                        case 0:
+                            VBox1.getChildren().add(loader.load());
+                            break;
+                        case 1:
+                            VBox2.getChildren().add(loader.load());
+                            break;
+                        case 2:
+                            VBox3.getChildren().add(loader.load());
+                            break;
+
+
+                    }
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+            }
+        });
+        vivants.setOnAction(e ->{
+            VBox1.getChildren().clear();
+            VBox2.getChildren().clear();
+            VBox3.getChildren().clear();
+            int x = 0;
+            for (int i = 0; i < plantes.size(); i++) {
+                if (plantes.get(i).isAlive()) {
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/utils/Espece.fxml"));
+                    EspeceController especeControler = new EspeceController(species, i);
+                    controleurs.add(especeControler);
+                    loader.setController(especeControler);
+                    try {
+                        switch (x % 3) {
+                            case 0:
+                                VBox1.getChildren().add(loader.load());
+                                break;
+                            case 1:
+                                VBox2.getChildren().add(loader.load());
+                                break;
+                            case 2:
+                                VBox3.getChildren().add(loader.load());
+                                break;
+
+
+                        }
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                    }
+                    x++;
+                }
+            }
+        });
+
+        morts.setOnAction(e ->{
+            VBox1.getChildren().clear();
+            VBox2.getChildren().clear();
+            VBox3.getChildren().clear();
+            int x = 0;
+            for (int i = 0; i < plantes.size(); i++) {
+                if (!plantes.get(i).isAlive()) {
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/utils/Espece.fxml"));
+                    EspeceController especeControler = new EspeceController(species, i);
+                    controleurs.add(especeControler);
+                    loader.setController(especeControler);
+                    try {
+                        switch (x % 3) {
+                            case 0:
+                                VBox1.getChildren().add(loader.load());
+                                break;
+                            case 1:
+                                VBox2.getChildren().add(loader.load());
+                                break;
+                            case 2:
+                                VBox3.getChildren().add(loader.load());
+                                break;
+
+
+                        }
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                    }
+                    x++;
+                }
+            }
+        });
         reposition(0);
+
+
     }
 
-    public void switchSpecies(Species s){
+    public void switchSpecies(Species s) {
+        VBox1.getChildren().clear();
+        VBox2.getChildren().clear();
+        VBox3.getChildren().clear();
+
         species = s;
-
         name.setText(s.getName());
+        nbSpecimen.setText(String.valueOf(species.getSpecimens().size()));
+        notes.setText(species.getNotes());
+        if(species.getFavorite()){
+            heart.setText("♥");
+        }
+        if(!species.getFavorite()){
+            heart.setText("♡");
+        }
+        this.plantes = species.getSpecimens();
+        for (int i = 0; i < plantes.size(); i++) {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/utils/Espece.fxml"));
+            EspeceController especeControler = new EspeceController(species, i);
+            controleurs.add(especeControler);
+            loader.setController(especeControler);
+            try {
+                switch (i % 3) {
+                    case 0:
+                        VBox1.getChildren().add(loader.load());
+                        break;
+                    case 1:
+                        VBox2.getChildren().add(loader.load());
+                        break;
+                    case 2:
+                        VBox3.getChildren().add(loader.load());
+                        break;
+
+
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+
+        }
     }
+
+    /**public void switchSpecies(int i){
+        species = GlobalData.plantes.get(i);
+
+        name.setText(species.getName());
+
+        notes.setText(species.getNotes());
+
+
+
+
+    }**/
 
     public void update(){}
 

@@ -19,7 +19,7 @@ import java.io.IOException;
 import java.nio.file.InvalidPathException;
 import java.nio.file.Paths;
 
-public class EspeceController implements Observer {
+public class EspeceController<t> implements Observer {
 
     @FXML
     private AnchorPane espece;
@@ -32,26 +32,53 @@ public class EspeceController implements Observer {
 
     private Species species;
 
+    private int especeid;
+
+    private int specimen = -1;
+
     public EspeceController(int i) {;
         this.species = GlobalData.plantes.get(i);
+        this.especeid = i;
+        this.subscribeTo(species);
+    }
+
+    public EspeceController(Species species, int j ) {;
+        this.species = species;
+        this.specimen = j;
         this.subscribeTo(species);
     }
 
     public void initialize(){
-        System.out.println("hola");
-        text.setText(species.getName());
-        try {
-            Paths.get(species.getProfilePicURL());
-            image.setImage(new Image(getClass().getResourceAsStream(species.getProfilePicURL())));
-        } catch (InvalidPathException | NullPointerException ex) {
-            image.setImage(new Image(getClass().getResourceAsStream("/icons/267203.png")));
+        if(specimen==-1) {
+            text.setText(species.getName());
+            try {
+                Paths.get(species.getProfilePicURL());
+                image.setImage(new Image(getClass().getResourceAsStream(species.getProfilePicURL())));
+            } catch (InvalidPathException | NullPointerException ex) {
+                image.setImage(new Image(getClass().getResourceAsStream("/icons/267203.png")));
+            }
+        }else {
+            text.setText(species.getSpecimens().get(specimen).getName());
+            try {
+                Paths.get(species.getProfilePicURL());
+                image.setImage(new Image(getClass().getResourceAsStream(species.getSpecimens().get(specimen).getProfilePic())));
+            } catch (InvalidPathException | NullPointerException ex) {
+                image.setImage(new Image(getClass().getResourceAsStream("/icons/267203.png")));
+            }
         }
            espece.setOnMouseClicked(e -> {
-            if (e.getClickCount() == 1) {
+            if (e.getClickCount() == 1 && specimen == -1) {
                 MainWindow.getInstance().switchController(MainWindow.Display.SPECIES);
                 MainWindow.getInstance().getSpeciesController().switchSpecies(species);
+
+
+            } else if (e.getClickCount() == 1) {
+                MainWindow.getInstance().switchController(MainWindow.Display.SPECIMEN);
+                System.out.println(specimen);
+                MainWindow.getInstance().getSpecimenController().switchSpecimen(species.getSpecimens().get(specimen));
+                System.out.println(specimen);
             }
-        });
+           });
     }
 
     public void update() {
