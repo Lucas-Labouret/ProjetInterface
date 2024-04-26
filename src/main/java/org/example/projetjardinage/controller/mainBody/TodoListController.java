@@ -32,12 +32,12 @@ public class TodoListController implements BodyController {
                 new Task("Task 7", "Description 7", LocalDate.of(2025, 2, 5)),
                 new Task("Task 8", "Description 8", LocalDate.of(2025, 2, 6))
         ));
-        tasks.getFirst().addSubTasks(
+        tasks.get(0).addSubTasks(
                 new Task("SubTask 1", "SubDescription 1", LocalDate.of(2024, 1, 1)),
                 new Task("SubTask 2", "SubDescription 2", LocalDate.of(2024, 1, 1)),
                 new Task("SubTask 3", "SubDescription 3", LocalDate.of(2024, 1, 1))
         );
-        tasks.getFirst().getSubTasks().getLast().addSubTasks(
+        tasks.get(0).getSubTasks().get(tasks.get(0).getSubTasks().size()-1).addSubTasks(
                 new Task("SubSubTask 1", "SubSubDescription très très très très très très très très très très très très très très très très très très longue", LocalDate.of(2024, 1, 1)),
                 new Task("SubSubTask 2", "SubSubDescription 2", LocalDate.of(2024, 1, 1)),
                 new Task("SubSubTask 3", "SubSubDescription 3", LocalDate.of(2024, 1, 1))

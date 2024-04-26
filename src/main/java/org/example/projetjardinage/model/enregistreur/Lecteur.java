@@ -138,9 +138,8 @@ public class Lecteur {
 
         int nb = Integer.parseInt(this.text.get(this.bookmark+1));
         this.bookmark = this.bookmark +2;
-        for(int i = 0; i < nb; i=i+5){
+        for(int i = 0; i < nb; i=i+1){
             List<String> cas = new ArrayList<> (5);
-
             //4 cases par mesures, NOM, DONE, DEsCR, DDATE, SURTASK, REP, SPE, ESP
             for(int j = 2; j <8; j++){ //décalage des 2 premiers blocs
                 cas.add(this.text.get(this.bookmark));

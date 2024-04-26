@@ -22,7 +22,7 @@ public class MesureTypeSol extends Mesure {
             case "Ar" -> this.type = Type.Argile;
             case "Co" -> this.type = Type.Caillouteux;
             case "Ca" -> this.type = Type.Calcaire;
-            case null, default -> System.out.println("Erreur typage du sol a la lecture");
+            default -> System.out.println("Erreur typage du sol a la lecture");
         }
     }
 }

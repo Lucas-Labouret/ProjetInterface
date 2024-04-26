@@ -57,6 +57,23 @@ public class Task {
         this.parent = null;
     }
 
+    public boolean isRec(){
+        if(recurrence == 0){
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    private LocalDate nextDate(){
+        return dueDate.plusDays(recurrence);
+    }
+
+    public void setNextDate(){
+        this.dueDate = this.nextDate();
+        this.done = false;
+    }
+
     public Task() {
         this.dueDate = null;
         this.name = "";

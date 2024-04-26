@@ -2,7 +2,7 @@ ESP,2,Payapaya,0,hihihihihi,si ca fonctionne je serais contente,O,2,Ca,7,8,Kougo
 SPE,2,
 Dame Grigri,30082004,0,hohohohoho,Kougoro,Tres jolie plante,Arroser avec un spray,0,
 Oscar,11032007,1,huhuhuhuhu,Kougoro,Mon fils<C>ma bataille.,Grillage autour,0,
-TASK,2,Arroser,0,Mettre de l'eau<C>quoi,21052024,<N>,0,0,0,
+TASK,3,Arroser,0,Mettre de l'eau<C>quoi,21052024,<N>,0,0,0,
 Acheter de l'eau,0,OUI,21052024,Arroser,0,0,1,Dame Grigri,
-Planter des radis,0,des radis de 18 jours<C> oui<C> oui, 25052024,<N>,15,1,Payapaya,0
+Planter des radis,0,des radis de 18 jours<C> oui<C> oui,25052020,<N>,15,1,Payapaya,0
 
