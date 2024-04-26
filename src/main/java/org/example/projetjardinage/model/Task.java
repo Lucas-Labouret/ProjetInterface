@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.time.Month;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class Task implements Observable{
     private LocalDate dueDate;
@@ -18,7 +19,7 @@ public class Task implements Observable{
     private final List<Specimen> linkedSpecimens = new ArrayList<>();
     private final List<Species> linkedSpecies = new ArrayList<>();
 
-    public Task(List<String> elem, List<Species> esp, List<Specimen> spe){
+    public Task(List<String> elem, List<Species> esp, List<Specimen> spe, Task surtache){
         this.name = elem.get(0);
         int done = Integer.parseInt(elem.get(1));
         this.done = (done != 0);
@@ -32,6 +33,9 @@ public class Task implements Observable{
 
         this.recurrence = Integer.parseInt(elem.get(5));
 
+        if( !(Objects.equals(elem.get(4), "<N>") )){
+            this.parent = surtache;
+        }
         this.linkedSpecies.addAll(esp);
         this.linkedSpecimens.addAll(spe);
 
@@ -55,6 +59,23 @@ public class Task implements Observable{
         this.description = description;
         this.done = false;
         this.parent = null;
+    }
+
+    public boolean isRec(){
+        if(recurrence == 0){
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    private LocalDate nextDate(){
+        return dueDate.plusDays(recurrence);
+    }
+
+    public void setNextDate(){
+        this.dueDate = this.nextDate();
+        this.done = false;
     }
 
     public Task() {

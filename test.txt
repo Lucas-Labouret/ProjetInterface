@@ -1,8 +1,14 @@
-ESP,2,Payapaya,0,/galerie/Payapaya/download.jpg,si ca fonctionne je serais contente,O,2,Ca,7,8,Kougoro,1,/galerie/Kougoro/Dame Grigri/images.jpg,deuxieme essai<C> on verra bien,PS,3,Co,8,15,
+ESP,2,Payapaya,0,/galerie/Payapaya/download.jpg,si ca fonctionne je serais contente,O,2,Ca,7,8,
+1,Fruit Rouge,B, ,
+Kougoro,1,hohohohoho,deuxieme essai<C> on verra bien,PS,3,Co,8,15,
+1,Taille des feuilles,N,cm,
 SPE,2,
-Dame Grigri,30082004,0,hohohohoho,Kougoro,Tres jolie plante,Arroser avec un spray,0,
-Oscar,11032007,1,huhuhuhuhu,Kougoro,Mon fils<C>ma bataille.,Grillage autour,0,
-TASK,2,Arroser,0,Mettre de l'eau<C>quoi,21052024,<N>,0,0,0,
+Dame Grigri,30082004,0,hohohohoho,Kougoro,Tres jolie plante,Arroser avec un spray,2,1,
+29092004,PS,3,Co,8,15,0,10,5,1,
+11122004,PS,3,Co,8,15,0,30,10,7,
+Oscar,11032007,1,huhuhuhuhu,Kougoro,Mon fils<C>ma bataille.,Grillage autour,1,1,
+05012008,O,2,Ca,7,8,1,15,89,0,
+TASK,3,Arroser,0,Mettre de l'eau<C>quoi,21052024,<N>,0,0,0,
 Acheter de l'eau,0,OUI,21052024,Arroser,0,0,1,Dame Grigri,
-Planter des radis,0,des radis de 18 jours<C> oui<C> oui, 25052024,<N>,15,1,Payapaya,0
+Planter des radis,0,des radis de 18 jours<C> oui<C> oui,25052020,<N>,15,1,Payapaya,0
 

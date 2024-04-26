@@ -14,6 +14,8 @@ public class MesureTypeSol extends Mesure {
         this.type = type;
     }
 
+    public MesureTypeSol(String val){ this.setTypeLect(val);}
+
     public Type getType() { return type; }
     public void setType(Type type) { this.type = type; }
 
@@ -22,7 +24,7 @@ public class MesureTypeSol extends Mesure {
             case "Ar" -> this.type = Type.Argile;
             case "Co" -> this.type = Type.Caillouteux;
             case "Ca" -> this.type = Type.Calcaire;
-            case null, default -> System.out.println("Erreur typage du sol a la lecture");
+            default -> System.out.println("Erreur typage du sol a la lecture");
         }
     }
 }

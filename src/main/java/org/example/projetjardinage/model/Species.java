@@ -1,6 +1,8 @@
 package org.example.projetjardinage.model;
 
+import org.example.projetjardinage.model.mesure.InfoMesure;
 import org.example.projetjardinage.model.mesure.OptimalHolder;
+import org.example.projetjardinage.model.mesure.PlageMesure;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,6 +19,8 @@ public class Species implements Observable {
 
     private OptimalHolder mesuresOpti ;
 
+    private PlageMesure mesuresPoss;
+
     public Species(List<String> elem){
         this.name = elem.get(0);
         this.oldName = elem.get(0);
@@ -27,6 +31,11 @@ public class Species implements Observable {
         List<String> opti = elem.subList(4,8);
         opti.add(elem.get(8));
         this.mesuresOpti = new OptimalHolder(opti);
+        this.mesuresPoss = new PlageMesure();
+        int nbNouvellesMesures = Integer.parseInt(elem.get(10));
+        for(int i = 0; i<nbNouvellesMesures*3;i=i+3){
+            this.mesuresPoss.addMesure(elem.get(11+i),elem.get(11+i+1),elem.get(11+i+2));
+        }
     }
 
     public String getName() { return name; }
@@ -48,6 +57,7 @@ public class Species implements Observable {
     public void setFavorite(boolean favorite) { this.favorite = favorite; }
     public boolean getFavorite() { return this.favorite; }
     public String getProfilePicURL() { return profilePic; }
+
     public void setProfilePicURL(String profilePic) { this.profilePic = profilePic; }
 
     public String getNotes() { return notes; }
@@ -65,4 +75,8 @@ public class Species implements Observable {
     }
 
     public OptimalHolder getMesuresOpti() { return mesuresOpti; }
+
+    public PlageMesure getMesures(){ return this.mesuresPoss;}
+
+    public int getNbMesures(){return this.mesuresPoss.getTaille();}
 }

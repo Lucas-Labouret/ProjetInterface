@@ -72,14 +72,24 @@ public class Lecteur {
             System.out.println("ERREUR_ESP");
         }
         int nb = Integer.parseInt(this.text.get(this.bookmark + 1));
-
         this.bookmark = this.bookmark+2;
         for(int i = 0; i < nb; i=i+1){
+
             List<String> cas = new ArrayList<> (9);
-            //9 cases par mesures, NOM, FAV, PIC, NOTES, 5 * MESURES
+            //9 cases par mesures, NOM, FAV, PIC, NOTES, 5 * MESURES, NBnouvelles mesures, Nouvelles mesures (3 cases chacunes)
             for(int j = 0; j < 9; j++){
                 cas.add(this.text.get(this.bookmark));
                 this.bookmark = this.bookmark+1;
+            }
+
+            int nbNouvellesMesures = Integer.parseInt(this.text.get(this.bookmark));
+            cas.add(this.text.get(this.bookmark));
+            this.bookmark = this.bookmark+1;
+            for(int j = 0; j<nbNouvellesMesures;j++){
+                cas.add(this.text.get(this.bookmark));
+                cas.add(this.text.get(this.bookmark+1));
+                cas.add(this.text.get(this.bookmark+2));
+                this.bookmark=this.bookmark+3;
             }
             esp.add(cas);
         }
@@ -109,17 +119,14 @@ public class Lecteur {
             if(nb2 == 0){    //si le journal est vide
                 cas.add("0");
                 this.bookmark = this.bookmark+1;
-            } else {         //s'il y a des entrees, on recupere où c'est et c'est tout
-                cas.add(String.valueOf(bmTMP)); //bookmark de l'indice du début des entrées de journal
-                cmpt =0;
-                int cmpTMP = 0;
-                for (int k = 0; k<nb2 ; k++){ //pour le bookmark
-                    cmpTMP = Integer.parseInt(this.text.get(bmTMP) +1 + cmpTMP) ;
-                    cmpTMP++;
-                    cmpt = cmpt + cmpTMP ;
+            } else {//s'il y a des entrees
+                int bmkTMP = this.bookmark;
+                cas.add(this.text.get(bmkTMP));
+                int nbNouvellesMesures = Integer.parseInt(this.text.get(this.bookmark+1));
 
-                }
-                this.bookmark = this.bookmark + cmpt;
+                int nbCases = (1+8+(nbNouvellesMesures))*nb2;
+                cas.addAll(this.text.subList(bmkTMP+2,bmkTMP+2+nbCases));
+                this.bookmark = this.bookmark + 2 + nbCases;
             }
 
             spe.add(cas);
@@ -138,9 +145,8 @@ public class Lecteur {
 
         int nb = Integer.parseInt(this.text.get(this.bookmark+1));
         this.bookmark = this.bookmark +2;
-        for(int i = 0; i < nb; i=i+5){
+        for(int i = 0; i < nb; i=i+1){
             List<String> cas = new ArrayList<> (5);
-
             //4 cases par mesures, NOM, DONE, DEsCR, DDATE, SURTASK, REP, SPE, ESP
             for(int j = 2; j <8; j++){ //décalage des 2 premiers blocs
                 cas.add(this.text.get(this.bookmark));

@@ -14,13 +14,17 @@ public class MesureExposition extends Mesure {
         this.force = force;
     }
 
+    public MesureExposition(String val){
+        this.setForceLect(val);
+    }
+
     public void setForceLect(String mes){
         switch (mes) {
             case "O" -> this.force = Force.Ombrage;
             case "SO" -> this.force = Force.SemiOmbrage;
             case "S" -> this.force = Force.Soleil;
             case "PS" -> this.force = Force.PleinSoleil;
-            case null, default -> System.out.println("Erreur constructeur Expo");
+            default -> System.out.println("Erreur constructeur Expo");
         }
     }
 
