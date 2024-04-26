@@ -17,7 +17,6 @@ import org.example.projetjardinage.model.Task;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public class RecursiveTask extends Observer {
     @FXML private CheckBox check;
@@ -29,10 +28,13 @@ public class RecursiveTask extends Observer {
     int depth;
     boolean open = false;
 
+    private ArrayList<RecursiveTask> recursiveTasks;
+
     public RecursiveTask(Task task, int depth) {
         this.depth = depth;
         this.task = task;
         this.subscribeTo(task);
+         if (task.getParent() != null) System.out.println(task.getName() + task.OBSERVERS + " " + this + " " + task.getParent().OBSERVERS);
     }
 
     public RecursiveTask(Task task, int depth, boolean open) {
@@ -42,10 +44,8 @@ public class RecursiveTask extends Observer {
 
     public Task getTask() { return task; }
 
-    private HashMap<RecursiveTask, Parent> recursiveTasks;
-
     public void initialize() {
-        recursiveTasks = new HashMap<>();
+        recursiveTasks = new ArrayList<>();
         pane.setExpanded(open);
 
         check.setOnAction(e -> task.setDone(check.isSelected()));
@@ -87,7 +87,7 @@ public class RecursiveTask extends Observer {
                 e.printStackTrace();
                 continue;
             }
-            recursiveTasks.put(recursiveTask, view);
+            recursiveTasks.add(recursiveTask);
             box.getChildren().add(view);
         }
     }
@@ -95,7 +95,7 @@ public class RecursiveTask extends Observer {
     public void updateSize(double width, double height) {
         pane.setPrefWidth(width - 80*depth - 120);
 
-        for (RecursiveTask recursiveTask : recursiveTasks.keySet()) {
+        for (RecursiveTask recursiveTask : recursiveTasks) {
             recursiveTask.updateSize(width, height);
         }
     }
@@ -112,21 +112,19 @@ public class RecursiveTask extends Observer {
         box.getChildren().add(description);
 
         ArrayList<RecursiveTask> toRemove = new ArrayList<>();
-        for (RecursiveTask recursiveTask : recursiveTasks.keySet()) {
+        for (RecursiveTask recursiveTask : recursiveTasks) {
             if (!task.getSubTasks().contains(recursiveTask.getTask())) {
                 System.out.println("Removing task");
                 toRemove.add(recursiveTask);
-                continue;
             }
-            box.getChildren().add(recursiveTasks.get(recursiveTask));
         }
+        recursiveTasks.removeAll(toRemove);
 
-        HashMap<RecursiveTask, Parent> newRecursiveTasks = new HashMap<>();
-        for (RecursiveTask recursiveTask : recursiveTasks.keySet()) {
-            if (!toRemove.contains(recursiveTask)) {
-                newRecursiveTasks.put(recursiveTask, recursiveTasks.get(recursiveTask));
-            }
+        for (RecursiveTask recursiveTask: recursiveTasks) {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/utils/RecursiveTask.fxml"));
+            loader.setController(recursiveTask);
+            try { box.getChildren().add(loader.load()); }
+            catch (IOException e) { e.printStackTrace(); }
         }
-        recursiveTasks = newRecursiveTasks;
     }
 }

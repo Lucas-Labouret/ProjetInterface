@@ -1,5 +1,6 @@
 package org.example.projetjardinage;
 
+import eu.hansolo.tilesfx.skins.RadialDistributionTileSkin;
 import org.example.projetjardinage.model.Species;
 import org.example.projetjardinage.model.Specimen;
 import org.example.projetjardinage.model.Task;
@@ -107,6 +108,18 @@ public class GlobalData {
         taches.getFirst().getSubTasks().getLast().getSubTasks().getLast().addSubTasks(
                 new Task("SubSubSubTask 1", "SubSubSubDescription 1", LocalDate.of(2024, 1, 1))
         );
+
+        addParents(taches);
+
         tasks = new TodoList(taches);
+    }
+
+    private static void addParents(List<Task> tasks) {
+        for (Task task : tasks) {
+            for (Task subTask : task.getSubTasks()) {
+                subTask.setParent(task);
+            }
+            addParents(task.getSubTasks());
+        }
     }
 }

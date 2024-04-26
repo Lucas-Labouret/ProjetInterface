@@ -145,6 +145,7 @@ public class TaskPopUp {
         supprimer.setOnAction(e -> {
             if (task.getParent() != null) task.getParent().removeSubTasks(task);
             else GlobalData.tasks.removeTasks(task);
+            stage.close();
         });
 
         ajouter.setOnAction(e -> {
