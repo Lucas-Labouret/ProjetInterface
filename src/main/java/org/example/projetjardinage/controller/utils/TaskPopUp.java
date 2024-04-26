@@ -6,6 +6,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseButton;
 import javafx.stage.Stage;
+import org.example.projetjardinage.GlobalData;
 import org.example.projetjardinage.controller.MainWindow;
 import org.example.projetjardinage.model.Species;
 import org.example.projetjardinage.model.Specimen;
@@ -20,6 +21,8 @@ public class TaskPopUp {
     private final Task task;
     private final Task dummy = new Task();
     private final Stage stage;
+
+    private boolean creation = false;
     private boolean validated = false;
 
     @FXML private Button editButton;
@@ -41,11 +44,19 @@ public class TaskPopUp {
     @FXML private Button supprimer;
     @FXML private Button valider;
 
+    public TaskPopUp(Stage stage, Task task, boolean creation) {
+        this.task = task;
+        this.stage = stage;
+        this.creation = creation;
+        fillDummy();
+    }
+
     public TaskPopUp(Stage stage, Task task) {
         this.task = task;
         this.stage = stage;
         fillDummy();
     }
+
     public TaskPopUp(Stage stage) {
         task = new Task();
         this.stage = stage;
@@ -74,6 +85,23 @@ public class TaskPopUp {
         name.setText(dummy.getName());
         description.setText(dummy.getDescription());
         datePicker.setValue(dummy.getDueDate());
+
+        if (creation) {
+            editButton.setDisable(true);
+            editButton.setVisible(false);
+
+            supprimer.setDisable(true);
+            supprimer.setVisible(false);
+
+            ajouter.setDisable(true);
+            ajouter.setVisible(false);
+
+            name.setEditable(true);
+            description.setEditable(true);
+            datePicker.setDisable(false);
+            radioYes.setDisable(false);
+            radioNo.setDisable(false);
+        }
 
         ToggleGroup rec = new ToggleGroup();
         radioYes.setToggleGroup(rec);
@@ -112,12 +140,12 @@ public class TaskPopUp {
             validateChanges();
             validated = true;
             stage.close();
-            MainWindow.getInstance().update();
         });
 
         supprimer.setOnAction(e -> {
             if (task.getParent() != null) task.getParent().removeSubTasks(task);
-            //TODO: else { remove from global taskList }
+            else GlobalData.tasks.removeTasks(task);
+            stage.close();
         });
 
         ajouter.setOnAction(e -> {
@@ -125,7 +153,7 @@ public class TaskPopUp {
             Task newTask = new Task(task);
 
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/utils/TaskPopUp.fxml"));
-            TaskPopUp taskPopUp = new TaskPopUp(newStage, newTask);
+            TaskPopUp taskPopUp = new TaskPopUp(newStage, newTask, true);
             loader.setController(taskPopUp);
 
             Parent taskPopUpView = null;
@@ -141,7 +169,6 @@ public class TaskPopUp {
                 if (taskPopUp.wasValidated()) {
                     task.addSubTasks(newTask);
                     dummy.addSubTasks(newTask);
-                    MainWindow.getInstance().update();
                 }
             });
         });

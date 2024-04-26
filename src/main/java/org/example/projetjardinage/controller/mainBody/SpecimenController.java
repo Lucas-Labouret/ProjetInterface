@@ -89,6 +89,5 @@ public class SpecimenController implements BodyController {
             });
         }
 
-    public void update() {}
     public void updateSize(double width, double height) {}
 }

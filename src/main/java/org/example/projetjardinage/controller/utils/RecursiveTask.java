@@ -1,5 +1,6 @@
 package org.example.projetjardinage.controller.utils;
 
+import javafx.beans.value.ChangeListener;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -11,12 +12,13 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.layout.VBox;
 
 import javafx.stage.Stage;
+import org.example.projetjardinage.controller.Observer;
 import org.example.projetjardinage.model.Task;
 
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class RecursiveTask {
+public class RecursiveTask extends Observer {
     @FXML private CheckBox check;
     @FXML private TitledPane pane;
     @FXML private VBox box;
@@ -24,22 +26,33 @@ public class RecursiveTask {
 
     private Task task;
     int depth;
+    boolean open = false;
+
+    private ArrayList<RecursiveTask> recursiveTasks;
 
     public RecursiveTask(Task task, int depth) {
         this.depth = depth;
         this.task = task;
+        this.subscribeTo(task);
+         if (task.getParent() != null) System.out.println(task.getName() + task.OBSERVERS + " " + this + " " + task.getParent().OBSERVERS);
     }
 
-    private ArrayList<RecursiveTask> recursiveTasks;
+    public RecursiveTask(Task task, int depth, boolean open) {
+        this(task, depth);
+        this.open = open;
+    }
+
+    public Task getTask() { return task; }
 
     public void initialize() {
         recursiveTasks = new ArrayList<>();
-
-        check.setSelected(task.isDone());
-        pane.setText(task.getName());
-        description.setText(task.getDescription());
+        pane.setExpanded(open);
 
         check.setOnAction(e -> task.setDone(check.isSelected()));
+
+        ChangeListener<Boolean> openedListener =
+                (observable, oldValue, newValue) -> open = !open;
+        pane.expandedProperty().addListener(openedListener);
 
         pane.setOnMouseClicked(e -> {
             if (e.getButton() == MouseButton.SECONDARY) {
@@ -60,21 +73,58 @@ public class RecursiveTask {
             }
         });
 
+        check.setSelected(task.isDone());
+        pane.setText(task.getName());
+        description.setText(task.getDescription());
+
         for (Task subTask : task.getSubTasks()) {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/utils/RecursiveTask.fxml"));
             RecursiveTask recursiveTask = new RecursiveTask(subTask, depth + 1);
-            recursiveTasks.add(recursiveTask);
             loader.setController(recursiveTask);
-            try { box.getChildren().add(loader.load()); }
-            catch (IOException e) { e.printStackTrace(); }
+            Parent view;
+            try { view = loader.load(); }
+            catch (IOException e) {
+                e.printStackTrace();
+                continue;
+            }
+            recursiveTasks.add(recursiveTask);
+            box.getChildren().add(view);
         }
     }
 
     public void updateSize(double width, double height) {
-        pane.setPrefWidth(width - 80*depth -120);
+        pane.setPrefWidth(width - 80*depth - 120);
 
         for (RecursiveTask recursiveTask : recursiveTasks) {
             recursiveTask.updateSize(width, height);
+        }
+    }
+
+    public void update() {
+        System.out.println("Updating" + task.getName() + " " + task + " " + task.getParent());
+
+        check.setSelected(task.isDone());
+        pane.setText(task.getName());
+        description.setText(task.getDescription());
+
+        TextArea description = (TextArea) box.getChildren().getFirst();
+        box.getChildren().clear();
+        box.getChildren().add(description);
+
+        ArrayList<RecursiveTask> toRemove = new ArrayList<>();
+        for (RecursiveTask recursiveTask : recursiveTasks) {
+            if (!task.getSubTasks().contains(recursiveTask.getTask())) {
+                System.out.println("Removing task");
+                toRemove.add(recursiveTask);
+            }
+        }
+        recursiveTasks.removeAll(toRemove);
+
+        for (RecursiveTask recursiveTask: recursiveTasks) {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/utils/RecursiveTask.fxml"));
+            loader.setController(recursiveTask);
+            try { box.getChildren().add(loader.load()); }
+            catch (IOException e) { e.printStackTrace(); }
         }
     }
 }

@@ -1,8 +1,10 @@
 package org.example.projetjardinage;
 
+import eu.hansolo.tilesfx.skins.RadialDistributionTileSkin;
 import org.example.projetjardinage.model.Species;
 import org.example.projetjardinage.model.Specimen;
 import org.example.projetjardinage.model.Task;
+import org.example.projetjardinage.model.TodoList;
 import org.example.projetjardinage.model.enregistreur.Lecteur;
 
 import java.time.LocalDate;
@@ -12,13 +14,13 @@ public class GlobalData {
     private GlobalData(){} //static class
 
     public static List<Species> plantes;
-    public static List<Task> taches;
+    public static TodoList tasks;
 
     public static HashMap<String , String> vieuxnoms , nomsvieux;
 
     public static void recuperrageDesDonnees(String path){
         plantes = new ArrayList<>();
-        taches = new ArrayList<>();
+        ArrayList<Task> taches = new ArrayList<>();
         Lecteur lec = new Lecteur(path);
         List<List<String>> donnees;
 
@@ -128,6 +130,43 @@ public class GlobalData {
                 vieuxnoms.put(spece.getName(), spece.getName());
                 nomsvieux.put(spece.getName(), spece.getName());
             }
+        }
+
+        taches.addAll(List.of(
+                new Task("Task 1", "Description 1", LocalDate.of(2024, 1, 1)),
+                new Task("Task 2", "Description 2", LocalDate.of(2024, 1, 1)),
+                new Task("Task 3", "Description 3", LocalDate.of(2024, 1, 1)),
+                new Task("Task 4", "Description 4", LocalDate.of(2024, 1, 2)),
+                new Task("Task 5", "Description 5", LocalDate.of(2024, 1, 3)),
+                new Task("Task 6", "Description 6", LocalDate.of(2024, 2, 4)),
+                new Task("Task 7", "Description 7", LocalDate.of(2025, 2, 5)),
+                new Task("Task 8", "Description 8", LocalDate.of(2025, 2, 6))
+        ));
+        taches.getFirst().addSubTasks(
+                new Task("SubTask 1", "SubDescription 1", LocalDate.of(2024, 1, 1)),
+                new Task("SubTask 2", "SubDescription 2", LocalDate.of(2024, 1, 1)),
+                new Task("SubTask 3", "SubDescription 3", LocalDate.of(2024, 1, 1))
+        );
+        taches.getFirst().getSubTasks().getLast().addSubTasks(
+                new Task("SubSubTask 1", "SubSubDescription très très très très très très très très très très très très très très très très très très longue", LocalDate.of(2024, 1, 1)),
+                new Task("SubSubTask 2", "SubSubDescription 2", LocalDate.of(2024, 1, 1)),
+                new Task("SubSubTask 3", "SubSubDescription 3", LocalDate.of(2024, 1, 1))
+        );
+        taches.getFirst().getSubTasks().getLast().getSubTasks().getLast().addSubTasks(
+                new Task("SubSubSubTask 1", "SubSubSubDescription 1", LocalDate.of(2024, 1, 1))
+        );
+
+        addParents(taches);
+
+        tasks = new TodoList(taches);
+    }
+
+    private static void addParents(List<Task> tasks) {
+        for (Task task : tasks) {
+            for (Task subTask : task.getSubTasks()) {
+                subTask.setParent(task);
+            }
+            addParents(task.getSubTasks());
         }
     }
 

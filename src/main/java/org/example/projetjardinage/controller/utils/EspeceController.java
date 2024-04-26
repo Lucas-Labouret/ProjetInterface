@@ -19,7 +19,7 @@ import java.io.IOException;
 import java.nio.file.InvalidPathException;
 import java.nio.file.Paths;
 
-public class EspeceController<t> implements Observer {
+public class EspeceController extends Observer {
 
     @FXML
     private AnchorPane espece;

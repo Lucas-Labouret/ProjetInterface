@@ -37,7 +37,6 @@ public class SpeciesListController implements BodyController{
     }
 
     public void initialize()  {
-
         for( int i = 0; i < plantes.size(); i++) {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/utils/Espece.fxml"));
             EspeceController especeControler = new EspeceController(i);

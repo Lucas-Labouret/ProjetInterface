@@ -73,23 +73,13 @@ public class SpeciesController implements BodyController {
 
     private List<EspeceController> controleurs = new ArrayList<EspeceController>();
 
-    /**public SpeciesController(int i){
-        species = GlobalData.plantes.get(i);
-        plantes = species.getSpecimens();
-        System.out.println("--------------------------------------");
-        controleurs = new ArrayList<>();
-    }**/
-    public SpeciesController(){
-        //plantes = species.getSpecimens();
-        //controleurs = new ArrayList<>();
-    }
+    public SpeciesController(){}
 
     public void initialize(){
         editName.setOnAction(e -> {
             name.setEditable(!name.isEditable());
-
         });
-        name.setOnKeyTyped(e -> {
+        name.setOnKeyReleased(e -> {
             species.setName(name.getText());
         });
 
@@ -206,8 +196,6 @@ public class SpeciesController implements BodyController {
             }
         });
         reposition(0);
-
-
     }
 
     public void switchSpecies(Species s) {
@@ -216,6 +204,7 @@ public class SpeciesController implements BodyController {
         VBox3.getChildren().clear();
 
         species = s;
+
         name.setText(s.getName());
         nbSpecimen.setText(String.valueOf(species.getSpecimens().size()));
         notes.setText(species.getNotes());
@@ -252,20 +241,6 @@ public class SpeciesController implements BodyController {
 
         }
     }
-
-    /**public void switchSpecies(int i){
-        species = GlobalData.plantes.get(i);
-
-        name.setText(species.getName());
-
-        notes.setText(species.getNotes());
-
-
-
-
-    }**/
-
-    public void update(){}
 
     private void reposition(double offset){
         name.setLayoutX(offset + 20);
