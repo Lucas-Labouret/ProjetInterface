@@ -24,7 +24,7 @@ public class RecursiveTask extends Observer {
     @FXML private VBox box;
     @FXML private TextArea description;
 
-    private Task task;
+    private final Task task;
     int depth;
     boolean open = false;
 
@@ -51,11 +51,13 @@ public class RecursiveTask extends Observer {
         check.setOnAction(e -> task.setDone(check.isSelected()));
 
         ChangeListener<Boolean> openedListener =
-                (observable, oldValue, newValue) -> open = !open;
+                (observable, oldValue, newValue) -> open = newValue;
         pane.expandedProperty().addListener(openedListener);
 
         pane.setOnMouseClicked(e -> {
             if (e.getButton() == MouseButton.SECONDARY) {
+                pane.setExpanded(true);
+
                 Stage stage = new Stage();
 
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/utils/TaskPopUp.fxml"));

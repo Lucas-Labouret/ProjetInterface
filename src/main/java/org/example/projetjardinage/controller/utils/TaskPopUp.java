@@ -133,13 +133,27 @@ public class TaskPopUp {
         });
 
         valider.setOnAction(e -> {
-            dummy.setName(name.getText());
-            dummy.setDescription(description.getText());
-            dummy.setDueDate(datePicker.getValue());
-            dummy.setDone(radioYes.isSelected());
-            validateChanges();
-            validated = true;
-            stage.close();
+            if (!creation) {
+                dummy.setName(name.getText());
+                dummy.setDescription(description.getText());
+                dummy.setDueDate(datePicker.getValue());
+                dummy.setDone(radioYes.isSelected());
+                validateChanges();
+                validated = true;
+                stage.close();
+            } else{
+                if (name.getText().isEmpty()){
+                    GlobalData.newAlert("Veuillez renseigner un nom pour la tâche.");
+                }
+                else if (datePicker.getValue() == null){
+                    GlobalData.newAlert("Veuillez renseigner une date pour la tâche.");
+                }
+                else {
+                    if (task != null) task.addSubTasks(dummy);
+                    else GlobalData.tasks.addTasks(dummy);
+                    stage.close();
+                }
+            }
         });
 
         supprimer.setOnAction(e -> {

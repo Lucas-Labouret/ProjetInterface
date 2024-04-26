@@ -1,12 +1,18 @@
 package org.example.projetjardinage;
 
-import eu.hansolo.tilesfx.skins.RadialDistributionTileSkin;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+
 import org.example.projetjardinage.model.Species;
 import org.example.projetjardinage.model.Specimen;
 import org.example.projetjardinage.model.Task;
 import org.example.projetjardinage.model.TodoList;
 import org.example.projetjardinage.model.enregistreur.Lecteur;
+import org.example.projetjardinage.controller.utils.Alert;
 
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.*;
 
@@ -121,5 +127,18 @@ public class GlobalData {
             }
             addParents(task.getSubTasks());
         }
+    }
+
+    public static Alert newAlert(String msg) {
+        Stage stage = new Stage();
+        stage.initModality(Modality.APPLICATION_MODAL);
+
+        FXMLLoader loader = new FXMLLoader(GlobalData.class.getResource("/utils/Alert.fxml"));
+        Alert alert = new Alert(stage, msg);
+        loader.setController(alert);
+        try { stage.setScene(new Scene(loader.load())); }
+        catch (IOException e) { e.printStackTrace(); }
+        stage.show();
+        return alert;
     }
 }
