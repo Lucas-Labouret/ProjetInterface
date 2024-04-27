@@ -4,16 +4,15 @@ import javafx.beans.value.ChangeListener;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TitledPane;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.VBox;
 
-import javafx.stage.Stage;
 import org.example.projetjardinage.controller.Observer;
 import org.example.projetjardinage.model.Task;
+import org.example.projetjardinage.model.TodoList;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -25,6 +24,7 @@ public class RecursiveTask extends Observer {
     @FXML private TextArea description;
 
     private final Task task;
+    private final TodoList todoList;
     int depth;
     boolean open = false;
 
@@ -33,10 +33,11 @@ public class RecursiveTask extends Observer {
 
     private final ArrayList<RecursiveTask> recursiveTasks;
 
-    public RecursiveTask(Task task, int depth) {
+    public RecursiveTask(Task task, TodoList todoList,int depth) {
         recursiveTasks = new ArrayList<>();
         this.depth = depth;
         this.task = task;
+        this.todoList = todoList;
         this.subscribeTo(task);
     }
 
@@ -54,12 +55,12 @@ public class RecursiveTask extends Observer {
         pane.setOnMouseClicked(e -> {
             if (e.getButton() == MouseButton.SECONDARY) {
                 pane.setExpanded(true);
-                TaskPopUp.newTaskPopUp(task);
+                TaskPopUp.newTaskPopUp(task, todoList);
             }
         });
 
+        pane.setText(task.getName() + " - " + task.getDueDate().getDayOfMonth() + " " + task.getMonthName() + " " + task.getDueDate().getYear());
         check.setSelected(task.isDone());
-        pane.setText(task.getName());
         description.setText(task.getDescription());
 
         for (Task subTask : task.getSubTasks()) loadSubTask(subTask);
@@ -97,7 +98,7 @@ public class RecursiveTask extends Observer {
 
     private void loadSubTask(Task subTask) {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/utils/RecursiveTask.fxml"));
-        RecursiveTask recursiveTask = new RecursiveTask(subTask, depth + 1);
+        RecursiveTask recursiveTask = new RecursiveTask(subTask, todoList, depth + 1);
         loader.setController(recursiveTask);
         Parent view;
         try { view = loader.load(); }
@@ -128,8 +129,10 @@ public class RecursiveTask extends Observer {
             if (!knownTasks.contains(subTask)) loadSubTask(subTask);
         }
 
+        if (depth == 0) pane.setText(task.getName());
+        else pane.setText(task.getName() + " - " + task.getDueDate().getDayOfMonth() + " " + task.getMonthName() + " " + task.getDueDate().getYear());
+
         check.setSelected(task.isDone());
-        pane.setText(task.getName());
         description.setText(task.getDescription());
 
         TextArea description = (TextArea) box.getChildren().getFirst();

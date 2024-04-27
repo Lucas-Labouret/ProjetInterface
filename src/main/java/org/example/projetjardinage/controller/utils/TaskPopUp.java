@@ -16,6 +16,7 @@ import org.example.projetjardinage.model.Task;
 
 import javafx.fxml.FXML;
 import javafx.scene.layout.HBox;
+import org.example.projetjardinage.model.TodoList;
 
 import java.io.IOException;
 import java.time.LocalDate;
@@ -23,20 +24,20 @@ import java.time.format.DateTimeFormatter;
 import java.util.function.UnaryOperator;
 
 public class TaskPopUp {
-    public static TaskPopUp newTaskPopUp(Task task) {
-        return newTaskPopUp(new Stage(), task, false);
+    public static TaskPopUp newTaskPopUp(Task task, TodoList todoList) {
+        return newTaskPopUp(new Stage(), task, todoList, false);
     }
 
-    public static TaskPopUp newTaskPopUp(Stage stage, Task task) {
-        return newTaskPopUp(stage, task, false);
+    public static TaskPopUp newTaskPopUp(Stage stage, Task task, TodoList todoList) {
+        return newTaskPopUp(stage, task, todoList,false);
     }
 
-    public static TaskPopUp newTaskPopUp(Stage stage, Task task, boolean creation) {
+    public static TaskPopUp newTaskPopUp(Stage stage, Task task, TodoList todoList,boolean creation) {
         stage.initModality(Modality.WINDOW_MODAL);
         stage.initOwner(GlobalData.primaryStage);
 
         FXMLLoader loader = new FXMLLoader(TaskPopUp.class.getResource("/utils/TaskPopUp.fxml"));
-        TaskPopUp taskPopUp = new TaskPopUp(stage, task, creation);
+        TaskPopUp taskPopUp = new TaskPopUp(stage, task, todoList, creation);
         loader.setController(taskPopUp);
 
         Parent taskPopUpView = null;
@@ -52,10 +53,9 @@ public class TaskPopUp {
     }
 
     private final Task task;
+    private final TodoList todoList;
     private final Task dummy = new Task();
     private final Stage stage;
-
-    private boolean expandedOnce = false;
 
     private boolean creation = false;
     private boolean validated = false;
@@ -81,22 +81,11 @@ public class TaskPopUp {
     @FXML private Button supprimer;
     @FXML private Button valider;
 
-    public TaskPopUp(Stage stage, Task task, boolean creation) {
+    public TaskPopUp(Stage stage, Task task, TodoList todoList,boolean creation) {
         this.task = task;
+        this.todoList = todoList;
         this.stage = stage;
         this.creation = creation;
-        fillDummy();
-    }
-
-    public TaskPopUp(Stage stage, Task task) {
-        this.task = task;
-        this.stage = stage;
-        fillDummy();
-    }
-
-    public TaskPopUp(Stage stage) {
-        task = new Task();
-        this.stage = stage;
         fillDummy();
     }
 
@@ -204,34 +193,42 @@ public class TaskPopUp {
             dummy.setName(name.getText());
             dummy.setDescription(description.getText());
             dummy.setDueDate(datePicker.getValue());
-            dummy.setDone(radioYes.isSelected());
+            if (radioYes.isSelected()) dummy.setRecurrence(
+                    recField.getText().isEmpty() ? null : Integer.parseInt(recField.getText())
+            );
             validateChanges();
             validated = true;
 
             if (!creation) {
                 stage.close();
-            } else{
-                if (name.getText().isEmpty())
-                    Alert.newAlert("Veuillez renseigner un nom pour la tâche.");
-                else if (datePicker.getValue() == null)
-                    Alert.newAlert("Veuillez renseigner une date pour la tâche.");
+                return;
+            }
+
+            if (name.getText().isEmpty())
+                Alert.newAlert("Veuillez renseigner un nom pour la tâche.");
+            else if (datePicker.getValue() == null)
+                Alert.newAlert("Veuillez renseigner une date pour la tâche.");
+
+            else {
+                if (task.getParent() != null) task.getParent().addSubTasks(task);
                 else {
-                    if (task.getParent() != null) {
-                        task.getParent().addSubTasks(task);
-                    }
-                    else GlobalData.tasks.addTasks(task);
-                    stage.close();
+                    GlobalData.tasks.addTasks(task);
+                    if (todoList != GlobalData.tasks) todoList.addTasks(task);
                 }
+                stage.close();
             }
         });
 
         supprimer.setOnAction(e -> {
-            ValidationPrompt validationPrompt =
-                    ValidationPrompt.newValidationPrompt("Voulez-vous vraiment supprimer cette tâche ?");
+            ValidationPrompt validationPrompt = ValidationPrompt.newValidationPrompt(
+                    "Voulez-vous vraiment supprimer \""  + task.getName() + "\" ?"
+            );
             validationPrompt.getStage().setOnHidden(f -> {
                 if (validationPrompt.getResult()) {
-                    if (task.getParent() != null) task.getParent().removeSubTasks(task);
-                    else GlobalData.tasks.removeTasks(task);
+                    if (task.getParent() == null){
+                        GlobalData.tasks.removeTasks(task);
+                        todoList.removeTasks(task);
+                    } else task.getParent().removeSubTasks(task);
                     stage.close();
                 }
             });
@@ -241,7 +238,7 @@ public class TaskPopUp {
             Stage newStage = new Stage();
             Task newTask = new Task(task);
 
-            TaskPopUp taskPopUp = TaskPopUp.newTaskPopUp(newStage, newTask, true);
+            TaskPopUp taskPopUp = TaskPopUp.newTaskPopUp(newStage, newTask, todoList,true);
 
             newStage.setOnHidden(f -> {
                 if (taskPopUp.wasValidated()) {

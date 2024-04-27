@@ -166,7 +166,6 @@ public class GlobalData {
         );
 
         addParents(taches);
-
         tasks = new TodoList(taches);
     }
 

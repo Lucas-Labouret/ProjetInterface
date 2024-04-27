@@ -179,4 +179,24 @@ public class Task extends Observable {
         linkedSpecimens.removeAll(List.of(s));
         this.sendNotif();
     }
+
+    public String getMonthName() {
+        String month;
+        switch (this.getDueDate().getMonthValue()){
+            case 1 -> month = "Janvier";
+            case 2 -> month = "Février";
+            case 3 -> month = "Mars";
+            case 4 -> month = "Avril";
+            case 5 -> month = "Mai";
+            case 6 -> month = "Juin";
+            case 7 -> month = "Juillet";
+            case 8 -> month = "Août";
+            case 9 -> month = "Septembre";
+            case 10 -> month = "Octobre";
+            case 11 -> month = "Novembre";
+            case 12 -> month = "Décembre";
+            default -> throw new IllegalStateException("Unexpected value: " + this.getDueDate().getMonthValue());
+        }
+        return month;
+    }
 }

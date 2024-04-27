@@ -9,6 +9,7 @@ import javafx.scene.control.TitledPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import org.example.projetjardinage.GlobalData;
+import org.example.projetjardinage.controller.MainWindow;
 import org.example.projetjardinage.controller.Observer;
 import org.example.projetjardinage.controller.utils.RecursiveTask;
 import org.example.projetjardinage.controller.utils.TaskPopUp;
@@ -83,19 +84,18 @@ public class TodoListController extends Observer implements BodyController {
     private double lastWidth;
     private double lastHeight;
 
+    ArrayList<RecursiveTask> recursiveTasks;
+
     HashMap<MonthKey, Boolean> monthOpen = new HashMap<>();
     HashMap<DayKey, Boolean> dayOpen = new HashMap<>();
-
     HashMap<DayKey, ArrayList<RecursiveTask>> dayTasks = new HashMap<>();
 
     ArrayList<TitledPane> panes = new ArrayList<>();
 
-    public TodoListController() {
-        tasks = GlobalData.tasks;
-        this.subscribeTo(tasks);
+    public TodoListController(TodoList tasks) {
+        this.tasks = tasks;
+        this.subscribeTo(this.tasks);
     }
-
-    ArrayList<RecursiveTask> recursiveTasks;
 
     public void initialize() {
         collapse.setOnAction(e -> collapseClicked());
@@ -121,7 +121,7 @@ public class TodoListController extends Observer implements BodyController {
                 dayOpen.put(new DayKey(year, month, day), false);
             }
             DayKey dayKey = new DayKey(year, month, day);
-            RecursiveTask recursiveTask = new RecursiveTask(task, 0);
+            RecursiveTask recursiveTask = new RecursiveTask(task, tasks, 0);
             recursiveTasks.add(recursiveTask);
             dayTasks.putIfAbsent(dayKey, new ArrayList<>());
             dayTasks.get(dayKey).add(recursiveTask);
@@ -179,7 +179,7 @@ public class TodoListController extends Observer implements BodyController {
     private void addTask(){
         Stage newStage = new Stage();
         Task newTask = new Task(null);
-        TaskPopUp.newTaskPopUp(newStage, newTask, true);
+        TaskPopUp.newTaskPopUp(newStage, newTask, tasks,true);
     }
 
     public void update() {
@@ -191,8 +191,7 @@ public class TodoListController extends Observer implements BodyController {
         }
         for (Task task : tasks.getTasks()) {
             if (!knownTasks.contains(task)) {
-                RecursiveTask recursiveTask = new RecursiveTask(task, 0);
-                recursiveTask.updateSize(lastWidth, lastHeight);
+                RecursiveTask recursiveTask = new RecursiveTask(task, tasks, 0);
                 recursiveTasks.add(recursiveTask);
 
                 DayKey dayKey = new DayKey(
@@ -251,8 +250,10 @@ public class TodoListController extends Observer implements BodyController {
 
                 int tmpYear = year;
                 int tmpMonth = month;
-                ChangeListener<Boolean> openedListener =
-                        (observable, oldValue, newValue) -> monthPaneClicked(tmpYear, tmpMonth);
+                ChangeListener<Boolean> openedListener = (observable, oldValue, newValue) -> {
+                    monthPaneClicked(tmpYear, tmpMonth);
+                    collapse.setText("Tout réduire");
+                };
                 monthPane.expandedProperty().addListener(openedListener);
             }
             if (date.day != day) {

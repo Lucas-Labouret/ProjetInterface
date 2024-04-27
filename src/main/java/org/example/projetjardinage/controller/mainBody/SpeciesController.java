@@ -11,23 +11,16 @@ import org.example.projetjardinage.GlobalData;
 import org.example.projetjardinage.controller.utils.EspeceController;
 import org.example.projetjardinage.model.Species;
 import org.example.projetjardinage.model.Specimen;
+import org.example.projetjardinage.model.Task;
+import org.example.projetjardinage.model.TodoList;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class SpeciesController implements BodyController {
-
-
-    @FXML
-    private VBox VBox1;
-
-    @FXML
-    private VBox VBox2;
-
-    @FXML
-    private VBox VBox3;
-
-    Species species;
+    @FXML private VBox VBox1;
+    @FXML private VBox VBox2;
+    @FXML private VBox VBox3;
 
     @FXML private TextField name;
     @FXML private Button editName;
@@ -69,9 +62,10 @@ public class SpeciesController implements BodyController {
     @FXML private ScrollPane taskScrollPane;
 
 
+    private Species species;
     private List<Specimen> plantes ;
-
-    private List<EspeceController> controleurs = new ArrayList<EspeceController>();
+    private List<EspeceController> controleurs = new ArrayList<>();
+    private TodoListController todoListController;
 
     public SpeciesController(){}
 
@@ -107,27 +101,7 @@ public class SpeciesController implements BodyController {
             VBox2.getChildren().clear();
             VBox3.getChildren().clear();
             for (int i = 0; i < plantes.size(); i++) {
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/utils/Espece.fxml"));
-                EspeceController especeControler = new EspeceController(species, i);
-                controleurs.add(especeControler);
-                loader.setController(especeControler);
-                try {
-                    switch (i % 3) {
-                        case 0:
-                            VBox1.getChildren().add(loader.load());
-                            break;
-                        case 1:
-                            VBox2.getChildren().add(loader.load());
-                            break;
-                        case 2:
-                            VBox3.getChildren().add(loader.load());
-                            break;
-
-
-                    }
-                } catch (Exception ex) {
-                    ex.printStackTrace();
-                }
+                showGalleryImage(i, i);
             }
         });
         vivants.setOnAction(e ->{
@@ -137,27 +111,7 @@ public class SpeciesController implements BodyController {
             int x = 0;
             for (int i = 0; i < plantes.size(); i++) {
                 if (plantes.get(i).isAlive()) {
-                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/utils/Espece.fxml"));
-                    EspeceController especeControler = new EspeceController(species, i);
-                    controleurs.add(especeControler);
-                    loader.setController(especeControler);
-                    try {
-                        switch (x % 3) {
-                            case 0:
-                                VBox1.getChildren().add(loader.load());
-                                break;
-                            case 1:
-                                VBox2.getChildren().add(loader.load());
-                                break;
-                            case 2:
-                                VBox3.getChildren().add(loader.load());
-                                break;
-
-
-                        }
-                    } catch (Exception ex) {
-                        ex.printStackTrace();
-                    }
+                    showGalleryImage(i, x);
                     x++;
                 }
             }
@@ -170,27 +124,7 @@ public class SpeciesController implements BodyController {
             int x = 0;
             for (int i = 0; i < plantes.size(); i++) {
                 if (!plantes.get(i).isAlive()) {
-                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/utils/Espece.fxml"));
-                    EspeceController especeControler = new EspeceController(species, i);
-                    controleurs.add(especeControler);
-                    loader.setController(especeControler);
-                    try {
-                        switch (x % 3) {
-                            case 0:
-                                VBox1.getChildren().add(loader.load());
-                                break;
-                            case 1:
-                                VBox2.getChildren().add(loader.load());
-                                break;
-                            case 2:
-                                VBox3.getChildren().add(loader.load());
-                                break;
-
-
-                        }
-                    } catch (Exception ex) {
-                        ex.printStackTrace();
-                    }
+                    showGalleryImage(i, x);
                     x++;
                 }
             }
@@ -215,30 +149,51 @@ public class SpeciesController implements BodyController {
             heart.setText("♡");
         }
         this.plantes = species.getSpecimens();
-        for (int i = 0; i < plantes.size(); i++) {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/utils/Espece.fxml"));
-            EspeceController especeControler = new EspeceController(species, i);
-            controleurs.add(especeControler);
-            loader.setController(especeControler);
-            try {
-                switch (i % 3) {
-                    case 0:
-                        VBox1.getChildren().add(loader.load());
-                        break;
-                    case 1:
-                        VBox2.getChildren().add(loader.load());
-                        break;
-                    case 2:
-                        VBox3.getChildren().add(loader.load());
-                        break;
+        for (int i = 0; i < plantes.size(); i++) showGalleryImage(i, i);
 
+        TodoList todoList = new TodoList();
+        todoList.addFilter(t -> t.getLinkedSpecies().contains(this.species));
+        fillTodoList(todoList);
 
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
+        todoListController = new TodoListController(todoList);
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/mainBody/TodoListBody.fxml"));
+        loader.setController(todoListController);
+        try { taskScrollPane.setContent(loader.load()); }
+        catch (Exception e) { e.printStackTrace(); }
+    }
+
+    public void fillTodoList(TodoList todoList) {
+        ArrayList<Task> unexplored = new ArrayList<>();
+        for (Task task: GlobalData.tasks.getTasks()){
+            if (task.getLinkedSpecies().contains(this.species))
+                todoList.addTasks(task);
+            else unexplored.add(task);
+        }
+        _fillTodoList(todoList, unexplored);
+    }
+    private void _fillTodoList(TodoList todoList, List<Task> unexplored) {
+        ArrayList<Task> u = new ArrayList<>();
+        for (Task task: unexplored) for (Task subtask: task.getSubTasks()) {
+            if (subtask.getLinkedSpecies().contains(this.species))
+                todoList.addTasks(subtask);
+            else u.add(subtask);
+        }
+        if (!u.isEmpty()) _fillTodoList(todoList, u);
+    }
+
+    private void showGalleryImage(int i, int x){
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/utils/Espece.fxml"));
+        EspeceController especeControler = new EspeceController(species, i);
+        controleurs.add(especeControler);
+        loader.setController(especeControler);
+        try {
+            switch (x % 3) {
+                case 0 -> VBox1.getChildren().add(loader.load());
+                case 1 -> VBox2.getChildren().add(loader.load());
+                case 2 -> VBox3.getChildren().add(loader.load());
             }
-
-
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
@@ -376,5 +331,7 @@ public class SpeciesController implements BodyController {
         taskScrollPane.setLayoutY(180 + speciesImage.getFitHeight());
         taskScrollPane.setPrefWidth(width/3 - 40);
         taskScrollPane.setPrefHeight(height - speciesImage.getFitHeight() - 250);
+
+        todoListController.updateSize(Math.max(width/3 - 40, 600), height - speciesImage.getFitHeight() - 250);
     }
 }

@@ -68,15 +68,13 @@ public class EspeceController extends Observer {
         }
            espece.setOnMouseClicked(e -> {
             if (e.getClickCount() == 1 && specimen == -1) {
-                MainWindow.getInstance().switchController(MainWindow.Display.SPECIES);
                 MainWindow.getInstance().getSpeciesController().switchSpecies(species);
+                MainWindow.getInstance().switchController(MainWindow.Display.SPECIES);
 
 
             } else if (e.getClickCount() == 1) {
-                MainWindow.getInstance().switchController(MainWindow.Display.SPECIMEN);
-                System.out.println(specimen);
                 MainWindow.getInstance().getSpecimenController().switchSpecimen(species.getSpecimens().get(specimen));
-                System.out.println(specimen);
+                MainWindow.getInstance().switchController(MainWindow.Display.SPECIMEN);
             }
         });
     }
