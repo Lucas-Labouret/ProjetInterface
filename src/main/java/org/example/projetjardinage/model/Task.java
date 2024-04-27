@@ -76,6 +76,9 @@ public class Task {
     public void setNextDate(){
         this.dueDate = this.nextDate();
         this.done = false;
+        for(Task t :this.subTasks){
+            t.setNextDate();
+        }
     }
 
     public Task() {
