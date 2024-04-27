@@ -130,17 +130,4 @@ public class GlobalData {
             addParents(task.getSubTasks());
         }
     }
-
-    public static Alert newAlert(String msg) {
-        Stage stage = new Stage();
-        stage.initModality(Modality.APPLICATION_MODAL);
-
-        FXMLLoader loader = new FXMLLoader(GlobalData.class.getResource("/utils/Alert.fxml"));
-        Alert alert = new Alert(stage, msg);
-        loader.setController(alert);
-        try { stage.setScene(new Scene(loader.load())); }
-        catch (IOException e) { e.printStackTrace(); }
-        stage.show();
-        return alert;
-    }
 }

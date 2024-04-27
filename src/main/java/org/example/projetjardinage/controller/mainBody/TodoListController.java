@@ -15,6 +15,7 @@ import org.example.projetjardinage.controller.utils.TaskPopUp;
 import org.example.projetjardinage.model.Task;
 import org.example.projetjardinage.model.TodoList;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -79,6 +80,9 @@ public class TodoListController extends Observer implements BodyController {
     private final TodoList tasks;
     private boolean collapsed = false;
 
+    private double lastWidth;
+    private double lastHeight;
+
     HashMap<MonthKey, Boolean> monthOpen = new HashMap<>();
     HashMap<DayKey, Boolean> dayOpen = new HashMap<>();
 
@@ -116,11 +120,27 @@ public class TodoListController extends Observer implements BodyController {
 
                 dayOpen.put(new DayKey(year, month, day), false);
             }
-
+            DayKey dayKey = new DayKey(year, month, day);
             RecursiveTask recursiveTask = new RecursiveTask(task, 0);
             recursiveTasks.add(recursiveTask);
-            dayTasks.putIfAbsent(new DayKey(year, month, day), new ArrayList<>());
-            dayTasks.get(new DayKey(year, month, day)).add(recursiveTask);
+            dayTasks.putIfAbsent(dayKey, new ArrayList<>());
+            dayTasks.get(dayKey).add(recursiveTask);
+
+            ArrayList<DayKey> dates = new ArrayList<>(List.of(dayTasks.keySet().toArray(new DayKey[0])));
+            dates.sort(DayKey::compareTo);
+            DayKey now = new DayKey(
+                    LocalDate.now().getYear(),
+                    LocalDate.now().getMonthValue(),
+                    LocalDate.now().getDayOfMonth()
+            );
+            boolean expanded = false;
+            for (DayKey date: dates) {
+                if (!(dayTasks.get(date).isEmpty() || date.compareTo(now) < 0 || expanded)) {
+                    monthOpen.put(new MonthKey(date.year, date.month), true);
+                    dayOpen.put(new DayKey(date.year, date.month, date.day), true);
+                    expanded = true;
+                }
+            }
         }
 
         update();
@@ -172,6 +192,7 @@ public class TodoListController extends Observer implements BodyController {
         for (Task task : tasks.getTasks()) {
             if (!knownTasks.contains(task)) {
                 RecursiveTask recursiveTask = new RecursiveTask(task, 0);
+                recursiveTask.updateSize(lastWidth, lastHeight);
                 recursiveTasks.add(recursiveTask);
 
                 DayKey dayKey = new DayKey(
@@ -258,9 +279,12 @@ public class TodoListController extends Observer implements BodyController {
                 catch (Exception e) { e.printStackTrace(); }
             }
         }
+        updateSize(lastWidth, lastHeight);
     }
 
     public void updateSize(double width, double height) {
+        this.lastWidth = width;
+        this.lastHeight = height;
         scroll.setPrefSize(width, height - 90);
         mainBox.setPrefWidth(width);
 

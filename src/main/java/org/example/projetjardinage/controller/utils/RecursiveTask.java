@@ -4,16 +4,12 @@ import javafx.beans.value.ChangeListener;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TitledPane;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.VBox;
 
-import javafx.stage.Modality;
-import javafx.stage.Stage;
-import org.example.projetjardinage.GlobalData;
 import org.example.projetjardinage.controller.Observer;
 import org.example.projetjardinage.model.Task;
 
@@ -30,28 +26,24 @@ public class RecursiveTask extends Observer {
     int depth;
     boolean open = false;
 
-    private ArrayList<RecursiveTask> recursiveTasks;
+    double lastWidth;
+    double lastHeight;
+
+    private final ArrayList<RecursiveTask> recursiveTasks;
 
     public RecursiveTask(Task task, int depth) {
+        recursiveTasks = new ArrayList<>();
         this.depth = depth;
         this.task = task;
         this.subscribeTo(task);
-        System.out.println("Creating task " + task.getName());
-         if (task.getParent() != null) System.out.println(task.getName() + task.OBSERVERS + " " + this + " " + task.getParent().OBSERVERS);
-    }
-
-    public RecursiveTask(Task task, int depth, boolean open) {
-        this(task, depth);
-        this.open = open;
     }
 
     public Task getTask() { return task; }
 
     public void initialize() {
-        recursiveTasks = new ArrayList<>();
         pane.setExpanded(open);
 
-        check.setOnAction(e -> task.setDone(check.isSelected()));
+        check.setOnAction(e -> setDone());
 
         ChangeListener<Boolean> openedListener =
                 (observable, oldValue, newValue) -> open = newValue;
@@ -69,6 +61,23 @@ public class RecursiveTask extends Observer {
         description.setText(task.getDescription());
 
         for (Task subTask : task.getSubTasks()) loadSubTask(subTask);
+
+        updateSize(lastWidth, lastHeight);
+    }
+
+    public void setDone(){
+        if (!task.allSubTasksDone()) {
+            ValidationPrompt validationPrompt = ValidationPrompt.newValidationPrompt(
+                    "Il reste des sous-tâches non terminées. Si vous continuez, elles seront toutes marquées comme terminées."
+            );
+            validationPrompt.getStage().setOnHidden(e -> {
+                if (validationPrompt.getResult()) {
+                    task.setDone(true);
+                } else {
+                    check.setSelected(false);
+                }
+            });
+        }
     }
 
     public void recursivelyCollapse() {
@@ -99,6 +108,8 @@ public class RecursiveTask extends Observer {
     }
 
     public void updateSize(double width, double height) {
+        lastWidth = width;
+        lastHeight = height;
         pane.setPrefWidth(width - 80*depth - 120);
 
         for (RecursiveTask recursiveTask : recursiveTasks) {
@@ -107,8 +118,6 @@ public class RecursiveTask extends Observer {
     }
 
     public void update() {
-        System.out.println("Updating" + task.getName() + " " + task + " " + task.getParent());
-
         ArrayList<Task> knownTasks = new ArrayList<>();
         for (RecursiveTask recursiveTask : recursiveTasks) {
             knownTasks.add(recursiveTask.getTask());
@@ -128,11 +137,11 @@ public class RecursiveTask extends Observer {
         ArrayList<RecursiveTask> toRemove = new ArrayList<>();
         for (RecursiveTask recursiveTask : recursiveTasks) {
             if (!task.getSubTasks().contains(recursiveTask.getTask())) {
-                System.out.println("Removing task");
                 toRemove.add(recursiveTask);
             }
         }
         recursiveTasks.removeAll(toRemove);
+        recursiveTasks.remove(this);
 
         for (RecursiveTask recursiveTask: recursiveTasks) {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/utils/RecursiveTask.fxml"));
@@ -140,5 +149,6 @@ public class RecursiveTask extends Observer {
             try { box.getChildren().add(loader.load()); }
             catch (IOException e) { e.printStackTrace(); }
         }
+        updateSize(lastWidth, lastHeight);
     }
 }

@@ -32,7 +32,6 @@ public class EspeceController extends Observer {
     }
 
     public void initialize(){
-        System.out.println("hola");
         text.setText(species.getName());
         try {
             Paths.get(species.getProfilePicURL());

@@ -7,6 +7,7 @@ import javafx.scene.control.*;
 import javafx.scene.input.MouseButton;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.util.StringConverter;
 import org.example.projetjardinage.GlobalData;
 import org.example.projetjardinage.controller.MainWindow;
 import org.example.projetjardinage.model.Species;
@@ -17,6 +18,9 @@ import javafx.fxml.FXML;
 import javafx.scene.layout.HBox;
 
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.function.UnaryOperator;
 
 public class TaskPopUp {
     public static TaskPopUp newTaskPopUp(Task task) {
@@ -51,6 +55,8 @@ public class TaskPopUp {
     private final Task dummy = new Task();
     private final Stage stage;
 
+    private boolean expandedOnce = false;
+
     private boolean creation = false;
     private boolean validated = false;
 
@@ -68,6 +74,8 @@ public class TaskPopUp {
 
     @FXML private RadioButton radioNo;
     @FXML private RadioButton radioYes;
+    @FXML private TextField recField;
+    @FXML private Label recJours;
 
     @FXML private Button ajouter;
     @FXML private Button supprimer;
@@ -100,6 +108,7 @@ public class TaskPopUp {
         t2.setDone(t1.isDone());
         t2.addLinkedSpecies(t1.getLinkedSpecies().toArray(new Species[0]));
         t2.addLinkedSpecimens(t1.getLinkedSpecimens().toArray(new Specimen[0]));
+        t2.setRecurrence(t1.getRecurrence());
     }
 
     private void fillDummy() {
@@ -132,15 +141,44 @@ public class TaskPopUp {
             radioNo.setDisable(false);
         }
 
+        datePicker.setConverter(new StringConverter<LocalDate>() {
+            private final DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+            public String toString(LocalDate localDate) {
+                if (localDate == null) return "";
+                return dateTimeFormatter.format(localDate);
+            }
+            public LocalDate fromString(String dateString) {
+                if (dateString == null || dateString.trim().isEmpty()) return null;
+                return LocalDate.parse(dateString, dateTimeFormatter);
+            }
+        });
+
         ToggleGroup rec = new ToggleGroup();
         radioYes.setToggleGroup(rec);
         radioNo.setToggleGroup(rec);
-        radioNo.setSelected(true);
+        radioYes.setSelected(task.isRecurrente());
+        recJours.setVisible(task.isRecurrente());
+        recField.setVisible(task.isRecurrente());
+        recField.setText((task.getRecurrence() != null)? task.getRecurrence().toString() : "");
+        recField.setTextFormatter(new TextFormatter<>(change -> {
+            String text = change.getText();
+            if (text.matches("[0-9]*")) return change;
+            return null;
+        }));
+        rec.selectedToggleProperty().addListener((observable, oldValue, newValue) -> {
+            recJours.setVisible(radioYes.isSelected());
+            recField.setVisible(radioYes.isSelected());
+        });
+        recField.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue.isEmpty()) dummy.setRecurrence(Integer.parseInt(newValue));
+            else dummy.setRecurrence(null);
+        });
 
         for (Species species : dummy.getLinkedSpecies()) {
             Button button = getSpeciesButton(species);
             speciesZone.getChildren().add(button);
-
+        }
+        for (Species species : GlobalData.plantes) {
             MenuItem item = getSpeciesItem(species);
             speciesMenu.getItems().add(item);
         }
@@ -148,7 +186,8 @@ public class TaskPopUp {
         for (Specimen specimen : dummy.getLinkedSpecimens()) {
             Button button = getSpecimenButton(specimen);
             specimenZone.getChildren().add(button);
-
+        }
+        for (Species species : GlobalData.plantes) for (Specimen specimen : species.getSpecimens()){
             MenuItem item = getSpecimenItem(specimen);
             specimenMenu.getItems().add(item);
         }
@@ -172,15 +211,12 @@ public class TaskPopUp {
             if (!creation) {
                 stage.close();
             } else{
-                if (name.getText().isEmpty()){
-                    GlobalData.newAlert("Veuillez renseigner un nom pour la tâche.");
-                }
-                else if (datePicker.getValue() == null){
-                    GlobalData.newAlert("Veuillez renseigner une date pour la tâche.");
-                }
+                if (name.getText().isEmpty())
+                    Alert.newAlert("Veuillez renseigner un nom pour la tâche.");
+                else if (datePicker.getValue() == null)
+                    Alert.newAlert("Veuillez renseigner une date pour la tâche.");
                 else {
                     if (task.getParent() != null) {
-                        System.out.println("Parent not null");
                         task.getParent().addSubTasks(task);
                     }
                     else GlobalData.tasks.addTasks(task);
@@ -190,9 +226,15 @@ public class TaskPopUp {
         });
 
         supprimer.setOnAction(e -> {
-            if (task.getParent() != null) task.getParent().removeSubTasks(task);
-            else GlobalData.tasks.removeTasks(task);
-            stage.close();
+            ValidationPrompt validationPrompt =
+                    ValidationPrompt.newValidationPrompt("Voulez-vous vraiment supprimer cette tâche ?");
+            validationPrompt.getStage().setOnHidden(f -> {
+                if (validationPrompt.getResult()) {
+                    if (task.getParent() != null) task.getParent().removeSubTasks(task);
+                    else GlobalData.tasks.removeTasks(task);
+                    stage.close();
+                }
+            });
         });
 
         ajouter.setOnAction(e -> {
