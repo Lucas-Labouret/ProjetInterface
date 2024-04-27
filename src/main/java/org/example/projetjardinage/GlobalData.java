@@ -105,7 +105,7 @@ public class GlobalData {
                 while(task.isRec() && passe.isAfter(task.getDueDate())){
                     task.setNextDate();
                 }
-                if( !(Objects.equals(tas.get(4), "<N>") )) {
+                if(Objects.equals(tas.get(4), "<N>")) {
                     taches.add(task);
                 }
 
