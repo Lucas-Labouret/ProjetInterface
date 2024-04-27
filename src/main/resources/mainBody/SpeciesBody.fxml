@@ -7,19 +7,17 @@
 <?import javafx.scene.shape.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="560.0" prefWidth="560.0" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.projetjardinage.controller.mainBody.SpeciesController">
+<AnchorPane prefHeight="560.0" prefWidth="560.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.projetjardinage.controller.mainBody.SpeciesController">
    <Button fx:id="editName" alignment="CENTER" contentDisplay="CENTER" ellipsisString="" layoutX="196.0" layoutY="32.0" mnemonicParsing="false" prefHeight="16.0" prefWidth="16.0" text="editer nom">
       <font>
          <Font size="1.0" />
       </font>
       <graphic>
          <ImageView fitHeight="18.0" fitWidth="10.0" opacity="0.61" pickOnBounds="true" preserveRatio="true">
-            <image>
-               <Image url="@../icons/outil-crayon.png" />
-            </image>
             <effect>
                <Blend mode="DARKEN" />
             </effect>
+            <Image url="@../icons/outil-crayon.png" />
          </ImageView>
       </graphic>
    </Button>
@@ -29,9 +27,7 @@
       </font>
    </TextField>
    <ImageView fx:id="speciesImage" fitHeight="88.0" fitWidth="153.0" layoutX="435.0" layoutY="11.0" pickOnBounds="true" preserveRatio="true">
-      <image>
-         <Image url="@../icons/267203.png" />
-      </image>
+      <Image url="@../icons/267203.png" />
    </ImageView>
    <GridPane fx:id="mesuresPanel" layoutX="435.0" layoutY="116.0" prefHeight="88.0" prefWidth="153.0">
       <columnConstraints>
@@ -43,12 +39,10 @@
          <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
          <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
       </rowConstraints>
-      <children>
-         <Label fx:id="mesure1" text="Label" />
-         <Label fx:id="mesure2" text="Label" GridPane.rowIndex="1" />
-         <Label fx:id="mesure3" text="Label" GridPane.rowIndex="2" />
-         <Label fx:id="mesure4" text="Label" GridPane.rowIndex="3" />
-      </children>
+      <Label fx:id="mesure1" text="Label" />
+      <Label fx:id="mesure2" text="Label" GridPane.rowIndex="1" />
+      <Label fx:id="mesure3" text="Label" GridPane.rowIndex="2" />
+      <Label fx:id="mesure4" text="Label" GridPane.rowIndex="3" />
    </GridPane>
    <Button fx:id="mesuresEdit" alignment="CENTER" contentDisplay="CENTER" ellipsisString="" layoutX="536.0" layoutY="184.0" mnemonicParsing="false" prefHeight="18.0" prefWidth="22.0" text="editer mesures">
       <font>
@@ -56,12 +50,10 @@
       </font>
       <graphic>
          <ImageView fitHeight="15.0" fitWidth="10.0" opacity="0.61" pickOnBounds="true" preserveRatio="true">
-            <image>
-               <Image url="@../icons/outil-crayon.png" />
-            </image>
             <effect>
                <Blend mode="DARKEN" />
             </effect>
+            <Image url="@../icons/outil-crayon.png" />
          </ImageView>
       </graphic>
    </Button>
@@ -73,22 +65,20 @@
       </font>
       <graphic>
          <ImageView fitHeight="15.0" fitWidth="9.0" opacity="0.61" pickOnBounds="true" preserveRatio="true">
-            <image>
-               <Image url="@../icons/outil-crayon.png" />
-            </image>
             <effect>
                <Blend mode="DARKEN" />
             </effect>
+            <Image url="@../icons/outil-crayon.png" />
          </ImageView>
       </graphic>
    </Button>
    <TextField fx:id="nbSpecimen" editable="false" layoutX="57.0" layoutY="75.0" prefHeight="25.0" prefWidth="126.0" text="nombre specimens" />
    <Label fx:id="moyenneLabel" layoutX="33.0" layoutY="116.0" text="Mesures moyennes :" />
-   <Button fx:id="addTask" alignment="CENTER" ellipsisString="" layoutX="435.0" layoutY="216.0" mnemonicParsing="false" prefHeight="66.0" prefWidth="126.0" text="Ajouter tâche">
+   <Label fx:id="todoListLabel" alignment="CENTER" ellipsisString="" layoutX="435.0" layoutY="216.0" mnemonicParsing="false" prefHeight="66.0" prefWidth="126.0" text="Todo List">
       <font>
          <Font size="14.0" />
       </font>
-   </Button>
+   </Label>
    <GridPane fx:id="moyennePanel" layoutX="180.0" layoutY="105.0" prefHeight="88.0" prefWidth="153.0">
       <columnConstraints>
          <ColumnConstraints hgrow="SOMETIMES" maxWidth="182.8" minWidth="0.0" prefWidth="89.4" />
@@ -98,22 +88,17 @@
          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
       </rowConstraints>
-      <children>
-         <Label fx:id="moyenne1" text="Label" />
-         <Label fx:id="moyenne2" text="Label" GridPane.rowIndex="1" />
-         <Label fx:id="moyenne3" text="Label" GridPane.rowIndex="2" />
-      </children>
+      <Label fx:id="moyenne1" text="Label" />
+      <Label fx:id="moyenne2" text="Label" GridPane.rowIndex="1" />
+      <Label fx:id="moyenne3" text="Label" GridPane.rowIndex="2" />
    </GridPane>
    <ScrollPane fx:id="galleryScrollPane" layoutX="52.0" layoutY="367.0" prefHeight="177.0" prefWidth="366.0">
-      <content>
-         <HBox prefHeight="174.0" prefWidth="363.0">
-            <children>
-               <VBox fx:id="VBox1" prefHeight="200.0" prefWidth="150.0" />
-               <VBox fx:id="VBox2" prefHeight="200.0" prefWidth="150.0" />
-               <VBox fx:id="VBox3" prefHeight="200.0" prefWidth="150.0" />
-            </children>
-         </HBox>
-      </content></ScrollPane>
+      <HBox prefHeight="174.0" prefWidth="363.0">
+         <VBox fx:id="VBox1" prefHeight="200.0" prefWidth="150.0" />
+         <VBox fx:id="VBox2" prefHeight="200.0" prefWidth="150.0" />
+         <VBox fx:id="VBox3" prefHeight="200.0" prefWidth="150.0" />
+      </HBox>
+   </ScrollPane>
    <Button fx:id="tous" layoutX="78.0" layoutY="323.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="74.0" text="Tous" />
    <Button fx:id="vivants" layoutX="162.0" layoutY="322.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="73.0" text="Vivants" />
    <Button fx:id="morts" layoutX="243.0" layoutY="322.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="74.0" text="Morts" />
@@ -126,9 +111,7 @@
    <Button fx:id="addSpecimen" layoutX="226.0" layoutY="75.0" mnemonicParsing="false" text="+" />
    <Line fx:id="sepLine" endX="5.0" endY="150.0" layoutX="420.0" layoutY="367.0" startX="5.0" startY="-353.0" />
    <ScrollPane fx:id="taskScrollPane" layoutX="435.0" layoutY="290.0" prefHeight="252.0" prefWidth="147.0">
-      <content>
-         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0" />
-      </content>
+      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0" />
    </ScrollPane>
    <Button fx:id="heart" layoutX="304.0" layoutY="28.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="28.0" text="Button">
       <font>

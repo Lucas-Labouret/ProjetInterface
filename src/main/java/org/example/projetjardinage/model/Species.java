@@ -21,6 +21,10 @@ public class Species extends Observable {
 
     private PlageMesure mesuresPoss;
 
+    public Species(String name) {
+        this.name = name;
+    }
+
     public Species(List<String> elem){
         this.name = elem.get(0);
         this.oldName = elem.get(0);

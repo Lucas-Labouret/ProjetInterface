@@ -1,25 +1,21 @@
 package org.example.projetjardinage;
 
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+import org.example.projetjardinage.model.Lists.ObservableList;
 import org.example.projetjardinage.model.Species;
 import org.example.projetjardinage.model.Specimen;
 import org.example.projetjardinage.model.Task;
-import org.example.projetjardinage.model.TodoList;
+import org.example.projetjardinage.model.Lists.TodoList;
 import org.example.projetjardinage.model.enregistreur.Lecteur;
-import org.example.projetjardinage.controller.utils.Alert;
 
-import java.io.IOException;
 import java.time.LocalDate;
 import java.util.*;
 
 public class GlobalData {
     private GlobalData(){} //static class
 
-    public static List<Species> plantes;
+    public static ObservableList<Species> species;
     public static TodoList tasks;
 
     public static HashMap<String , String> vieuxnoms , nomsvieux;
@@ -27,7 +23,7 @@ public class GlobalData {
     public static Stage primaryStage;
 
     public static void recuperrageDesDonnees(String path){
-        plantes = new ArrayList<>();
+        ArrayList<Species> plantes = new ArrayList<>();
         ArrayList<Task> taches = new ArrayList<>();
         Lecteur lec = new Lecteur(path);
         List<List<String>> donnees;
@@ -167,6 +163,7 @@ public class GlobalData {
 
         addParents(taches);
         tasks = new TodoList(taches);
+        species = new ObservableList<>(plantes);
     }
 
     private static void addParents(List<Task> tasks) {

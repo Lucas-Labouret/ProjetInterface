@@ -37,7 +37,7 @@ public class EspeceController extends Observer {
     private int specimen = -1;
 
     public EspeceController(int i) {;
-        this.species = GlobalData.plantes.get(i);
+        this.species = GlobalData.species.get(i);
         this.especeid = i;
         this.subscribeTo(species);
     }

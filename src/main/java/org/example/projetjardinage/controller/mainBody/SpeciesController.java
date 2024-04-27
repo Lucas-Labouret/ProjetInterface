@@ -12,7 +12,7 @@ import org.example.projetjardinage.controller.utils.EspeceController;
 import org.example.projetjardinage.model.Species;
 import org.example.projetjardinage.model.Specimen;
 import org.example.projetjardinage.model.Task;
-import org.example.projetjardinage.model.TodoList;
+import org.example.projetjardinage.model.Lists.TodoList;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -58,7 +58,7 @@ public class SpeciesController implements BodyController {
     @FXML private Label mesure4;
     @FXML private Button mesuresEdit;
 
-    @FXML private Button addTask;
+    @FXML private Label todoListLabel;
     @FXML private ScrollPane taskScrollPane;
 
 
@@ -73,7 +73,7 @@ public class SpeciesController implements BodyController {
         editName.setOnAction(e -> {
             name.setEditable(!name.isEditable());
         });
-        name.setOnKeyReleased(e -> {
+        name.textProperty().addListener(e -> {
             species.setName(name.getText());
         });
 
@@ -164,9 +164,9 @@ public class SpeciesController implements BodyController {
 
     public void fillTodoList(TodoList todoList) {
         ArrayList<Task> unexplored = new ArrayList<>();
-        for (Task task: GlobalData.tasks.getTasks()){
+        for (Task task: GlobalData.tasks.getElements()){
             if (task.getLinkedSpecies().contains(this.species))
-                todoList.addTasks(task);
+                todoList.add(task);
             else unexplored.add(task);
         }
         _fillTodoList(todoList, unexplored);
@@ -175,7 +175,7 @@ public class SpeciesController implements BodyController {
         ArrayList<Task> u = new ArrayList<>();
         for (Task task: unexplored) for (Task subtask: task.getSubTasks()) {
             if (subtask.getLinkedSpecies().contains(this.species))
-                todoList.addTasks(subtask);
+                todoList.add(subtask);
             else u.add(subtask);
         }
         if (!u.isEmpty()) _fillTodoList(todoList, u);
@@ -273,7 +273,7 @@ public class SpeciesController implements BodyController {
         mesuresEdit.setPrefWidth(20);
         mesuresEdit.setPrefHeight(20);
 
-        addTask.setPrefHeight(30);
+        todoListLabel.setPrefHeight(30);
     }
 
     public void updateSize(double width, double height) {
@@ -323,9 +323,9 @@ public class SpeciesController implements BodyController {
         mesuresEdit.setLayoutX(offset + width - 40);
         mesuresEdit.setLayoutY(40 + speciesImage.getFitHeight());
 
-        addTask.setLayoutX(offset + 2*width/3 + 20);
-        addTask.setLayoutY(140 + speciesImage.getFitHeight());
-        addTask.setPrefWidth(width/3 - 40);
+        todoListLabel.setLayoutX(offset + 2*width/3 + 20);
+        todoListLabel.setLayoutY(140 + speciesImage.getFitHeight());
+        todoListLabel.setPrefWidth(width/3 - 40);
 
         taskScrollPane.setLayoutX(offset + 2*width/3 +20);
         taskScrollPane.setLayoutY(180 + speciesImage.getFitHeight());

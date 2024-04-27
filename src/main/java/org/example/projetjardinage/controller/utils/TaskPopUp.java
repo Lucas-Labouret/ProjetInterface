@@ -16,12 +16,11 @@ import org.example.projetjardinage.model.Task;
 
 import javafx.fxml.FXML;
 import javafx.scene.layout.HBox;
-import org.example.projetjardinage.model.TodoList;
+import org.example.projetjardinage.model.Lists.TodoList;
 
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.function.UnaryOperator;
 
 public class TaskPopUp {
     public static TaskPopUp newTaskPopUp(Task task, TodoList todoList) {
@@ -167,7 +166,7 @@ public class TaskPopUp {
             Button button = getSpeciesButton(species);
             speciesZone.getChildren().add(button);
         }
-        for (Species species : GlobalData.plantes) {
+        for (Species species : GlobalData.species.getElements()) {
             MenuItem item = getSpeciesItem(species);
             speciesMenu.getItems().add(item);
         }
@@ -176,7 +175,7 @@ public class TaskPopUp {
             Button button = getSpecimenButton(specimen);
             specimenZone.getChildren().add(button);
         }
-        for (Species species : GlobalData.plantes) for (Specimen specimen : species.getSpecimens()){
+        for (Species species : GlobalData.species.getElements()) for (Specimen specimen : species.getSpecimens()){
             MenuItem item = getSpecimenItem(specimen);
             specimenMenu.getItems().add(item);
         }
@@ -212,8 +211,8 @@ public class TaskPopUp {
             else {
                 if (task.getParent() != null) task.getParent().addSubTasks(task);
                 else {
-                    GlobalData.tasks.addTasks(task);
-                    if (todoList != GlobalData.tasks) todoList.addTasks(task);
+                    GlobalData.tasks.add(task);
+                    if (todoList != GlobalData.tasks) todoList.add(task);
                 }
                 stage.close();
             }

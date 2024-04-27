@@ -62,11 +62,11 @@ public class App extends Application {
     }
 
     private void renameDirectories(){
-        for (int i = 0; i < GlobalData.plantes.size(); i++) {
-            for (int j = 0; j < GlobalData.plantes.get(i).getSpecimens().size(); j++) {
+        for (int i = 0; i < GlobalData.species.size(); i++) {
+            for (int j = 0; j < GlobalData.species.get(i).getSpecimens().size(); j++) {
                 Path absolutePath = FileSystems.getDefault().getPath(
-                        "src/main/resources/galerie/"+GlobalData.plantes.get(i).getOldName()+
-                                "/"+GlobalData.plantes.get(i).getSpecimens().get(j).getOldName()
+                        "src/main/resources/galerie/"+GlobalData.species.get(i).getOldName()+
+                                "/"+GlobalData.species.get(i).getSpecimens().get(j).getOldName()
                 ).toAbsolutePath();
 
                 char [] a = absolutePath.toString().toCharArray();
@@ -83,7 +83,7 @@ public class App extends Application {
                 System.out.println(ancienDossier + "");
 
                 File nouveauDossier = new File(
-                        ancienDossier.getParentFile(), GlobalData.plantes.get(i).getSpecimens().get(j).getName()
+                        ancienDossier.getParentFile(), GlobalData.species.get(i).getSpecimens().get(j).getName()
                 );
 
                 System.out.println(nouveauDossier + "");
@@ -96,7 +96,7 @@ public class App extends Application {
             }
 
             Path absolutePath = FileSystems.getDefault().getPath(
-                    "src/main/resources/galerie/"+GlobalData.plantes.get(i).getOldName()
+                    "src/main/resources/galerie/"+GlobalData.species.get(i).getOldName()
             ).toAbsolutePath();
             //Path absolutePath = FileSystems.getDefault().getPath("src/main/resources/galerie/Kougoro").toAbsolutePath();
 
@@ -119,7 +119,7 @@ public class App extends Application {
             File ancienDossier = new File(t);
             System.out.println(ancienDossier + "");
 
-            File nouveauDossier = new File(ancienDossier.getParentFile(), GlobalData.plantes.get(i).getName());
+            File nouveauDossier = new File(ancienDossier.getParentFile(), GlobalData.species.get(i).getName());
 
             System.out.println(nouveauDossier + "");
 

@@ -12,7 +12,7 @@ import javafx.scene.layout.VBox;
 
 import org.example.projetjardinage.controller.Observer;
 import org.example.projetjardinage.model.Task;
-import org.example.projetjardinage.model.TodoList;
+import org.example.projetjardinage.model.Lists.TodoList;
 
 import java.io.IOException;
 import java.util.ArrayList;

@@ -8,13 +8,11 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TitledPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import org.example.projetjardinage.GlobalData;
-import org.example.projetjardinage.controller.MainWindow;
 import org.example.projetjardinage.controller.Observer;
 import org.example.projetjardinage.controller.utils.RecursiveTask;
 import org.example.projetjardinage.controller.utils.TaskPopUp;
 import org.example.projetjardinage.model.Task;
-import org.example.projetjardinage.model.TodoList;
+import org.example.projetjardinage.model.Lists.TodoList;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -106,7 +104,7 @@ public class TodoListController extends Observer implements BodyController {
         Integer day = null;
         Integer month = null;
         Integer year = null;
-        for (Task task : tasks.getTasks()) {
+        for (Task task : tasks.getElements()) {
             if (year == null || task.getDueDate().getYear() != year || task.getDueDate().getMonthValue() != month) {
                 day = -1;
 
@@ -189,7 +187,7 @@ public class TodoListController extends Observer implements BodyController {
         for (RecursiveTask recursiveTask : recursiveTasks) {
             knownTasks.add(recursiveTask.getTask());
         }
-        for (Task task : tasks.getTasks()) {
+        for (Task task : tasks.getElements()) {
             if (!knownTasks.contains(task)) {
                 RecursiveTask recursiveTask = new RecursiveTask(task, tasks, 0);
                 recursiveTasks.add(recursiveTask);
@@ -224,7 +222,7 @@ public class TodoListController extends Observer implements BodyController {
         for (DayKey date: dates) {
             ArrayList<RecursiveTask> toRemove = new ArrayList<>();
             for (RecursiveTask recursiveTask : dayTasks.get(date)) {
-                if (!tasks.getTasks().contains(recursiveTask.getTask())) {
+                if (!tasks.getElements().contains(recursiveTask.getTask())) {
                     toRemove.add(recursiveTask);
                 }
             }
