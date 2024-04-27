@@ -43,6 +43,7 @@ public class App extends Application {
         Scene scene = new Scene(root);
 
         MainWindow mainWindow = fxmlLoader.getController();
+        mainWindow.updateWindowSize(primaryStage.getWidth(), primaryStage.getHeight());
         ChangeListener<Number> stageSizeListener =
                 (observable, oldValue, newValue) ->
                 mainWindow.updateWindowSize(primaryStage.getWidth(), primaryStage.getHeight());
@@ -56,6 +57,7 @@ public class App extends Application {
         primaryStage.setScene(scene);
         primaryStage.show();
 
+        GlobalData.primaryStage = primaryStage;
         primaryStage.setOnHidden(e -> renameDirectories());
     }
 

@@ -1,12 +1,18 @@
 package org.example.projetjardinage;
 
-import eu.hansolo.tilesfx.skins.RadialDistributionTileSkin;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+
 import org.example.projetjardinage.model.Species;
 import org.example.projetjardinage.model.Specimen;
 import org.example.projetjardinage.model.Task;
 import org.example.projetjardinage.model.TodoList;
 import org.example.projetjardinage.model.enregistreur.Lecteur;
+import org.example.projetjardinage.controller.utils.Alert;
 
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.*;
 
@@ -17,6 +23,8 @@ public class GlobalData {
     public static TodoList tasks;
 
     public static HashMap<String , String> vieuxnoms , nomsvieux;
+
+    public static Stage primaryStage;
 
     public static void recuperrageDesDonnees(String path){
         plantes = new ArrayList<>();
@@ -39,7 +47,6 @@ public class GlobalData {
         Map<String, Specimen> indexSpecimen = new HashMap<>();
 
         for (List<String> spe : donnees) {
-
             Species esp = plantes.get(indexPlantes.get(spe.get(4)));
             List<List<String>> journ = new ArrayList<>();
             int nbEntree = Integer.parseInt(spe.get(7));
@@ -63,7 +70,7 @@ public class GlobalData {
         for(List<String> tas : donnees) {
             List<Species> esp = new ArrayList<>();
             List<Specimen> spe = new ArrayList<>();
-            //ajout des especes  
+            //ajout des especes
             int nbEsp = Integer.parseInt(tas.get(6));
             for (int i = 0; i <nbEsp; i++){
                 Species current = plantes.get(indexPlantes.get(tas.get(7+i)));
@@ -81,7 +88,7 @@ public class GlobalData {
             if( !(Objects.equals(tas.get(4), "<N>") )) {
                 surTache = indexTask.get(tas.get(4));
             }
-             
+
 
             Task task = new Task(tas, esp, spe, surTache);
             LocalDate hui = LocalDate.now();
@@ -169,5 +176,4 @@ public class GlobalData {
             addParents(task.getSubTasks());
         }
     }
-
 }

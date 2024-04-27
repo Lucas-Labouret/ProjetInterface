@@ -24,51 +24,37 @@ public class RecursiveTask extends Observer {
     @FXML private VBox box;
     @FXML private TextArea description;
 
-    private Task task;
+    private final Task task;
     int depth;
     boolean open = false;
 
-    private ArrayList<RecursiveTask> recursiveTasks;
+    double lastWidth;
+    double lastHeight;
+
+    private final ArrayList<RecursiveTask> recursiveTasks;
 
     public RecursiveTask(Task task, int depth) {
+        recursiveTasks = new ArrayList<>();
         this.depth = depth;
         this.task = task;
         this.subscribeTo(task);
     }
 
-    public RecursiveTask(Task task, int depth, boolean open) {
-        this(task, depth);
-        this.open = open;
-    }
-
     public Task getTask() { return task; }
 
     public void initialize() {
-        recursiveTasks = new ArrayList<>();
         pane.setExpanded(open);
 
-        check.setOnAction(e -> task.setDone(check.isSelected()));
+        check.setOnAction(e -> setDone());
 
         ChangeListener<Boolean> openedListener =
-                (observable, oldValue, newValue) -> open = !open;
+                (observable, oldValue, newValue) -> open = newValue;
         pane.expandedProperty().addListener(openedListener);
 
         pane.setOnMouseClicked(e -> {
             if (e.getButton() == MouseButton.SECONDARY) {
-                Stage stage = new Stage();
-
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/utils/TaskPopUp.fxml"));
-                TaskPopUp taskPopUp = new TaskPopUp(stage, task);
-                loader.setController(taskPopUp);
-
-                Parent taskPopUpView = null;
-                try { taskPopUpView = loader.load(); }
-                catch (IOException ex) { ex.printStackTrace(); }
-                if (taskPopUpView == null) throw new AssertionError();
-
-                Scene scene = new Scene(taskPopUpView);
-                stage.setScene(scene);
-                stage.show();
+                pane.setExpanded(true);
+                TaskPopUp.newTaskPopUp(task);
             }
         });
 
@@ -76,22 +62,56 @@ public class RecursiveTask extends Observer {
         pane.setText(task.getName());
         description.setText(task.getDescription());
 
-        for (Task subTask : task.getSubTasks()) {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/utils/RecursiveTask.fxml"));
-            RecursiveTask recursiveTask = new RecursiveTask(subTask, depth + 1);
-            loader.setController(recursiveTask);
-            Parent view;
-            try { view = loader.load(); }
-            catch (IOException e) {
-                e.printStackTrace();
-                continue;
-            }
-            recursiveTasks.add(recursiveTask);
-            box.getChildren().add(view);
+        for (Task subTask : task.getSubTasks()) loadSubTask(subTask);
+
+        updateSize(lastWidth, lastHeight);
+    }
+
+    public void setDone(){
+        if (!task.allSubTasksDone()) {
+            ValidationPrompt validationPrompt = ValidationPrompt.newValidationPrompt(
+                    "Il reste des sous-tâches non terminées. Si vous continuez, elles seront toutes marquées comme terminées."
+            );
+            validationPrompt.getStage().setOnHidden(e -> {
+                if (validationPrompt.getResult()) {
+                    task.setDone(true);
+                } else {
+                    check.setSelected(false);
+                }
+            });
         }
     }
 
+    public void recursivelyCollapse() {
+        pane.setExpanded(false);
+        for (RecursiveTask recursiveTask : recursiveTasks) {
+            recursiveTask.recursivelyCollapse();
+        }
+    }
+    public void recursivelyExpand() {
+        pane.setExpanded(true);
+        for (RecursiveTask recursiveTask : recursiveTasks) {
+            recursiveTask.recursivelyExpand();
+        }
+    }
+
+    private void loadSubTask(Task subTask) {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/utils/RecursiveTask.fxml"));
+        RecursiveTask recursiveTask = new RecursiveTask(subTask, depth + 1);
+        loader.setController(recursiveTask);
+        Parent view;
+        try { view = loader.load(); }
+        catch (IOException e) {
+            e.printStackTrace();
+            return;
+        }
+        recursiveTasks.add(recursiveTask);
+        box.getChildren().add(view);
+    }
+
     public void updateSize(double width, double height) {
+        lastWidth = width;
+        lastHeight = height;
         pane.setPrefWidth(width - 80*depth - 120);
 
         for (RecursiveTask recursiveTask : recursiveTasks) {
@@ -100,7 +120,13 @@ public class RecursiveTask extends Observer {
     }
 
     public void update() {
-        System.out.println("Updating" + task.getName() + " " + task + " " + task.getParent());
+        ArrayList<Task> knownTasks = new ArrayList<>();
+        for (RecursiveTask recursiveTask : recursiveTasks) {
+            knownTasks.add(recursiveTask.getTask());
+        }
+        for (Task subTask : task.getSubTasks()) {
+            if (!knownTasks.contains(subTask)) loadSubTask(subTask);
+        }
 
         check.setSelected(task.isDone());
         pane.setText(task.getName());
@@ -113,7 +139,6 @@ public class RecursiveTask extends Observer {
         ArrayList<RecursiveTask> toRemove = new ArrayList<>();
         for (RecursiveTask recursiveTask : recursiveTasks) {
             if (!task.getSubTasks().contains(recursiveTask.getTask())) {
-                System.out.println("Removing task");
                 toRemove.add(recursiveTask);
             }
         }
@@ -125,5 +150,6 @@ public class RecursiveTask extends Observer {
             try { box.getChildren().add(loader.load()); }
             catch (IOException e) { e.printStackTrace(); }
         }
+        updateSize(lastWidth, lastHeight);
     }
 }

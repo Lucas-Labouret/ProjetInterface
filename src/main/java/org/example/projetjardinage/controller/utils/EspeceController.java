@@ -78,7 +78,7 @@ public class EspeceController extends Observer {
                 MainWindow.getInstance().getSpecimenController().switchSpecimen(species.getSpecimens().get(specimen));
                 System.out.println(specimen);
             }
-           });
+        });
     }
 
     public void update() {

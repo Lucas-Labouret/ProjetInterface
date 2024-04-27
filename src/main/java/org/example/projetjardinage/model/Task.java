@@ -1,5 +1,7 @@
 package org.example.projetjardinage.model;
 
+import org.example.projetjardinage.controller.utils.RecursiveTask;
+
 import java.time.LocalDate;
 import java.time.Month;
 import java.util.ArrayList;
@@ -13,7 +15,7 @@ public class Task extends Observable {
     private Task parent;
     private boolean done;
 
-    private int recurrence;
+    private Integer recurrence = null;
     private final List<Task> subTasks = new ArrayList<>();
 
     private final List<Specimen> linkedSpecimens = new ArrayList<>();
@@ -118,11 +120,30 @@ public class Task extends Observable {
         this.sendNotif();
     }
 
+    public boolean allSubTasksDone() {
+        if (this.isDone()) return true;
+        for (Task subTask : subTasks)
+            if (!subTask.isDone()) return false;
+        return true;
+    }
+
     public boolean isDone() {
         return done;
     }
     public void setDone(boolean done) {
-        this.done = done;
+        if (done) {
+            this.done = true;
+            for (Task t : subTasks) {
+                t.setDone(true);
+            }
+        } else this.done = false;
+        this.sendNotif();
+    }
+
+    public boolean isRecurrente() { return recurrence != null; }
+    public Integer getRecurrence() { return recurrence; }
+    public void setRecurrence(Integer recurrence) {
+        this.recurrence = recurrence;
         this.sendNotif();
     }
 
