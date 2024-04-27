@@ -105,8 +105,10 @@ public class GlobalData {
                 while(task.isRec() && passe.isAfter(task.getDueDate())){
                     task.setNextDate();
                 }
+                if( !(Objects.equals(tas.get(4), "<N>") )) {
+                    taches.add(task);
+                }
 
-                taches.add(task);
                 indexTask.put(task.getName(), task);
 
                 //ajout dans les especes
