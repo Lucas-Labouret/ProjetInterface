@@ -129,12 +129,14 @@ public class TaskPopUp {
             radioNo.setDisable(false);
         }
 
-        datePicker.setConverter(new StringConverter<LocalDate>() {
+        datePicker.setConverter(new StringConverter<>() {
             private final DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
             public String toString(LocalDate localDate) {
                 if (localDate == null) return "";
                 return dateTimeFormatter.format(localDate);
             }
+
             public LocalDate fromString(String dateString) {
                 if (dateString == null || dateString.trim().isEmpty()) return null;
                 return LocalDate.parse(dateString, dateTimeFormatter);
@@ -255,10 +257,6 @@ public class TaskPopUp {
     private Button getSpeciesButton(Species species) {
         Button button = new Button(species.getName());
         button.setOnMouseClicked(e -> {
-            if (e.getClickCount() == 2) {
-                stage.close();
-                MainWindow.getInstance().switchController(MainWindow.Display.SPECIES);
-            }
             if (e.getButton() == MouseButton.SECONDARY) {
                 dummy.removeLinkedSpecies(species);
                 speciesZone.getChildren().remove(button);
@@ -270,8 +268,10 @@ public class TaskPopUp {
     private MenuItem getSpeciesItem(Species species) {
         MenuItem item = new MenuItem(species.getName());
         item.setOnAction(e -> {
-            dummy.addLinkedSpecies(species);
-            speciesZone.getChildren().add(getSpeciesButton(species));
+            if (!dummy.getLinkedSpecies().contains(species)) {
+                dummy.addLinkedSpecies(species);
+                speciesZone.getChildren().add(getSpeciesButton(species));
+            }
         });
         return item;
     }

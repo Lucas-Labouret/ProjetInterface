@@ -19,7 +19,7 @@ import java.util.ArrayList;
 
 public class App extends Application {
     private final int minWidth = 600;
-    private final int minHeight = 450;
+    private final int minHeight = 600;
 
     public static void main(String[] args) {
         String test = "test.txt";
