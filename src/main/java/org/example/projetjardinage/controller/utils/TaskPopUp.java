@@ -182,12 +182,15 @@ public class TaskPopUp {
             specimenMenu.getItems().add(item);
         }
 
+        editButton.setText("✎");
         editButton.setOnAction(e -> {
             name.setEditable(!name.isEditable());
             description.setEditable(!description.isEditable());
             datePicker.setDisable(!datePicker.isDisabled());
             radioYes.setDisable(!radioYes.isDisabled());
             radioNo.setDisable(!radioNo.isDisabled());
+            recField.setEditable(!recField.isEditable());
+            editButton.setText(name.isEditable() ? "✔" : "✎");
         });
 
         valider.setOnAction(e -> {

@@ -27,6 +27,10 @@ public class ObservableList<T> extends Observable {
     public List<T> getElements() { return elements; }
     public T get(int i) { return elements.get(i); }
 
+    public boolean contains(T species) {
+        return elements.contains(species);
+    }
+
     public void add(T... elements) {
         for (T element : elements) {
             boolean skip = false;

@@ -8,6 +8,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.scene.layout.HBox;
 import javafx.scene.shape.Line;
 import org.example.projetjardinage.GlobalData;
 import org.example.projetjardinage.controller.Observer;
@@ -32,7 +33,7 @@ public class SpeciesController extends Observer implements BodyController {
         }
 
         public EspeceController getController() { return controller; }
-        public Parent getLoader() { return view; }
+        public Parent getView() { return view; }
     }
 
     @FXML private VBox vBoxGallery;
@@ -64,6 +65,7 @@ public class SpeciesController extends Observer implements BodyController {
 
     @FXML private Line sepLine;
 
+    @FXML private HBox imageBox;
     @FXML private ImageView speciesImage;
 
     @FXML private GridPane mesuresPanel;
@@ -77,65 +79,65 @@ public class SpeciesController extends Observer implements BodyController {
     @FXML private Pane taskPane;
 
     private Species species;
-    private ObservableList<Specimen> plantes ;
+    private ObservableList<Specimen> specimens;
     private ArrayList<ViewControllerPair> viewControllerPairs = new ArrayList<>();
     private TodoListController todoListController;
+
+    private boolean alive = false;
+    private boolean dead = false;
 
     public SpeciesController(){}
 
     public void initialize(){
+        editName.setText("✎");
         editName.setOnAction(e -> {
             name.setEditable(!name.isEditable());
+            editName.setText(name.isEditable() ? "✔" : "✎");
         });
         name.textProperty().addListener(e -> {
             species.setName(name.getText());
         });
 
+        nbSpecimen.setOnMouseEntered(e -> {
+            int nbVivant = 0;
+            int nbMort = 0;
+            for (Specimen s : specimens.getElements()) {
+                if (s.isAlive()) nbVivant++;
+                else nbMort++;
+            }
+            nbSpecimen.setText(nbVivant + " vivants, " + nbMort + " morts");
+        });
+        nbSpecimen.setOnMouseExited(e -> {
+            nbSpecimen.setText(specimens.size() + " spécimens");
+        });
+        editNotes.setText("✎");
         editNotes.setOnAction(e -> {
             notes.setEditable(!notes.isEditable());
-
+            editNotes.setText(notes.isEditable() ? "✔" : "✎");
         });
-
         notes.setOnKeyTyped(e -> {
             species.setNotes(notes.getText());
         });
-
         heart.setOnAction(e -> {
             species.setFavorite(!species.getFavorite());
-            if(species.getFavorite()){
-                heart.setText("♥");
-            }
-            if(!species.getFavorite()){
-                heart.setText("♡");
-            }
+            heart.setText(species.getFavorite() ? "♥" : "♡");
         });
 
         tous.setOnAction(e ->{
-            vBoxGallery.getChildren().clear();
-            for (int i = 0; i < plantes.size(); i++) {
-                showGalleryImage(i);
-            }
+            alive = false;
+            dead = false;
+            update();
         });
         vivants.setOnAction(e ->{
-            vBoxGallery.getChildren().clear();
-            int x = 0;
-            for (int i = 0; i < plantes.size(); i++) {
-                if (plantes.get(i).isAlive()) {
-                    showGalleryImage(i);
-                    x++;
-                }
-            }
+            alive = true;
+            dead = false;
+            update();
         });
 
         morts.setOnAction(e ->{
-            vBoxGallery.getChildren().clear();
-            int x = 0;
-            for (int i = 0; i < plantes.size(); i++) {
-                if (!plantes.get(i).isAlive()) {
-                    showGalleryImage(i);
-                    x++;
-                }
-            }
+            alive = false;
+            dead = true;
+            update();
         });
         recherche.textProperty().addListener(e -> {
             update();
@@ -150,17 +152,14 @@ public class SpeciesController extends Observer implements BodyController {
         species = s;
 
         name.setText(s.getName());
-        nbSpecimen.setText(String.valueOf(species.getSpecimens().size()));
+        nbSpecimen.setText(species.getSpecimens().size() + " spécimens");
         notes.setText(species.getNotes());
-        if(species.getFavorite()){
-            heart.setText("♥");
-        }
-        if(!species.getFavorite()){
-            heart.setText("♡");
-        }
-        this.plantes = new ObservableList<>(species.getSpecimens());
-        this.subscribeTo(plantes);
-        for (int i = 0; i < plantes.size(); i++) showGalleryImage(i);
+        heart.setText(species.getFavorite() ? "♥" : "♡");
+
+        try { this.unsubscribeFrom(specimens); }
+        catch (NullPointerException ignored) {}
+        this.specimens = new ObservableList<>(species.getSpecimens());
+        this.subscribeTo(specimens);
 
         TodoList todoList = new TodoList();
         todoList.addFilter(t -> t.getLinkedSpecies().contains(this.species));
@@ -172,6 +171,8 @@ public class SpeciesController extends Observer implements BodyController {
         taskPane.getChildren().clear();
         try { taskPane.getChildren().add(loader.load()); }
         catch (Exception e) { e.printStackTrace(); }
+
+        update();
     }
 
     public void fillTodoList(TodoList todoList) {
@@ -193,7 +194,7 @@ public class SpeciesController extends Observer implements BodyController {
         if (!u.isEmpty()) _fillTodoList(todoList, u);
     }
 
-    private void showGalleryImage(int i){
+    private void loadImage(int i){
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/utils/Espece.fxml"));
         EspeceController especeControler = new EspeceController(species, i);
         loader.setController(especeControler);
@@ -206,7 +207,31 @@ public class SpeciesController extends Observer implements BodyController {
 
     public void update(){
         vBoxGallery.getChildren().clear();
-        //TODO: SpeciesController.update()
+
+        ArrayList<Specimen> knownSpecimens = new ArrayList<>();
+        for (ViewControllerPair pair : viewControllerPairs) knownSpecimens.add(pair.getController().getSpecimen());
+        for (int i = 0; i < specimens.size(); i++) {
+            if (!knownSpecimens.contains(specimens.get(i))) {
+                loadImage(i);
+            }
+        }
+
+        ArrayList<ViewControllerPair> toRemove = new ArrayList<>();
+        for (ViewControllerPair pair : viewControllerPairs) {
+            if (!specimens.contains(pair.getController().getSpecimen())) {
+                toRemove.add(pair);
+            }
+        }
+        for (ViewControllerPair pair : toRemove) {
+            viewControllerPairs.remove(pair);
+        }
+
+        for(ViewControllerPair pair : viewControllerPairs) {
+            if (alive && !pair.getController().getSpecimen().isAlive()) continue;
+            if (dead && pair.getController().getSpecimen().isAlive()) continue;
+            if (!pair.getController().getSpecimen().getName().toLowerCase().contains(recherche.getText().toLowerCase())) continue;
+            vBoxGallery.getChildren().add(pair.getView());
+        }
     }
 
     private void reposition(double offset){
@@ -297,8 +322,6 @@ public class SpeciesController extends Observer implements BodyController {
 
         nbSpecimen.setPrefWidth(width/3);
 
-        addSpecimen.setLayoutX(offset + width/3 + 30);
-
         notes.setPrefWidth(2*width/3 - 40);
         notes.setPrefHeight(height/4);
 
@@ -311,8 +334,9 @@ public class SpeciesController extends Observer implements BodyController {
         sepLine.setLayoutX(offset + 2*width/3);
         sepLine.setEndY(height);
 
-        speciesImage.setLayoutX(offset + 2*width/3 + 20);
-        speciesImage.setFitWidth(width/3 - 40);
+        imageBox.setLayoutX(offset + 2*width/3 + 20);
+        imageBox.setPrefWidth(width/3 - 40);
+        imageBox.setLayoutY(20);
 
         mesuresPanel.setLayoutX(offset + 2*width/3 + 20);
         mesuresPanel.setLayoutY(40 + speciesImage.getFitHeight());
@@ -322,8 +346,11 @@ public class SpeciesController extends Observer implements BodyController {
         mesuresEdit.setLayoutY(40 + speciesImage.getFitHeight());
 
         galleryLabel.setLayoutX(offset + 2*width/3 + 20);
-        galleryLabel.setLayoutY(140 + speciesImage.getFitHeight());
+        galleryLabel.setLayoutY(130 + speciesImage.getFitHeight());
         galleryLabel.setPrefWidth(width/3 - 40);
+
+        addSpecimen.setLayoutX(offset + width - 50);
+        addSpecimen.setLayoutY(130 + speciesImage.getFitHeight());
 
         tous.setLayoutY(160 + speciesImage.getFitHeight());
         tous.setLayoutX(offset + 2*width/3 + 20);
@@ -343,12 +370,11 @@ public class SpeciesController extends Observer implements BodyController {
 
         galleryScrollPane.setLayoutY(250 + speciesImage.getFitHeight());
         galleryScrollPane.setPrefWidth(width/3 - 40);
-        galleryScrollPane.setPrefHeight(height - speciesImage.getFitHeight() - 250);
+        galleryScrollPane.setPrefHeight(height - speciesImage.getFitHeight() - 320);
         galleryScrollPane.setLayoutX(offset + 2*width/3 + 20);
 
-        todoListController.updateSize(2*width/3 - 40, 3*height/4 - 280);
-    }
+        vBoxGallery.setPrefWidth(width/3 - 40);
 
-    public void tmp(double width, double height, double offset){
+        todoListController.updateSize(2*width/3 - 40, 3*height/4 - 280);
     }
 }

@@ -114,6 +114,7 @@ public class RecursiveTask extends Observer {
         lastWidth = width;
         lastHeight = height;
         pane.setPrefWidth(width - 80*depth - 120);
+        description.setPrefWidth(width - 80*depth - 160);
 
         for (RecursiveTask recursiveTask : recursiveTasks) {
             recursiveTask.updateSize(width, height);

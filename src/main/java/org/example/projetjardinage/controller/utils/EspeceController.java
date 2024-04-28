@@ -81,6 +81,7 @@ public class EspeceController extends Observer {
     public Specimen getSpecimen() { return species.getSpecimens().get(specimen); }
 
     public void update() {
-        text.setText(species.getName());
+        if ( specimen == -1 ) text.setText(species.getName());
+        else text.setText(species.getSpecimens().get(specimen).getName());
     }
 }

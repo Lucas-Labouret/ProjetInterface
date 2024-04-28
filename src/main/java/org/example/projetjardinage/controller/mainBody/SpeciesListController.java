@@ -83,7 +83,6 @@ public class SpeciesListController extends Observer implements BodyController{
     }
 
     public void update() {
-        //TODO: gérer la suppression des plantes
         mainPanel.getChildren().clear();
         vBoxes.clear();
 
@@ -100,6 +99,16 @@ public class SpeciesListController extends Observer implements BodyController{
             if (!knownPlants.contains(plantes.get(i))) {
                 loadImage(i, 0);
             }
+        }
+
+        ArrayList<SpeciesViewPair> toRemove = new ArrayList<>();
+        for (SpeciesViewPair pair : controllerViewPairs) {
+            if (!plantes.contains(pair.getSpecies())) {
+                toRemove.add(pair);
+            }
+        }
+        for (SpeciesViewPair pair : toRemove) {
+            controllerViewPairs.remove(pair);
         }
 
         int x = 0;
