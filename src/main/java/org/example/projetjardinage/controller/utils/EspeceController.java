@@ -14,6 +14,7 @@ import org.example.projetjardinage.GlobalData;
 import org.example.projetjardinage.controller.MainWindow;
 import org.example.projetjardinage.controller.Observer;
 import org.example.projetjardinage.model.Species;
+import org.example.projetjardinage.model.Specimen;
 
 import java.io.IOException;
 import java.nio.file.InvalidPathException;
@@ -70,14 +71,14 @@ public class EspeceController extends Observer {
             if (e.getClickCount() == 1 && specimen == -1) {
                 MainWindow.getInstance().getSpeciesController().switchSpecies(species);
                 MainWindow.getInstance().switchController(MainWindow.Display.SPECIES);
-
-
             } else if (e.getClickCount() == 1) {
                 MainWindow.getInstance().getSpecimenController().switchSpecimen(species.getSpecimens().get(specimen));
                 MainWindow.getInstance().switchController(MainWindow.Display.SPECIMEN);
             }
         });
     }
+
+    public Specimen getSpecimen() { return species.getSpecimens().get(specimen); }
 
     public void update() {
         text.setText(species.getName());

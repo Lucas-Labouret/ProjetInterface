@@ -83,6 +83,7 @@ public class SpeciesListController extends Observer implements BodyController{
     }
 
     public void update() {
+        //TODO: gérer la suppression des plantes
         mainPanel.getChildren().clear();
         vBoxes.clear();
 

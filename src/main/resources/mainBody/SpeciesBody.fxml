@@ -74,11 +74,7 @@
    </Button>
    <TextField fx:id="nbSpecimen" editable="false" layoutX="57.0" layoutY="75.0" prefHeight="25.0" prefWidth="126.0" text="nombre specimens" />
    <Label fx:id="moyenneLabel" layoutX="33.0" layoutY="116.0" text="Mesures moyennes :" />
-   <Label fx:id="todoListLabel" alignment="CENTER" ellipsisString="" layoutX="435.0" layoutY="216.0" mnemonicParsing="false" prefHeight="66.0" prefWidth="126.0" text="Todo List">
-      <font>
-         <Font size="14.0" />
-      </font>
-   </Label>
+   <Label fx:id="todoListLabel" ellipsisString="" layoutX="435.0" layoutY="216.0" mnemonicParsing="false" prefHeight="66.0" prefWidth="126.0" text="Todo List" />
    <GridPane fx:id="moyennePanel" layoutX="180.0" layoutY="105.0" prefHeight="88.0" prefWidth="153.0">
       <columnConstraints>
          <ColumnConstraints hgrow="SOMETIMES" maxWidth="182.8" minWidth="0.0" prefWidth="89.4" />
@@ -94,25 +90,17 @@
    </GridPane>
    <ScrollPane fx:id="galleryScrollPane" layoutX="52.0" layoutY="367.0" prefHeight="177.0" prefWidth="366.0">
       <HBox prefHeight="174.0" prefWidth="363.0">
-         <VBox fx:id="VBox1" prefHeight="200.0" prefWidth="150.0" />
-         <VBox fx:id="VBox2" prefHeight="200.0" prefWidth="150.0" />
-         <VBox fx:id="VBox3" prefHeight="200.0" prefWidth="150.0" />
+         <VBox fx:id="vBoxGallery" alignment="TOP_CENTER" />
       </HBox>
    </ScrollPane>
    <Button fx:id="tous" layoutX="78.0" layoutY="323.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="74.0" text="Tous" />
    <Button fx:id="vivants" layoutX="162.0" layoutY="322.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="73.0" text="Vivants" />
    <Button fx:id="morts" layoutX="243.0" layoutY="322.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="74.0" text="Morts" />
-   <Label fx:id="galleryLabel" layoutX="22.0" layoutY="325.0" prefHeight="26.0" prefWidth="59.0" text="Galerie">
-      <font>
-         <Font size="16.0" />
-      </font>
-   </Label>
+   <Label fx:id="galleryLabel" alignment="CENTER" layoutX="22.0" layoutY="325.0" prefHeight="26.0" prefWidth="59.0" text="Specimens" />
    <TextField fx:id="recherche" layoutX="323.0" layoutY="326.0" prefHeight="26.0" prefWidth="97.0" promptText="Rechercher" />
    <Button fx:id="addSpecimen" layoutX="226.0" layoutY="75.0" mnemonicParsing="false" text="+" />
    <Line fx:id="sepLine" endX="5.0" endY="150.0" layoutX="420.0" layoutY="367.0" startX="5.0" startY="-353.0" />
-   <ScrollPane fx:id="taskScrollPane" layoutX="435.0" layoutY="290.0" prefHeight="252.0" prefWidth="147.0">
-      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0" />
-   </ScrollPane>
+   <Pane fx:id="taskPane" layoutX="435.0" layoutY="290.0" prefHeight="252.0" prefWidth="147.0" style="-fx-border-color: lightgrey;" />
    <Button fx:id="heart" layoutX="304.0" layoutY="28.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="28.0" text="Button">
       <font>
          <Font size="16.0" />

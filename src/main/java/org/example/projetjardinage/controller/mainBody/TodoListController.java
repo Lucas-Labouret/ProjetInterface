@@ -4,6 +4,7 @@ import javafx.beans.value.ChangeListener;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TitledPane;
 import javafx.scene.layout.VBox;
@@ -11,6 +12,8 @@ import javafx.stage.Stage;
 import org.example.projetjardinage.controller.Observer;
 import org.example.projetjardinage.controller.utils.RecursiveTask;
 import org.example.projetjardinage.controller.utils.TaskPopUp;
+import org.example.projetjardinage.model.Species;
+import org.example.projetjardinage.model.Specimen;
 import org.example.projetjardinage.model.Task;
 import org.example.projetjardinage.model.Lists.TodoList;
 
@@ -73,11 +76,16 @@ public class TodoListController extends Observer implements BodyController {
 
     @FXML private Button collapse;
     @FXML private Button add;
+    @FXML Label help;
     @FXML private ScrollPane scroll;
     @FXML private VBox mainBox;
 
     private final TodoList tasks;
     private boolean collapsed = false;
+    private boolean showHelp = true;
+
+    private Species species = null;
+    private Specimen specimen = null;
 
     private double lastWidth;
     private double lastHeight;
@@ -95,9 +103,22 @@ public class TodoListController extends Observer implements BodyController {
         this.subscribeTo(this.tasks);
     }
 
+    public TodoListController(TodoList tasks, Species species, boolean showHelp) {
+        this(tasks);
+        this.species = species;
+        this.showHelp = showHelp;
+    }
+
+    public TodoListController(TodoList tasks, Specimen specimen, boolean showHelp) {
+        this(tasks);
+        this.specimen = specimen;
+        this.showHelp = showHelp;
+    }
+
     public void initialize() {
         collapse.setOnAction(e -> collapseClicked());
         add.setOnAction(e -> addTask());
+        help.setVisible(showHelp);
 
         recursiveTasks = new ArrayList<>();
 
@@ -140,7 +161,6 @@ public class TodoListController extends Observer implements BodyController {
                 }
             }
         }
-
         update();
     }
 
@@ -178,6 +198,10 @@ public class TodoListController extends Observer implements BodyController {
         Stage newStage = new Stage();
         Task newTask = new Task(null);
         TaskPopUp.newTaskPopUp(newStage, newTask, tasks,true);
+        if (species != null && !newTask.getLinkedSpecies().contains(species))
+            newTask.getLinkedSpecies().add(species);
+        if (specimen != null && !newTask.getLinkedSpecimens().contains(specimen))
+            newTask.getLinkedSpecimens().add(specimen);
     }
 
     public void update() {
