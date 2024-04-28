@@ -348,4 +348,7 @@ public class SpeciesController extends Observer implements BodyController {
 
         todoListController.updateSize(2*width/3 - 40, 3*height/4 - 280);
     }
+
+    public void tmp(double width, double height, double offset){
+    }
 }
