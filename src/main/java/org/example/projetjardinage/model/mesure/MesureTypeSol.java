@@ -1,30 +1,28 @@
 package org.example.projetjardinage.model.mesure;
 
+import java.util.ArrayList;
 import java.util.Objects;
 
 public class MesureTypeSol extends Mesure {
-    public enum Type {
-        Argile, Calcaire, Caillouteux
+    private ArrayList<String> types = new ArrayList<>();
+
+    private String type;
+
+    public MesureTypeSol(){
     }
 
-    private Type type;
-
-    public MesureTypeSol(){this.type = Type.Caillouteux;}
-    public MesureTypeSol(Type type){
+    public MesureTypeSol(ArrayList<String> types, String type){
+        this.types = types;
+        if (!types.contains(type)) throw new IllegalArgumentException("Type invalid");
         this.type = type;
     }
 
-    public MesureTypeSol(String val){ this.setTypeLect(val);}
-
-    public Type getType() { return type; }
-    public void setType(Type type) { this.type = type; }
-
-    public void setTypeLect(String type){
-        switch (type) {
-            case "Ar" -> this.type = Type.Argile;
-            case "Co" -> this.type = Type.Caillouteux;
-            case "Ca" -> this.type = Type.Calcaire;
-            default -> System.out.println("Erreur typage du sol a la lecture");
-        }
+    public String getType() { return type; }
+    public void setType(String type) {
+        if (!types.contains(type)) throw new IllegalArgumentException("Type invalid");
+        this.type = type;
     }
+
+    public ArrayList<String> getTypes() { return types; }
+    public void setTypes(ArrayList<String> types) { this.types = types; }
 }

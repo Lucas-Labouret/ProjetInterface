@@ -30,6 +30,7 @@ public class Specimen {
         this.name = name;
         this.alive = true;
         this.miseEnTerre = miseEnTerre;
+        this.journal = new Journal();
     }
 
     public Specimen(List<String> elem, Species spe, List<List<String>> journ){
@@ -56,6 +57,10 @@ public class Specimen {
 
     public Species getSpecies() {
         return species;
+    }
+
+    public Journal getJournal() {
+        return journal;
     }
 
     public PlageMesure getMesuresPoss(){

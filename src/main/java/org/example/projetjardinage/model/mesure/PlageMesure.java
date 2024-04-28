@@ -10,15 +10,15 @@ public class PlageMesure {
     private List<InfoMesure> mesures = new ArrayList<>();
 
     public PlageMesure(){
-        this.condition.add(new InfoMesure("Exposition", TypeMesure.Exposition, ""));
-        this.condition.add(new InfoMesure("Arrosage", TypeMesure.Arrosage, ""));
-        this.condition.add(new InfoMesure("Type de sol", TypeMesure.TypeSol, ""));
-        this.condition.add(new InfoMesure("Espace au sol", TypeMesure.Numerique, "cm2"));
-        this.condition.add(new InfoMesure("Ph", TypeMesure.Numerique, ""));
+        this.condition.add(new InfoMesure("Exposition", TypeMesure.Scale, ""));
+        this.condition.add(new InfoMesure("Arrosage", TypeMesure.Scale, ""));
+        this.condition.add(new InfoMesure("Type de sol", TypeMesure.List, ""));
+        this.condition.add(new InfoMesure("Espace au sol", TypeMesure.Numeric, "cm2"));
+        this.condition.add(new InfoMesure("Ph", TypeMesure.Numeric, ""));
         this.condition.add(new InfoMesure("En terre", TypeMesure.Bool, ""));
 
-        this.mesures.add(new InfoMesure("Hauteur", TypeMesure.Numerique, "cm"));
-        this.mesures.add(new InfoMesure("Largeur", TypeMesure.Numerique, "cm"));
+        this.mesures.add(new InfoMesure("Hauteur", TypeMesure.Numeric, "cm"));
+        this.mesures.add(new InfoMesure("Largeur", TypeMesure.Numeric, "cm"));
         for(InfoMesure m : this.getAll()){
             this.noms.add(m.getName());
         }

@@ -1,16 +1,16 @@
 package org.example.projetjardinage.model.mesure;
 
-public class MesureArrosage extends Mesure {
+public class MesureScale extends Mesure {
     public enum Niveau { A1, A2, A3, A4 }
 
     private Niveau niveau;
 
-    public MesureArrosage(){this.niveau = Niveau.A4;}
-    public MesureArrosage(Niveau niveau) {
+    public MesureScale(){this.niveau = Niveau.A4;}
+    public MesureScale(Niveau niveau) {
         this.niveau = niveau;
     }
 
-    public MesureArrosage(String val){ this.setNiveauLect(val);}
+    public MesureScale(String val){ this.setNiveauLect(val);}
 
     public Niveau getNiveau(){ return niveau; }
     public void setNiveau(Niveau niveau) { this.niveau = niveau; }

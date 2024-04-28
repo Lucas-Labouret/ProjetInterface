@@ -15,8 +15,8 @@ public class InfoMesure {
         this.name = name;
         this.unit = unit;
         switch (type) {
-            case "N" -> this.type = TypeMesure.Numerique;
-            case "T" -> this.type = TypeMesure.Texte;
+            case "N" -> this.type = TypeMesure.Numeric;
+            case "T" -> this.type = TypeMesure.Text;
             case "B" -> this.type = TypeMesure.Bool;
             default -> System.out.println("Erreur constructeur InfoMesure");
         }

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane fx:id="text" prefHeight="40.0" prefWidth="315.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1">
+   <Slider fx:id="slider" layoutX="123.0" layoutY="6.0" prefHeight="16.0" prefWidth="184.0" showTickLabels="true" snapToTicks="true" AnchorPane.leftAnchor="120.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0" />
+   <Label fx:id="name" layoutX="14.0" layoutY="8.0" text="name" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="210.0" AnchorPane.topAnchor="0.0" />
+</AnchorPane>

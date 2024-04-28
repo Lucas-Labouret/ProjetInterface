@@ -16,11 +16,10 @@ public class MesureHolder {
         Mesure mes;
         switch(info.getType()) {
             case Bool -> mes = new MesureBool(val);
-            case Exposition -> mes = new MesureExposition(val);
-            case Arrosage -> mes = new MesureArrosage(val);
-            case Numerique -> mes = new MesureNumerique((float)Integer.parseInt(val),info.getUnit()) ;
-            case Texte -> mes = new MesureTexte(val) ;
-            case TypeSol -> mes = new MesureTypeSol(val);
+            case Scale -> mes = new MesureScale(val);
+            case Numeric -> mes = new MesureNumerique((float)Integer.parseInt(val),info.getUnit()) ;
+            case Text -> mes = new MesureTexte(val) ;
+            case List -> mes = new MesureTypeSol(val);
             default -> {
                 mes = new MesureTexte(val);
                 System.out.println("Erreur constructeur MesureHolder");
@@ -32,7 +31,7 @@ public class MesureHolder {
 
     public static MesureHolder newMesureTexte(String name, String texte){
         Mesure mesure = new MesureTexte(texte);
-        return new MesureHolder(name, TypeMesure.Texte, mesure);
+        return new MesureHolder(name, TypeMesure.Text, mesure);
     }
 
     public static MesureHolder newMesureBool(String name, boolean value){
@@ -42,22 +41,17 @@ public class MesureHolder {
 
     public static MesureHolder newMesureNumerique(String name, Float value, String unit){
         Mesure mesure = new MesureNumerique(value, unit);
-        return new MesureHolder(name, TypeMesure.Numerique, mesure);
+        return new MesureHolder(name, TypeMesure.Numeric, mesure);
     }
 
     public static MesureHolder newMesureTypeSol(String name, MesureTypeSol.Type type) {
         Mesure mesure = new MesureTypeSol(type);
-        return new MesureHolder(name, TypeMesure.TypeSol, mesure);
+        return new MesureHolder(name, TypeMesure.List, mesure);
     }
 
-    public static MesureHolder newMesureArrosage(String name, MesureArrosage.Niveau niveau){
-        Mesure mesure = new MesureArrosage(niveau);
-        return new MesureHolder(name, TypeMesure.Arrosage, mesure);
-    }
-
-    public static MesureHolder newMesureExposition(String name, MesureExposition.Force force){
-        Mesure mesure = new MesureExposition(force);
-        return new MesureHolder(name, TypeMesure.Exposition, mesure);
+    public static MesureHolder newMesureArrosage(String name, MesureScale.Niveau niveau){
+        Mesure mesure = new MesureScale(niveau);
+        return new MesureHolder(name, TypeMesure.Scale, mesure);
     }
 
     public String getName() { return name; }
