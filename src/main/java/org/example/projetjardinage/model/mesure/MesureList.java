@@ -1,17 +1,26 @@
 package org.example.projetjardinage.model.mesure;
 
 import java.util.ArrayList;
-import java.util.Objects;
+import java.util.List;
 
-public class MesureTypeSol extends Mesure {
+public class MesureList extends Mesure {
     private ArrayList<String> types = new ArrayList<>();
-
     private String type;
 
-    public MesureTypeSol(){
+    public MesureList(String types){
+        ArrayList<String> typesList = new ArrayList<>(List.of(types.split("<SEP>")));
+        String type = typesList.getLast();
+        typesList.removeLast();
+        this.types = typesList;
+        this.setType(type);
     }
 
-    public MesureTypeSol(ArrayList<String> types, String type){
+    public MesureList(ArrayList<String> types){
+        this.types = types;
+        this.type = types.getFirst();
+    }
+
+    public MesureList(ArrayList<String> types, String type){
         this.types = types;
         if (!types.contains(type)) throw new IllegalArgumentException("Type invalid");
         this.type = type;

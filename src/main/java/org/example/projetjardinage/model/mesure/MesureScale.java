@@ -1,31 +1,34 @@
 package org.example.projetjardinage.model.mesure;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class MesureScale extends Mesure {
-    public enum Niveau { A1, A2, A3, A4 }
+    private int niveau;
+    private int min;
+    private int max;
 
-    private Niveau niveau;
-
-    public MesureScale(){this.niveau = Niveau.A4;}
-    public MesureScale(Niveau niveau) {
+    public MesureScale(int niveau, int min, int max){
         this.niveau = niveau;
+        this.min = min;
+        this.max = max;
     }
 
-    public MesureScale(String val){ this.setNiveauLect(val);}
+    public MesureScale(String val){ this.setNiveauLect(val); }
 
-    public Niveau getNiveau(){ return niveau; }
-    public void setNiveau(Niveau niveau) { this.niveau = niveau; }
+    public int getNiveau(){ return niveau; }
+    public void setNiveau(int niveau) { this.niveau = niveau; }
+
+    public int getMin(){ return min; }
+    public void setMin(int min) { this.min = min; }
+
+    public int getMax(){ return max; }
+    public void setMax(int max) { this.max = max; }
+
     public void setNiveauLect(String niv){
-        int niveau = Integer.parseInt(niv);
-        if(niveau ==1){
-            this.niveau = Niveau.A1;
-        } else if (niveau ==2){
-            this.niveau = Niveau.A2;
-        } else if (niveau ==3){
-            this.niveau = Niveau.A3;
-        } else if (niveau == 4){
-            this.niveau = Niveau.A4;
-        } else {
-            System.out.println("Erreur dans le typage de l'arrosage a la lecture.");
-        }
+        ArrayList<String> nivList = new ArrayList<>(List.of(niv.split("<SEP>")));
+        this.min = Integer.parseInt(nivList.get(0));
+        this.max = Integer.parseInt(nivList.get(1));
+        this.niveau = Integer.parseInt(nivList.get(2));
     }
 }
