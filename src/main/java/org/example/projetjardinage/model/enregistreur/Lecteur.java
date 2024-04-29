@@ -104,7 +104,6 @@ public class Lecteur {
 
     public List<List<String>> getSpe(){
         List<List<String>> spe = new ArrayList<>();
-        int cmpt = 0;
         if  (!((this.text.get(this.bookmark)).equals("SPE") ) ){
             System.out.println("ERREUR_SPE");
         }
@@ -117,19 +116,16 @@ public class Lecteur {
                 cas.add(this.text.get(this.bookmark ));
                 this.bookmark = this.bookmark+1;
             }
-            int bmTMP = this.bookmark;  //marque-pages
-            int nb2 = Integer.parseInt(this.text.get(bmTMP));
-            if(nb2 == 0){    //si le journal est vide
-                cas.add("0");
-                this.bookmark = this.bookmark+1;
-            } else {//s'il y a des entrees
-                int bmkTMP = this.bookmark;
-                cas.add(this.text.get(bmkTMP));
-                int nbNouvellesMesures = Integer.parseInt(this.text.get(this.bookmark+1));
+            cas.add(this.text.get(this.bookmark));
+            int nbEntries = Integer.parseInt(this.text.get(this.bookmark));
+            this.bookmark = this.bookmark+1;
+            for (int j = 0; j < nbEntries; j++) {
+                int nbNouvellesMesures = Integer.parseInt(this.text.get(this.bookmark));
+                this.bookmark = this.bookmark + 1;
 
-                int nbCases = (1+8+(nbNouvellesMesures))*nb2;
-                cas.addAll(this.text.subList(bmkTMP+2,bmkTMP+2+nbCases));
-                this.bookmark = this.bookmark + 2 + nbCases;
+                int nbCases = 8 + nbNouvellesMesures;
+                cas.addAll(this.text.subList(this.bookmark, this.bookmark + nbCases + 1));
+                this.bookmark = this.bookmark + nbCases +1;
             }
 
             spe.add(cas);
@@ -236,12 +232,7 @@ public class Lecteur {
             int nbEntree = Integer.parseInt(spe.get(7));
             int nbMes = esp.getNbMesures() + 1;
             for (int i = 0; i < nbEntree; i++) {
-                if (8 + (i + 1) * nbMes == spe.size()) {
-                    List<String> tmp = (spe.subList(8 + i * nbMes, 8 + nbMes + (i * nbMes)));
-                    journ.add(tmp);
-                } else {
-                    journ.add(spe.subList(8 + i * nbMes, 8 + (i + 1) * nbMes));
-                }
+                journ.add(spe.subList(8 + i * nbMes, 8 + (i + 1) * nbMes));
             }
             Specimen test = new Specimen(spe, esp, journ);
             esp.addSpecimens(test);

@@ -21,6 +21,8 @@ public class JournalEntry {
     }
 
     public JournalEntry(PlageMesure infos, List<String> vals){
+        System.out.println(infos.getAll().size() + "\n" + vals.size());
+        System.out.println(vals);
         int nb = infos.getTaille();
 
         for(int i = 0; i < nb;i++){

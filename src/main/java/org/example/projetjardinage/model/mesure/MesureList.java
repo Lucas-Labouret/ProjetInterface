@@ -9,10 +9,14 @@ public class MesureList extends Mesure {
 
     public MesureList(String types){
         ArrayList<String> typesList = new ArrayList<>(List.of(types.split("<SEP>")));
-        String type = typesList.getLast();
-        typesList.removeLast();
-        this.types = typesList;
-        this.setType(type);
+        if (typesList.size() == 1){
+            this.types.addAll(List.of("Ca Ce Co".split(" ")));
+        } else {
+            String type = typesList.getLast();
+            typesList.removeLast();
+            this.types = typesList;
+            this.setType(type);
+        }
     }
 
     public MesureList(ArrayList<String> types){
@@ -28,7 +32,7 @@ public class MesureList extends Mesure {
 
     public String getType() { return type; }
     public void setType(String type) {
-        if (!types.contains(type)) throw new IllegalArgumentException("Type invalid");
+        if (!types.contains(type)) throw new IllegalArgumentException("Type invalid : " + type + " not in " + types);
         this.type = type;
     }
 

@@ -27,8 +27,14 @@ public class MesureScale extends Mesure {
 
     public void setNiveauLect(String niv){
         ArrayList<String> nivList = new ArrayList<>(List.of(niv.split("<SEP>")));
-        this.min = Integer.parseInt(nivList.get(0));
-        this.max = Integer.parseInt(nivList.get(1));
-        this.niveau = Integer.parseInt(nivList.get(2));
+        if (nivList.size() == 1) {
+            this.niveau = Integer.parseInt(nivList.getFirst());
+            this.min = 0;
+            this.max = 3;
+        } else {
+            this.min = Integer.parseInt(nivList.get(0));
+            this.max = Integer.parseInt(nivList.get(1));
+            this.niveau = Integer.parseInt(nivList.get(2));
+        }
     }
 }
