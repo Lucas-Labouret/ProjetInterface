@@ -2,6 +2,7 @@ package org.example.projetjardinage;
 
 import javafx.stage.Stage;
 
+import javafx.util.StringConverter;
 import org.example.projetjardinage.model.Lists.ObservableList;
 import org.example.projetjardinage.model.Species;
 import org.example.projetjardinage.model.Task;
@@ -9,6 +10,7 @@ import org.example.projetjardinage.model.Lists.TodoList;
 import org.example.projetjardinage.model.enregistreur.Lecteur;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 public class GlobalData {
@@ -20,6 +22,22 @@ public class GlobalData {
     public static HashMap<String , String> vieuxnoms , nomsvieux;
 
     public static Stage primaryStage;
+
+    public static StringConverter<LocalDate> getDateConverter() {
+        return new StringConverter<>() {
+            private final DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
+            public String toString(LocalDate localDate) {
+                if (localDate == null) return "";
+                return dateTimeFormatter.format(localDate);
+            }
+
+            public LocalDate fromString(String dateString) {
+                if (dateString == null || dateString.trim().isEmpty()) return null;
+                return LocalDate.parse(dateString, dateTimeFormatter);
+            }
+        };
+    }
 
     public static void recuperrageDesDonnees(String path){
         Lecteur lecteur = new Lecteur(path);

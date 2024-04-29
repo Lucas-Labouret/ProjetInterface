@@ -28,6 +28,31 @@ public class MesureHolder {
         }
     }
 
+    public MesureHolder(MesureHolder holder) {
+        this.name = holder.getName();
+        this.type = holder.getType();
+        switch(holder.getType()) {
+            case Bool -> mesure = new MesureBool(((MesureBool) holder.getMesure()).getValue());
+            case Scale -> {
+                MesureScale scale = (MesureScale) holder.getMesure();
+                mesure = new MesureScale(scale.getNiveau(), scale.getMin(), scale.getMax());
+            }
+            case Numeric -> {
+                MesureNumerique num = (MesureNumerique) holder.getMesure();
+                mesure = new MesureNumerique(num.getValue(), num.getUnit());
+            }
+            case Text -> mesure = new MesureText(((MesureText) holder.getMesure()).getText()) ;
+            case List -> {
+                MesureList list = (MesureList) holder.getMesure();
+                mesure = new MesureList(list.getTypes(), list.getType());
+            }
+            default -> {
+                mesure = new MesureText(((MesureText) holder.getMesure()).getText());
+                System.out.println("Erreur constructeur MesureHolder");
+            }
+        }
+    }
+
     public static MesureHolder newMesureTexte(String name, String texte){
         Mesure mesure = new MesureText(texte);
         return new MesureHolder(name, TypeMesure.Text, mesure);

@@ -129,19 +129,7 @@ public class TaskPopUp {
             radioNo.setDisable(false);
         }
 
-        datePicker.setConverter(new StringConverter<>() {
-            private final DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-
-            public String toString(LocalDate localDate) {
-                if (localDate == null) return "";
-                return dateTimeFormatter.format(localDate);
-            }
-
-            public LocalDate fromString(String dateString) {
-                if (dateString == null || dateString.trim().isEmpty()) return null;
-                return LocalDate.parse(dateString, dateTimeFormatter);
-            }
-        });
+        datePicker.setConverter(GlobalData.getDateConverter());
 
         ToggleGroup rec = new ToggleGroup();
         radioYes.setToggleGroup(rec);

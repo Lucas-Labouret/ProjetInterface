@@ -3,20 +3,28 @@ package org.example.projetjardinage.controller.utils.journal;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuButton;
-import javafx.scene.layout.Pane;
 import javafx.scene.control.MenuItem;
+import javafx.scene.layout.Pane;
 
+import javafx.util.StringConverter;
+import org.example.projetjardinage.GlobalData;
+import org.example.projetjardinage.controller.utils.ValidationPrompt;
 import org.example.projetjardinage.model.mesure.Journal;
 
+import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 
 public class JournalController {
     @FXML private Label name;
+    @FXML private DatePicker newDate;
     @FXML private Button addEntry;
     @FXML private MenuButton dateMenu;
+    @FXML private Button delete;
     @FXML private Pane mainPanel;
 
     private Journal journal;
@@ -29,23 +37,72 @@ public class JournalController {
 
     public void initialize(){
         name.setText(specimenName);
+        newDate.setValue(LocalDate.now());
+        newDate.setConverter(GlobalData.getDateConverter());
 
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-        for (LocalDate date: journal.getSortedDates()){
-            String dateStr = date.format(formatter);
-            MenuItem item = new MenuItem(dateStr);
-            item.setOnAction(e -> {
-                dateMenu.setText(dateStr);
-                try {
-                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/utils/journal/JournalEntry.fxml"));
-                    loader.setController(new JournalEntryController(journal.get(date)));
-                    mainPanel.getChildren().clear();
-                    mainPanel.getChildren().add(loader.load());
-                } catch (Exception ex){
-                    ex.printStackTrace();
+        addEntry.setOnAction(e -> {
+            if (journal.containsKey(newDate.getValue())){
+                ValidationPrompt prompt = ValidationPrompt.newValidationPrompt(
+                        "An entry already exists for this date. Do you want to overwrite it?"
+                );
+                prompt.getStage().setOnHidden(event -> {
+                    if (prompt.getResult()){
+                        journal.newEntry(newDate.getValue());
+                    }
+                });
+            } else {
+                journal.newEntry(newDate.getValue());
+            }
+            switchToEntry(newDate.getValue());
+            addItemToMenu(newDate.getValue());
+        });
+
+        delete.setOnAction(e -> {
+            ValidationPrompt prompt = ValidationPrompt.newValidationPrompt(
+                    "Are you sure you want to delete this entry?"
+            );
+            prompt.getStage().setOnHidden(event -> {
+                if (prompt.getResult()){
+                    String[] date = dateMenu.getText().split("/");
+                    int day = Integer.parseInt(date[0]);
+                    int month = Integer.parseInt(date[1]);
+                    int year = Integer.parseInt(date[2]);
+                    LocalDate dateToDelete = LocalDate.of(year, month, day);
+                    journal.remove(dateToDelete);
+                    dateMenu.getItems().removeIf(item -> item.getText().equals(dateMenu.getText()));
+                    if (journal.isEmpty()) mainPanel.getChildren().clear();
+                    else switchToEntry(journal.getSortedDates().getLast());
                 }
             });
-            dateMenu.getItems().add(item);
+        });
+
+        for (LocalDate date: journal.getSortedDates()){
+            addItemToMenu(date);
+        }
+
+        dateMenu.setText(journal.getSortedDates().getLast().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
+        switchToEntry(journal.getSortedDates().getLast());
+    }
+
+    private void addItemToMenu(LocalDate date){
+        String dateStr = date.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+        MenuItem item = new MenuItem(dateStr);
+        item.setOnAction(e -> {
+            dateMenu.setText(dateStr);
+            switchToEntry(date);
+        });
+        dateMenu.getItems().add(item);
+    }
+
+    private void switchToEntry(LocalDate date){
+        dateMenu.setText(date.format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/utils/journal/JournalEntry.fxml"));
+            loader.setController(new JournalEntryController(journal.get(date)));
+            mainPanel.getChildren().clear();
+            mainPanel.getChildren().add(loader.load());
+        } catch (IOException e){
+            e.printStackTrace();
         }
     }
 }

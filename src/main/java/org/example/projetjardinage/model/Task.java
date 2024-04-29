@@ -139,7 +139,10 @@ public class Task extends Observable {
             for (Task t : subTasks) {
                 t.setDone(true);
             }
-        } else this.done = false;
+        } else {
+            this.done = false;
+            if (this.parent != null) this.parent.setDone(false);
+        }
         this.sendNotif();
     }
 

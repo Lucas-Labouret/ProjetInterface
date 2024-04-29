@@ -46,4 +46,14 @@ public class Journal extends HashMap<LocalDate, JournalEntry> {
 
         throw new RuntimeException("Cannot update measure because it does not exist");
     }
+
+    public void newEntry(LocalDate value) {
+        if (this.isEmpty()) this.put(value, new JournalEntry());
+        else {
+            LocalDate lastDate = this.getSortedDates().getLast();
+            JournalEntry last = this.get(lastDate);
+            this.remove(value);
+            this.put(value, new JournalEntry(last));
+        }
+    }
 }

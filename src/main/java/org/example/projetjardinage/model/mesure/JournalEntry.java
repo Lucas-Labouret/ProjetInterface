@@ -26,6 +26,13 @@ public class JournalEntry {
         }
     }
 
+    public JournalEntry(JournalEntry journalEntry) {
+        notes = "";
+        for (MesureHolder holder: journalEntry.getMesures()){
+            mesures.add(new MesureHolder(holder));
+        }
+    }
+
     public ArrayList<MesureHolder> getMesures() {return mesures;}
 
     public String getNotes() {return notes;}

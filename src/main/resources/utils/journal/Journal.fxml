@@ -15,8 +15,10 @@
          <Font size="18.0" />
       </font>
    </Label>
-   <MenuButton fx:id="dateMenu" layoutX="20.0" layoutY="41.0" mnemonicParsing="false" text="Séléctionner une date" AnchorPane.leftAnchor="100.0" AnchorPane.topAnchor="100.0" />
-   <Label layoutX="20.0" layoutY="64.0" text="Entrée du" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="104.0" />
-   <Button fx:id="addEntry" layoutX="14.0" layoutY="57.0" mnemonicParsing="false" text="Ajouter une entrée" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="60.0" />
+   <MenuButton fx:id="dateMenu" layoutX="20.0" layoutY="41.0" mnemonicParsing="false" prefWidth="200.0" text="Séléctionner une date" AnchorPane.leftAnchor="100.0" AnchorPane.topAnchor="100.0" />
+   <Label layoutX="20.0" layoutY="64.0" prefWidth="70.0" text="Entrée du" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="104.0" />
+   <Button fx:id="addEntry" layoutX="14.0" layoutY="57.0" mnemonicParsing="false" prefWidth="150.0" text="Ajouter une entrée" AnchorPane.leftAnchor="150.0" AnchorPane.topAnchor="60.0" />
    <Pane fx:id="mainPanel" layoutX="14.0" layoutY="186.0" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="140.0" />
+   <DatePicker fx:id="newDate" layoutX="245.0" layoutY="50.0" prefHeight="20.0" prefWidth="110.0" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="60.0" />
+   <Button fx:id="delete" layoutX="312.0" layoutY="100.0" mnemonicParsing="false" text="Supprimer" AnchorPane.leftAnchor="320.0" />
 </AnchorPane>

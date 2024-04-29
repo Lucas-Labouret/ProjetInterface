@@ -46,7 +46,7 @@ public class RecursiveTask extends Observer {
     public void initialize() {
         pane.setExpanded(open);
 
-        check.setOnAction(e -> setDone());
+        check.setOnAction(e -> setDone(!task.isDone()));
 
         ChangeListener<Boolean> openedListener =
                 (observable, oldValue, newValue) -> open = newValue;
@@ -68,18 +68,22 @@ public class RecursiveTask extends Observer {
         updateSize(lastWidth, lastHeight);
     }
 
-    public void setDone(){
-        if (!task.allSubTasksDone()) {
-            ValidationPrompt validationPrompt = ValidationPrompt.newValidationPrompt(
-                    "Il reste des sous-tâches non terminées. Si vous continuez, elles seront toutes marquées comme terminées."
-            );
-            validationPrompt.getStage().setOnHidden(e -> {
-                if (validationPrompt.getResult()) {
-                    task.setDone(true);
-                } else {
-                    check.setSelected(false);
-                }
-            });
+    public void setDone(boolean done) {
+        if (done) {
+            if (!task.allSubTasksDone()) {
+                ValidationPrompt validationPrompt = ValidationPrompt.newValidationPrompt(
+                        "Il reste des sous-tâches non terminées. Si vous continuez, elles seront toutes marquées comme terminées."
+                );
+                validationPrompt.getStage().setOnHidden(e -> {
+                    if (validationPrompt.getResult()) {
+                        task.setDone(true);
+                    } else {
+                        check.setSelected(false);
+                    }
+                });
+            }
+        } else {
+            task.setDone(false);
         }
     }
 
