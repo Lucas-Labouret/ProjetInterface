@@ -1,6 +1,5 @@
 package org.example.projetjardinage.model.mesure;
 
-public class Mesure {
+import org.example.projetjardinage.model.Observable;
 
-
-}
+public class Mesure extends Observable {}

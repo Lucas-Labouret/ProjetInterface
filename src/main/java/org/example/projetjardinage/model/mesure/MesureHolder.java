@@ -1,7 +1,5 @@
 package org.example.projetjardinage.model.mesure;
 
-import java.util.ArrayList;
-
 public class MesureHolder {
 
     private String name;
@@ -20,17 +18,17 @@ public class MesureHolder {
             case Bool -> mes = new MesureBool(val);
             case Scale -> mes = new MesureScale(val);
             case Numeric -> mes = new MesureNumerique((float)Integer.parseInt(val),info.getUnit()) ;
-            case Text -> mes = new MesureTexte(val) ;
+            case Text -> mes = new MesureText(val) ;
             case List -> mes = new MesureList(val);
             default -> {
-                mes = new MesureTexte(val);
+                mes = new MesureText(val);
                 System.out.println("Erreur constructeur MesureHolder");
             }
         }
     }
 
     public static MesureHolder newMesureTexte(String name, String texte){
-        Mesure mesure = new MesureTexte(texte);
+        Mesure mesure = new MesureText(texte);
         return new MesureHolder(name, TypeMesure.Text, mesure);
     }
 
