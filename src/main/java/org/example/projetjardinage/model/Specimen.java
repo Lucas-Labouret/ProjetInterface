@@ -1,8 +1,6 @@
 package org.example.projetjardinage.model;
 
-import org.example.projetjardinage.model.mesure.InfoMesure;
-import org.example.projetjardinage.model.mesure.Mesure;
-import org.example.projetjardinage.model.mesure.PlageMesure;
+import org.example.projetjardinage.model.mesure.*;
 
 import java.time.LocalDate;
 import java.time.Month;
@@ -49,9 +47,7 @@ public class Specimen {
         this.noteSpecimen = elem.get(5);
         this.noteEntretien = elem.get(6);
         this.species = spe;
-        if(!journ.isEmpty()){
-            this.journal = new Journal(journ, spe.getMesures());
-        }
+        this.journal = new Journal(journ, spe.getMesures());
 
 
 

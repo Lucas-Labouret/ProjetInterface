@@ -11,6 +11,7 @@ public class MesureList extends Mesure {
         ArrayList<String> typesList = new ArrayList<>(List.of(types.split("<SEP>")));
         if (typesList.size() == 1){
             this.types.addAll(List.of("Ca Ce Co".split(" ")));
+            this.type = typesList.getFirst();
         } else {
             String type = typesList.getLast();
             typesList.removeLast();

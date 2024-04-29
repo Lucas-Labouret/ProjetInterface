@@ -18,6 +18,7 @@ public class MesureBoolController {
 
     public void initialize() {
         name.setText(mesure.getName());
+        check.setSelected(((MesureBool) mesure.getMesure()).getValue());
         check.selectedProperty().addListener((obs, old, newValue) -> {
             ((MesureBool) mesure.getMesure()).setValue(newValue);
         });

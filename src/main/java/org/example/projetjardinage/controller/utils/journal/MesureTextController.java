@@ -20,6 +20,7 @@ public class MesureTextController {
     public void initialize() {
         name.setText(mesure.getName());
         unit.setVisible(false);
+        field.setText(((MesureText) mesure.getMesure()).getText());
         field.textProperty().addListener((obs, old, newValue) -> {
             ((MesureText) mesure.getMesure()).setText(newValue);
         });

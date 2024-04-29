@@ -19,6 +19,7 @@ public class MesureListController {
 
     public void initialize() {
         name.setText(mesure.getName());
+        menu.setText(((MesureList) mesure.getMesure()).getType());
         for (String type : (((MesureList) mesure.getMesure()).getTypes())) {
             MenuItem item = new MenuItem(type);
             item.setOnAction(e -> {

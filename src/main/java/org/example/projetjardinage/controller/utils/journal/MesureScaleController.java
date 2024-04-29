@@ -20,6 +20,7 @@ public class MesureScaleController {
         name.setText(mesure.getName());
         slider.setMin(((MesureScale) mesure.getMesure()).getMin());
         slider.setMax(((MesureScale) mesure.getMesure()).getMax());
+        slider.setValue(((MesureScale) mesure.getMesure()).getNiveau());
         slider.valueProperty().addListener((obs, old, newValue) -> {
             ((MesureScale) mesure.getMesure()).setNiveau(newValue.intValue());
         });

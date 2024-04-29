@@ -234,6 +234,7 @@ public class Lecteur {
             for (int i = 0; i < nbEntree; i++) {
                 journ.add(spe.subList(8 + i * nbMes, 8 + (i + 1) * nbMes));
             }
+            System.out.println(journ);
             Specimen test = new Specimen(spe, esp, journ);
             esp.addSpecimens(test);
             indexSpecimen.put(test.getName(), test);

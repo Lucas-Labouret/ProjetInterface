@@ -1,7 +1,4 @@
-package org.example.projetjardinage.model;
-
-import org.example.projetjardinage.model.mesure.MesureHolder;
-import org.example.projetjardinage.model.mesure.PlageMesure;
+package org.example.projetjardinage.model.mesure;
 
 import java.time.LocalDate;
 import java.time.Month;

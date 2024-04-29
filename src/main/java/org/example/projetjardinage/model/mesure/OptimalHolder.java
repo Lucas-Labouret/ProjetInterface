@@ -7,7 +7,7 @@ public class OptimalHolder {
     private MesureScale exp;
     private MesureScale arr;
     private MesureList ts;
-    private MesureNumerique ph = new MesureNumerique((float)0, "");
+    private MesureNumerique ph = new MesureNumerique(Float.valueOf(0), "");
     private MesureNumerique espaceAuSol = new MesureNumerique((float)0, "cm2") ;
 
     public OptimalHolder(List<String> elem){

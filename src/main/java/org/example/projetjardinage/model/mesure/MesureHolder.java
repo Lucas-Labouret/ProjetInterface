@@ -13,15 +13,16 @@ public class MesureHolder {
     }
 
     public MesureHolder(InfoMesure info, String val){
-        Mesure mes;
+        this.name = info.getName();
+        this.type = info.getType();
         switch(info.getType()) {
-            case Bool -> mes = new MesureBool(val);
-            case Scale -> mes = new MesureScale(val);
-            case Numeric -> mes = new MesureNumerique((float)Integer.parseInt(val),info.getUnit()) ;
-            case Text -> mes = new MesureText(val) ;
-            case List -> mes = new MesureList(val);
+            case Bool -> mesure = new MesureBool(val);
+            case Scale -> mesure = new MesureScale(val);
+            case Numeric -> mesure = new MesureNumerique(val, info.getUnit()) ;
+            case Text -> mesure = new MesureText(val) ;
+            case List -> mesure = new MesureList(val);
             default -> {
-                mes = new MesureText(val);
+                mesure = new MesureText(val);
                 System.out.println("Erreur constructeur MesureHolder");
             }
         }

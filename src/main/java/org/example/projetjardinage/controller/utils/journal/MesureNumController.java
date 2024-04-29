@@ -21,11 +21,13 @@ public class MesureNumController {
     public void initialize() {
         name.setText(mesure.getName());
         unit.setText(((MesureNumerique) mesure.getMesure()).getUnit());
+        field.setText(Double.toString(((MesureNumerique) mesure.getMesure()).getValue()));
         field.setTextFormatter(new TextFormatter<>(change -> {
             String text = change.getText();
             if (text.matches("-?[0-9]*")) return change;
             return null;
         }));
+        field.setText(Double.toString(((MesureNumerique) mesure.getMesure()).getValue()));
         field.textProperty().addListener((obs, old, newValue) -> {
             ((MesureNumerique) mesure.getMesure()).setValue(Integer.parseInt(newValue));
         });

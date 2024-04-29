@@ -1,8 +1,4 @@
-package org.example.projetjardinage.model;
-
-import org.example.projetjardinage.model.mesure.InfoMesure;
-import org.example.projetjardinage.model.mesure.MesureHolder;
-import org.example.projetjardinage.model.mesure.PlageMesure;
+package org.example.projetjardinage.model.mesure;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,8 +17,6 @@ public class JournalEntry {
     }
 
     public JournalEntry(PlageMesure infos, List<String> vals){
-        System.out.println(infos.getAll().size() + "\n" + vals.size());
-        System.out.println(vals);
         int nb = infos.getTaille();
 
         for(int i = 0; i < nb;i++){

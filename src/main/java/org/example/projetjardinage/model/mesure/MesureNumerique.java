@@ -10,6 +10,11 @@ public class MesureNumerique extends Mesure {
         this.unit = unit;
     }
 
+    public MesureNumerique(String value, String unit) {
+        this.value = Float.parseFloat(value);
+        this.unit = unit;
+    }
+
     public float getValue() { return value; }
     public void setValue(float value) { this.value = value; }
 
