@@ -5,7 +5,10 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseButton;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.util.StringConverter;
+import org.example.projetjardinage.GlobalData;
 import org.example.projetjardinage.controller.MainWindow;
 import org.example.projetjardinage.model.Species;
 import org.example.projetjardinage.model.Specimen;
@@ -13,13 +16,47 @@ import org.example.projetjardinage.model.Task;
 
 import javafx.fxml.FXML;
 import javafx.scene.layout.HBox;
+import org.example.projetjardinage.model.Lists.TodoList;
 
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class TaskPopUp {
+    public static TaskPopUp newTaskPopUp(Task task, TodoList todoList) {
+        return newTaskPopUp(new Stage(), task, todoList, false);
+    }
+
+    public static TaskPopUp newTaskPopUp(Stage stage, Task task, TodoList todoList) {
+        return newTaskPopUp(stage, task, todoList,false);
+    }
+
+    public static TaskPopUp newTaskPopUp(Stage stage, Task task, TodoList todoList,boolean creation) {
+        stage.initModality(Modality.WINDOW_MODAL);
+        stage.initOwner(GlobalData.primaryStage);
+
+        FXMLLoader loader = new FXMLLoader(TaskPopUp.class.getResource("/utils/TaskPopUp.fxml"));
+        TaskPopUp taskPopUp = new TaskPopUp(stage, task, todoList, creation);
+        loader.setController(taskPopUp);
+
+        Parent taskPopUpView = null;
+        try { taskPopUpView = loader.load(); }
+        catch (IOException ex) { ex.printStackTrace(); }
+        if (taskPopUpView == null) throw new AssertionError();
+
+        Scene scene = new Scene(taskPopUpView);
+        stage.setScene(scene);
+        stage.show();
+
+        return taskPopUp;
+    }
+
     private final Task task;
+    private final TodoList todoList;
     private final Task dummy = new Task();
     private final Stage stage;
+
+    private boolean creation = false;
     private boolean validated = false;
 
     @FXML private Button editButton;
@@ -36,19 +73,18 @@ public class TaskPopUp {
 
     @FXML private RadioButton radioNo;
     @FXML private RadioButton radioYes;
+    @FXML private TextField recField;
+    @FXML private Label recJours;
 
     @FXML private Button ajouter;
     @FXML private Button supprimer;
     @FXML private Button valider;
 
-    public TaskPopUp(Stage stage, Task task) {
+    public TaskPopUp(Stage stage, Task task, TodoList todoList,boolean creation) {
         this.task = task;
+        this.todoList = todoList;
         this.stage = stage;
-        fillDummy();
-    }
-    public TaskPopUp(Stage stage) {
-        task = new Task();
-        this.stage = stage;
+        this.creation = creation;
         fillDummy();
     }
 
@@ -60,6 +96,7 @@ public class TaskPopUp {
         t2.setDone(t1.isDone());
         t2.addLinkedSpecies(t1.getLinkedSpecies().toArray(new Species[0]));
         t2.addLinkedSpecimens(t1.getLinkedSpecimens().toArray(new Specimen[0]));
+        t2.setRecurrence(t1.getRecurrence());
     }
 
     private void fillDummy() {
@@ -75,15 +112,51 @@ public class TaskPopUp {
         description.setText(dummy.getDescription());
         datePicker.setValue(dummy.getDueDate());
 
+        if (creation) {
+            editButton.setDisable(true);
+            editButton.setVisible(false);
+
+            supprimer.setDisable(true);
+            supprimer.setVisible(false);
+
+            ajouter.setDisable(true);
+            ajouter.setVisible(false);
+
+            name.setEditable(true);
+            description.setEditable(true);
+            datePicker.setDisable(false);
+            radioYes.setDisable(false);
+            radioNo.setDisable(false);
+        }
+
+        datePicker.setConverter(GlobalData.getDateConverter());
+
         ToggleGroup rec = new ToggleGroup();
         radioYes.setToggleGroup(rec);
         radioNo.setToggleGroup(rec);
-        radioNo.setSelected(true);
+        radioYes.setSelected(task.isRecurrente());
+        recJours.setVisible(task.isRecurrente());
+        recField.setVisible(task.isRecurrente());
+        recField.setText((task.getRecurrence() != null)? task.getRecurrence().toString() : "");
+        recField.setTextFormatter(new TextFormatter<>(change -> {
+            String text = change.getText();
+            if (text.matches("[0-9]*")) return change;
+            return null;
+        }));
+        rec.selectedToggleProperty().addListener((observable, oldValue, newValue) -> {
+            recJours.setVisible(radioYes.isSelected());
+            recField.setVisible(radioYes.isSelected());
+        });
+        recField.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue.isEmpty()) dummy.setRecurrence(Integer.parseInt(newValue));
+            else dummy.setRecurrence(null);
+        });
 
         for (Species species : dummy.getLinkedSpecies()) {
             Button button = getSpeciesButton(species);
             speciesZone.getChildren().add(button);
-
+        }
+        for (Species species : GlobalData.species.getElements()) {
             MenuItem item = getSpeciesItem(species);
             speciesMenu.getItems().add(item);
         }
@@ -91,57 +164,78 @@ public class TaskPopUp {
         for (Specimen specimen : dummy.getLinkedSpecimens()) {
             Button button = getSpecimenButton(specimen);
             specimenZone.getChildren().add(button);
-
+        }
+        for (Species species : GlobalData.species.getElements()) for (Specimen specimen : species.getSpecimens()){
             MenuItem item = getSpecimenItem(specimen);
             specimenMenu.getItems().add(item);
         }
 
+        editButton.setText("✎");
         editButton.setOnAction(e -> {
             name.setEditable(!name.isEditable());
             description.setEditable(!description.isEditable());
             datePicker.setDisable(!datePicker.isDisabled());
             radioYes.setDisable(!radioYes.isDisabled());
             radioNo.setDisable(!radioNo.isDisabled());
+            recField.setEditable(!recField.isEditable());
+            editButton.setText(name.isEditable() ? "✔" : "✎");
         });
 
         valider.setOnAction(e -> {
             dummy.setName(name.getText());
             dummy.setDescription(description.getText());
             dummy.setDueDate(datePicker.getValue());
-            dummy.setDone(radioYes.isSelected());
+            if (radioYes.isSelected()) dummy.setRecurrence(
+                    recField.getText().isEmpty() ? null : Integer.parseInt(recField.getText())
+            );
             validateChanges();
             validated = true;
-            stage.close();
-            MainWindow.getInstance().update();
+
+            if (!creation) {
+                stage.close();
+                return;
+            }
+
+            if (name.getText().isEmpty())
+                Alert.newAlert("Veuillez renseigner un nom pour la tâche.");
+            else if (datePicker.getValue() == null)
+                Alert.newAlert("Veuillez renseigner une date pour la tâche.");
+
+            else {
+                if (task.getParent() != null) task.getParent().addSubTasks(task);
+                else {
+                    GlobalData.tasks.add(task);
+                    if (todoList != GlobalData.tasks) todoList.add(task);
+                }
+                stage.close();
+            }
         });
 
         supprimer.setOnAction(e -> {
-            if (task.getParent() != null) task.getParent().removeSubTasks(task);
-            //TODO: else { remove from global taskList }
+            ValidationPrompt validationPrompt = ValidationPrompt.newValidationPrompt(
+                    "Voulez-vous vraiment supprimer \""  + task.getName() + "\" ?"
+            );
+            validationPrompt.getStage().setOnHidden(f -> {
+                if (validationPrompt.getResult()) {
+                    if (task.getParent() == null){
+                        GlobalData.tasks.removeTasks(task);
+                        todoList.removeTasks(task);
+                    } else task.getParent().removeSubTasks(task);
+                    stage.close();
+                }
+            });
         });
 
         ajouter.setOnAction(e -> {
             Stage newStage = new Stage();
             Task newTask = new Task(task);
 
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/utils/TaskPopUp.fxml"));
-            TaskPopUp taskPopUp = new TaskPopUp(newStage, newTask);
-            loader.setController(taskPopUp);
-
-            Parent taskPopUpView = null;
-            try { taskPopUpView = loader.load(); }
-            catch (IOException ex) { ex.printStackTrace(); }
-            if (taskPopUpView == null) throw new AssertionError();
-
-            Scene scene = new Scene(taskPopUpView);
-            newStage.setScene(scene);
-            newStage.show();
+            TaskPopUp taskPopUp = TaskPopUp.newTaskPopUp(newStage, newTask, todoList,true);
 
             newStage.setOnHidden(f -> {
                 if (taskPopUp.wasValidated()) {
                     task.addSubTasks(newTask);
                     dummy.addSubTasks(newTask);
-                    MainWindow.getInstance().update();
                 }
             });
         });
@@ -154,10 +248,6 @@ public class TaskPopUp {
     private Button getSpeciesButton(Species species) {
         Button button = new Button(species.getName());
         button.setOnMouseClicked(e -> {
-            if (e.getClickCount() == 2) {
-                stage.close();
-                MainWindow.getInstance().switchController(MainWindow.Display.SPECIES);
-            }
             if (e.getButton() == MouseButton.SECONDARY) {
                 dummy.removeLinkedSpecies(species);
                 speciesZone.getChildren().remove(button);
@@ -169,8 +259,10 @@ public class TaskPopUp {
     private MenuItem getSpeciesItem(Species species) {
         MenuItem item = new MenuItem(species.getName());
         item.setOnAction(e -> {
-            dummy.addLinkedSpecies(species);
-            speciesZone.getChildren().add(getSpeciesButton(species));
+            if (!dummy.getLinkedSpecies().contains(species)) {
+                dummy.addLinkedSpecies(species);
+                speciesZone.getChildren().add(getSpeciesButton(species));
+            }
         });
         return item;
     }

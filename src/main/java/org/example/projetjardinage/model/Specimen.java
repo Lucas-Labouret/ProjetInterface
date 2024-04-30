@@ -1,6 +1,6 @@
 package org.example.projetjardinage.model;
 
-import org.example.projetjardinage.model.mesure.PlageMesure;
+import org.example.projetjardinage.model.journal.*;
 
 import java.time.LocalDate;
 import java.time.Month;
@@ -30,6 +30,7 @@ public class Specimen {
         this.name = name;
         this.alive = true;
         this.miseEnTerre = miseEnTerre;
+        this.journal = new Journal(species);
     }
 
     public Specimen(List<String> elem, Species spe, List<List<String>> journ){
@@ -46,16 +47,15 @@ public class Specimen {
         this.noteSpecimen = elem.get(5);
         this.noteEntretien = elem.get(6);
         this.species = spe;
-        if(journ.size()!=0){
-            this.journal = new Journal(journ, spe.getMesures());
-        }
-
-
-
+        this.journal = new Journal(journ, spe.getMesures(), spe);
     }
 
     public Species getSpecies() {
         return species;
+    }
+
+    public Journal getJournal() {
+        return journal;
     }
 
     public PlageMesure getMesuresPoss(){

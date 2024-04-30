@@ -19,7 +19,7 @@ import java.util.ArrayList;
 
 public class App extends Application {
     private final int minWidth = 600;
-    private final int minHeight = 450;
+    private final int minHeight = 600;
 
     public static void main(String[] args) {
         String test = "test.txt";
@@ -43,6 +43,7 @@ public class App extends Application {
         Scene scene = new Scene(root);
 
         MainWindow mainWindow = fxmlLoader.getController();
+        mainWindow.updateWindowSize(primaryStage.getWidth(), primaryStage.getHeight());
         ChangeListener<Number> stageSizeListener =
                 (observable, oldValue, newValue) ->
                 mainWindow.updateWindowSize(primaryStage.getWidth(), primaryStage.getHeight());
@@ -56,62 +57,34 @@ public class App extends Application {
         primaryStage.setScene(scene);
         primaryStage.show();
 
-        primaryStage.setOnHidden(e -> {
-            for (int i = 0; i < GlobalData.plantes.size(); i++) {
-                for (int j = 0; j < GlobalData.plantes.get(i).getSpecimens().size(); j++) {
-                    Path absolutePath = FileSystems.getDefault().getPath("src/main/resources/galerie/"+GlobalData.plantes.get(i).getOldName()+"/"+GlobalData.plantes.get(i).getSpecimens().get(j).getOldName()).toAbsolutePath();
+        GlobalData.primaryStage = primaryStage;
+        primaryStage.setOnHidden(e -> renameDirectories());
+    }
 
-                    char [] a = absolutePath.toString().toCharArray();
-
-                    String t = "";
-
-                    for(char c :a ){
-                        t += c ;
-                        if(i == '\\'){
-                            t += c ;
-                        }
-                    }
-                    File ancienDossier = new File(t);
-                    System.out.println(ancienDossier + "");
-
-                    File nouveauDossier = new File(ancienDossier.getParentFile(), GlobalData.plantes.get(i).getSpecimens().get(j).getName());
-
-                    System.out.println(nouveauDossier + "");
-
-                    if (ancienDossier.renameTo(nouveauDossier)) {
-                        System.out.println("Le dossier a été renommé avec succès !");
-                    } else {
-                        System.out.println("Le renommage du dossier a échoué.");
-                    }
-
-                }
-
-                Path absolutePath = FileSystems.getDefault().getPath("src/main/resources/galerie/"+GlobalData.plantes.get(i).getOldName()).toAbsolutePath();
-                //Path absolutePath = FileSystems.getDefault().getPath("src/main/resources/galerie/Kougoro").toAbsolutePath();
+    private void renameDirectories(){
+        for (int i = 0; i < GlobalData.species.size(); i++) {
+            for (int j = 0; j < GlobalData.species.get(i).getSpecimens().size(); j++) {
+                Path absolutePath = FileSystems.getDefault().getPath(
+                        "src/main/resources/galerie/"+GlobalData.species.get(i).getOldName()+
+                                "/"+GlobalData.species.get(i).getSpecimens().get(j).getOldName()
+                ).toAbsolutePath();
 
                 char [] a = absolutePath.toString().toCharArray();
 
                 String t = "";
 
-                ArrayList<Character> path =new ArrayList<Character>();
                 for(char c :a ){
-                    path.add(c);
                     t += c ;
                     if(i == '\\'){
-                        path.add(c);
                         t += c ;
                     }
                 }
-
-                //System.out.println(t);
-
-
-                //ArrayList<Character> path =new ArrayList<Character>( absolutePath.toString().toCharArray());
-                //File ancienDossier = new File("C:\\Users\\Fran\\IdeaProjects\\ProjetInterface\\src\\main\\resources\\galerie\\Kougoro");
                 File ancienDossier = new File(t);
                 System.out.println(ancienDossier + "");
 
-                File nouveauDossier = new File(ancienDossier.getParentFile(), GlobalData.plantes.get(i).getName());
+                File nouveauDossier = new File(
+                        ancienDossier.getParentFile(), GlobalData.species.get(i).getSpecimens().get(j).getName()
+                );
 
                 System.out.println(nouveauDossier + "");
 
@@ -122,7 +95,39 @@ public class App extends Application {
                 }
             }
 
+            Path absolutePath = FileSystems.getDefault().getPath(
+                    "src/main/resources/galerie/"+GlobalData.species.get(i).getOldName()
+            ).toAbsolutePath();
+            //Path absolutePath = FileSystems.getDefault().getPath("src/main/resources/galerie/Kougoro").toAbsolutePath();
 
-        });
+            char [] a = absolutePath.toString().toCharArray();
+
+            String t = "";
+
+            ArrayList<Character> path =new ArrayList<Character>();
+            for(char c :a ){
+                path.add(c);
+                t += c ;
+                if(i == '\\'){
+                    path.add(c);
+                    t += c ;
+                }
+            }
+
+            //ArrayList<Character> path =new ArrayList<Character>( absolutePath.toString().toCharArray());
+            //File ancienDossier = new File("C:\\Users\\Fran\\IdeaProjects\\ProjetInterface\\src\\main\\resources\\galerie\\Kougoro");
+            File ancienDossier = new File(t);
+            System.out.println(ancienDossier + "");
+
+            File nouveauDossier = new File(ancienDossier.getParentFile(), GlobalData.species.get(i).getName());
+
+            System.out.println(nouveauDossier + "");
+
+            if (ancienDossier.renameTo(nouveauDossier)) {
+                System.out.println("Le dossier a été renommé avec succès !");
+            } else {
+                System.out.println("Le renommage du dossier a échoué.");
+            }
+        }
     }
 }

@@ -1,4 +1,4 @@
-package org.example.projetjardinage.model.mesure;
+package org.example.projetjardinage.model.journal.mesures;
 
 public class MesureNumerique extends Mesure {
     private float value;
@@ -7,6 +7,11 @@ public class MesureNumerique extends Mesure {
 
     public MesureNumerique(Float value, String unit) {
         this.value = value;
+        this.unit = unit;
+    }
+
+    public MesureNumerique(String value, String unit) {
+        this.value = Float.parseFloat(value);
         this.unit = unit;
     }
 

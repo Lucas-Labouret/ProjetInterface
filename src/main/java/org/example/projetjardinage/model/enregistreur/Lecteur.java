@@ -1,10 +1,15 @@
 package org.example.projetjardinage.model.enregistreur;
 
 
+import org.example.projetjardinage.model.Species;
+import org.example.projetjardinage.model.Specimen;
+import org.example.projetjardinage.model.Task;
+
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.*;
 
 public class Lecteur {
@@ -97,11 +102,8 @@ public class Lecteur {
         return esp;
     }
 
-
-
     public List<List<String>> getSpe(){
         List<List<String>> spe = new ArrayList<>();
-        int cmpt = 0;
         if  (!((this.text.get(this.bookmark)).equals("SPE") ) ){
             System.out.println("ERREUR_SPE");
         }
@@ -114,19 +116,16 @@ public class Lecteur {
                 cas.add(this.text.get(this.bookmark ));
                 this.bookmark = this.bookmark+1;
             }
-            int bmTMP = this.bookmark;  //marque-pages
-            int nb2 = Integer.parseInt(this.text.get(bmTMP));
-            if(nb2 == 0){    //si le journal est vide
-                cas.add("0");
-                this.bookmark = this.bookmark+1;
-            } else {//s'il y a des entrees
-                int bmkTMP = this.bookmark;
-                cas.add(this.text.get(bmkTMP));
-                int nbNouvellesMesures = Integer.parseInt(this.text.get(this.bookmark+1));
+            cas.add(this.text.get(this.bookmark));
+            int nbEntries = Integer.parseInt(this.text.get(this.bookmark));
+            this.bookmark = this.bookmark+1;
+            for (int j = 0; j < nbEntries; j++) {
+                int nbNouvellesMesures = Integer.parseInt(this.text.get(this.bookmark));
+                this.bookmark = this.bookmark + 1;
 
-                int nbCases = (1+8+(nbNouvellesMesures))*nb2;
-                cas.addAll(this.text.subList(bmkTMP+2,bmkTMP+2+nbCases));
-                this.bookmark = this.bookmark + 2 + nbCases;
+                int nbCases = 8 + nbNouvellesMesures;
+                cas.addAll(this.text.subList(this.bookmark, this.bookmark + nbCases + 1));
+                this.bookmark = this.bookmark + nbCases +1;
             }
 
             spe.add(cas);
@@ -175,6 +174,7 @@ public class Lecteur {
 
         return task;
     }
+
     private void clean (){
         //remet les COM en virgule
         for(int i = 0; i<this.text.size();i++){
@@ -197,6 +197,152 @@ public class Lecteur {
         }
     }
 
+    private void addParents(List<Task> tasks) {
+        for (Task task : tasks) {
+            for (Task subTask : task.getSubTasks()) {
+                subTask.setParent(task);
+            }
+            addParents(task.getSubTasks());
+        }
+    }
+
+    public ArrayList<Object> recuperrageDesDonnees() {
+        ArrayList<Species> plantes = new ArrayList<>();
+        ArrayList<Task> taches = new ArrayList<>();
+
+        List<List<String>> donnees;
+
+        donnees = this.getEsp();
+        Map<String, Integer> indexPlantes = new HashMap<>();
+
+        for (List<String> esp : donnees) {
+
+            Species test = new Species(esp);
+            plantes.add(test);
+            indexPlantes.put(test.getName(), plantes.size() - 1);
+
+        }
+
+        donnees = this.getSpe();
+        Map<String, Specimen> indexSpecimen = new HashMap<>();
+
+        for (List<String> spe : donnees) {
+            Species esp = plantes.get(indexPlantes.get(spe.get(4)));
+            List<List<String>> journ = new ArrayList<>();
+            int nbEntree = Integer.parseInt(spe.get(7));
+            int nbMes = esp.getNbMesures() + 1;
+            for (int i = 0; i < nbEntree; i++) {
+                journ.add(spe.subList(8 + i * nbMes, 8 + (i + 1) * nbMes));
+            }
+            System.out.println(journ);
+            Specimen test = new Specimen(spe, esp, journ);
+            esp.addSpecimens(test);
+            indexSpecimen.put(test.getName(), test);
+        }
+
+        donnees = this.getTasks();
+        Map<String, Task> indexTask = new HashMap<>();
+
+        for (List<String> tas : donnees) {
+            List<Species> esp = new ArrayList<>();
+            List<Specimen> spe = new ArrayList<>();
+            //ajout des especes
+            int nbEsp = Integer.parseInt(tas.get(6));
+            for (int i = 0; i < nbEsp; i++) {
+                Species current = plantes.get(indexPlantes.get(tas.get(7 + i)));
+                esp.add(current);
+            }
+            //ajout des specimens
+            int nbSpe = Integer.parseInt(tas.get(7 + nbEsp));
+
+            for (int i = 1; i <= nbSpe; i++) {
+                Specimen current = indexSpecimen.get(tas.get(7 + nbEsp + i));
+                spe.add(current);
+            }
+
+            Task surTache = new Task();
+            if (!(Objects.equals(tas.get(4), "<N>"))) {
+                surTache = indexTask.get(tas.get(4));
+            }
 
 
+            Task task = new Task(tas, esp, spe, surTache);
+            LocalDate hui = LocalDate.now();
+            LocalDate passe = hui.minusDays(30);
+
+            //avance les taches recursives si finies ET dans le passe
+            if (task.isRec() && task.isDone() && hui.isAfter(task.getDueDate())) {
+                task.setNextDate();
+            }
+
+            //enleve les taches qui sont à plus d'un mois dans le passe
+            if (passe.isBefore(task.getDueDate()) || task.isRec()) {
+                //avance les taches recursives jusqu'a moins d'un mois dans le passe
+                while (task.isRec() && passe.isAfter(task.getDueDate())) {
+                    task.setNextDate();
+                }
+                if (Objects.equals(tas.get(4), "<N>")) {
+                    taches.add(task);
+                }
+
+                indexTask.put(task.getName(), task);
+
+                //ajout dans les especes
+                for (Species espece : esp) {
+                    espece.addTasks(task);
+                }
+
+                //ajout dans les specimens
+                for (Specimen specimen : spe) {
+                    specimen.addTask(task);
+                }
+
+                //sous-tache
+                if (!(Objects.equals(tas.get(4), "<N>"))) {
+                    surTache.addSubTasks(task);
+                }
+            }
+
+
+        }
+
+        HashMap<String, String> vieuxnoms = new HashMap<>();
+        HashMap<String, String> nomsvieux = new HashMap<>();
+        for (Species species : plantes) {
+            vieuxnoms.put(species.getName(), species.getName());
+            nomsvieux.put(species.getName(), species.getName());
+            for (Specimen specimen : species.getSpecimens()) {
+                vieuxnoms.put(specimen.getName(), specimen.getName());
+                nomsvieux.put(specimen.getName(), specimen.getName());
+            }
+        }
+
+        taches.addAll(List.of(
+                new Task("Task 1", "Description 1", LocalDate.of(2024, 1, 1)),
+                new Task("Task 2", "Description 2", LocalDate.of(2024, 1, 1)),
+                new Task("Task 3", "Description 3", LocalDate.of(2024, 1, 1)),
+                new Task("Task 4", "Description 4", LocalDate.of(2024, 1, 2)),
+                new Task("Task 5", "Description 5", LocalDate.of(2024, 1, 3)),
+                new Task("Task 6", "Description 6", LocalDate.of(2024, 2, 4)),
+                new Task("Task 7", "Description 7", LocalDate.of(2025, 2, 5)),
+                new Task("Task 8", "Description 8", LocalDate.of(2025, 2, 6))
+        ));
+        taches.get(0).addSubTasks(
+
+                new Task("SubTask 1", "SubDescription 1", LocalDate.of(2024, 1, 1)),
+                new Task("SubTask 2", "SubDescription 2", LocalDate.of(2024, 1, 1)),
+                new Task("SubTask 3", "SubDescription 3", LocalDate.of(2024, 1, 1))
+        );
+        taches.get(0).getSubTasks().get(taches.get(0).getSubTasks().size()-1).addSubTasks(
+                new Task("SubSubTask 1", "SubSubDescription très très très très très très très très très très très très très très très très très très longue", LocalDate.of(2024, 1, 1)),
+                new Task("SubSubTask 2", "SubSubDescription 2", LocalDate.of(2024, 1, 1)),
+                new Task("SubSubTask 3", "SubSubDescription 3", LocalDate.of(2024, 1, 1))
+        );
+        taches.get(0).getSubTasks().get(taches.get(0).getSubTasks().size()-1).getSubTasks().get(taches.get(0).getSubTasks().get(taches.get(0).getSubTasks().size()-1).getSubTasks().size()-1).addSubTasks(
+                new Task("SubSubSubTask 1", "SubSubSubDescription 1", LocalDate.of(2024, 1, 1))
+        );
+
+        addParents(taches);
+        return new ArrayList<>(List.of(plantes, taches, vieuxnoms, nomsvieux));
+    }
 }

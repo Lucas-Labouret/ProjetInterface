@@ -14,12 +14,13 @@ import org.example.projetjardinage.GlobalData;
 import org.example.projetjardinage.controller.MainWindow;
 import org.example.projetjardinage.controller.Observer;
 import org.example.projetjardinage.model.Species;
+import org.example.projetjardinage.model.Specimen;
 
 import java.io.IOException;
 import java.nio.file.InvalidPathException;
 import java.nio.file.Paths;
 
-public class EspeceController<t> implements Observer {
+public class EspeceController extends Observer {
 
     @FXML
     private AnchorPane espece;
@@ -37,7 +38,7 @@ public class EspeceController<t> implements Observer {
     private int specimen = -1;
 
     public EspeceController(int i) {;
-        this.species = GlobalData.plantes.get(i);
+        this.species = GlobalData.species.get(i);
         this.especeid = i;
         this.subscribeTo(species);
     }
@@ -68,20 +69,19 @@ public class EspeceController<t> implements Observer {
         }
            espece.setOnMouseClicked(e -> {
             if (e.getClickCount() == 1 && specimen == -1) {
-                MainWindow.getInstance().switchController(MainWindow.Display.SPECIES);
                 MainWindow.getInstance().getSpeciesController().switchSpecies(species);
-
-
+                MainWindow.getInstance().switchController(MainWindow.Display.SPECIES);
             } else if (e.getClickCount() == 1) {
-                MainWindow.getInstance().switchController(MainWindow.Display.SPECIMEN);
-                System.out.println(specimen);
                 MainWindow.getInstance().getSpecimenController().switchSpecimen(species.getSpecimens().get(specimen));
-                System.out.println(specimen);
+                MainWindow.getInstance().switchController(MainWindow.Display.SPECIMEN);
             }
-           });
+        });
     }
 
+    public Specimen getSpecimen() { return species.getSpecimens().get(specimen); }
+
     public void update() {
-        text.setText(species.getName());
+        if ( specimen == -1 ) text.setText(species.getName());
+        else text.setText(species.getSpecimens().get(specimen).getName());
     }
 }

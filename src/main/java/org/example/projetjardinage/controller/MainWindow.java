@@ -8,6 +8,7 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import org.example.projetjardinage.GlobalData;
 import org.example.projetjardinage.controller.mainBody.*;
 
 public class MainWindow {
@@ -74,6 +75,8 @@ public class MainWindow {
         FXMLLoader specimenLoader    = new FXMLLoader(getClass().getResource("/mainBody/SpecimenBody.fxml"));
         FXMLLoader galleryLoader     = new FXMLLoader(getClass().getResource("/mainBody/GalleryBody.fxml"));
 
+        todoListLoader.setController(new TodoListController(GlobalData.tasks));
+
         try {
             toDoListView = todoListLoader.load();
             speciesListView = speciesListLoader.load();
@@ -114,9 +117,9 @@ public class MainWindow {
                 currentController = galleryController;
                 break;
         }
+
         body.getChildren().clear();
         body.getChildren().add(currentView);
-        System.out.println(specimenController);
         currentController.updateSize(lastWidth, lastHeight);
     }
 
@@ -125,12 +128,22 @@ public class MainWindow {
     }
 
     public SpecimenController getSpecimenController() {
-
         return specimenController;
     }
 
-    public void update(){
-        currentController.update();
+    public Display getCurrentDisplay(){
+        if(currentController == todoListController){
+            return Display.TODO_LIST;
+        } else if(currentController == speciesListController){
+            return Display.SPECIES_LIST;
+        } else if(currentController == speciesController){
+            return Display.SPECIES;
+        } else if(currentController == specimenController){
+            return Display.SPECIMEN;
+        } else if(currentController == galleryController){
+            return Display.GALLERY;
+        }
+        return null;
     }
 
     public void updateWindowSize(double width, double height) {

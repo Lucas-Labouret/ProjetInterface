@@ -1,19 +1,21 @@
 package org.example.projetjardinage.model;
 
+import org.example.projetjardinage.controller.utils.RecursiveTask;
+
 import java.time.LocalDate;
 import java.time.Month;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class Task implements Observable{
+public class Task extends Observable {
     private LocalDate dueDate;
     private String name;
     private String description;
     private Task parent;
     private boolean done;
 
-    private int recurrence;
+    private Integer recurrence = null;
     private final List<Task> subTasks = new ArrayList<>();
 
     private final List<Specimen> linkedSpecimens = new ArrayList<>();
@@ -76,6 +78,9 @@ public class Task implements Observable{
     public void setNextDate(){
         this.dueDate = this.nextDate();
         this.done = false;
+        for(Task t :this.subTasks){
+            t.setNextDate();
+        }
     }
 
     public Task() {
@@ -95,17 +100,12 @@ public class Task implements Observable{
         this.linkedSpecimens.addAll(Spe);
     }
 
-    public String getName() {
-        return name;
-    }
+    public String getName() { return name; }
     public void setName(String name) {
         this.name = name;
-        this.sendNotif();
     }
 
-    public String getDescription() {
-        return description;
-    }
+    public String getDescription() { return description; }
     public void setDescription(String description) {
         this.description = description;
         this.sendNotif();
@@ -123,11 +123,33 @@ public class Task implements Observable{
         this.sendNotif();
     }
 
+    public boolean allSubTasksDone() {
+        if (this.isDone()) return true;
+        for (Task subTask : subTasks)
+            if (!subTask.isDone()) return false;
+        return true;
+    }
+
     public boolean isDone() {
         return done;
     }
     public void setDone(boolean done) {
-        this.done = done;
+        if (done) {
+            this.done = true;
+            for (Task t : subTasks) {
+                t.setDone(true);
+            }
+        } else {
+            this.done = false;
+            if (this.parent != null) this.parent.setDone(false);
+        }
+        this.sendNotif();
+    }
+
+    public boolean isRecurrente() { return recurrence != null; }
+    public Integer getRecurrence() { return recurrence; }
+    public void setRecurrence(Integer recurrence) {
+        this.recurrence = recurrence;
         this.sendNotif();
     }
 
@@ -152,6 +174,32 @@ public class Task implements Observable{
     }
 
     public List<Specimen> getLinkedSpecimens() { return linkedSpecimens; }
-    public void addLinkedSpecimens(Specimen... s) { linkedSpecimens.addAll(List.of(s)); }
-    public void removeLinkedSpecimens(Specimen... s) { linkedSpecimens.removeAll(List.of(s)); }
+    public void addLinkedSpecimens(Specimen... s) {
+        linkedSpecimens.addAll(List.of(s));
+        this.sendNotif();
+    }
+    public void removeLinkedSpecimens(Specimen... s) {
+        linkedSpecimens.removeAll(List.of(s));
+        this.sendNotif();
+    }
+
+    public String getMonthName() {
+        String month;
+        switch (this.getDueDate().getMonthValue()){
+            case 1 -> month = "Janvier";
+            case 2 -> month = "Février";
+            case 3 -> month = "Mars";
+            case 4 -> month = "Avril";
+            case 5 -> month = "Mai";
+            case 6 -> month = "Juin";
+            case 7 -> month = "Juillet";
+            case 8 -> month = "Août";
+            case 9 -> month = "Septembre";
+            case 10 -> month = "Octobre";
+            case 11 -> month = "Novembre";
+            case 12 -> month = "Décembre";
+            default -> throw new IllegalStateException("Unexpected value: " + this.getDueDate().getMonthValue());
+        }
+        return month;
+    }
 }
