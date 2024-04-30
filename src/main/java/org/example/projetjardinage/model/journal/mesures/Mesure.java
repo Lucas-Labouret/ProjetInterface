@@ -1,4 +1,4 @@
-package org.example.projetjardinage.model.mesure;
+package org.example.projetjardinage.model.journal.mesures;
 
 import org.example.projetjardinage.model.Observable;
 

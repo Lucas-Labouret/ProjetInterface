@@ -4,21 +4,21 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextFormatter;
-import org.example.projetjardinage.model.mesure.MesureHolder;
-import org.example.projetjardinage.model.mesure.MesureNumerique;
+import org.example.projetjardinage.model.journal.JournalEntry;
+import org.example.projetjardinage.model.journal.mesures.MesureHolder;
+import org.example.projetjardinage.model.journal.mesures.MesureNumerique;
 
-public class MesureNumController {
+public class MesureNumController extends MesureController {
     @FXML private Label name;
     @FXML private TextField field;
     @FXML private Label unit;
 
-    private MesureHolder mesure;
-
-    public MesureNumController(MesureHolder mesure) {
-        this.mesure = mesure;
+    public MesureNumController(MesureHolder mesure, JournalEntry entry) {
+        super(entry, mesure);
     }
 
     public void initialize() {
+        setContextMenu();
         name.setText(mesure.getName());
         unit.setText(((MesureNumerique) mesure.getMesure()).getUnit());
         field.setText(Double.toString(((MesureNumerique) mesure.getMesure()).getValue()));

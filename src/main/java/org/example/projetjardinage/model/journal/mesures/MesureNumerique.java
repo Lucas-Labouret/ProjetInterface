@@ -1,4 +1,4 @@
-package org.example.projetjardinage.model.mesure;
+package org.example.projetjardinage.model.journal.mesures;
 
 public class MesureNumerique extends Mesure {
     private float value;

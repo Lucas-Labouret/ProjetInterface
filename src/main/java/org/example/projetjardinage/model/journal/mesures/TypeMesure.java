@@ -1,4 +1,4 @@
-package org.example.projetjardinage.model.mesure;
+package org.example.projetjardinage.model.journal.mesures;
 
 public enum TypeMesure {
     Text,      //string

@@ -1,8 +1,7 @@
 package org.example.projetjardinage.model;
 
-import org.example.projetjardinage.model.mesure.InfoMesure;
-import org.example.projetjardinage.model.mesure.OptimalHolder;
-import org.example.projetjardinage.model.mesure.PlageMesure;
+import org.example.projetjardinage.model.journal.OptimalHolder;
+import org.example.projetjardinage.model.journal.PlageMesure;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -82,4 +81,6 @@ public class Species extends Observable {
     public PlageMesure getMesures(){ return this.mesuresPoss;}
 
     public int getNbMesures(){return this.mesuresPoss.getTaille();}
+
+    public PlageMesure getMesuresInfos(){return this.mesuresPoss;}
 }

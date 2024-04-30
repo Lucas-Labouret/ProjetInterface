@@ -1,4 +1,4 @@
-package org.example.projetjardinage.model.mesure;
+package org.example.projetjardinage.model.journal.mesures;
 
 public class MesureBool extends Mesure{
     private boolean value;
@@ -21,7 +21,7 @@ public class MesureBool extends Mesure{
         } else if (val.equals("0")){
             this.value = false;
         } else {
-            System.out.println("Erreur dans la string de set d'une mesure booleenne");
+            System.out.println("Erreur dans la string de set d'une journal booleenne");
         }
     }
 

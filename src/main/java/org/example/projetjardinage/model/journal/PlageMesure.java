@@ -1,13 +1,15 @@
-package org.example.projetjardinage.model.mesure;
+package org.example.projetjardinage.model.journal;
+
+import org.example.projetjardinage.model.journal.mesures.TypeMesure;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class PlageMesure {
 
-    private List<String> noms = new ArrayList<>();
-    private List<InfoMesure> condition = new ArrayList<>();
-    private List<InfoMesure> mesures = new ArrayList<>();
+    private final List<String> noms = new ArrayList<>();
+    private final List<InfoMesure> condition = new ArrayList<>();
+    private final List<InfoMesure> mesures = new ArrayList<>();
 
     public PlageMesure(){
         this.condition.add(new InfoMesure("Exposition", TypeMesure.Scale, ""));
@@ -19,18 +21,42 @@ public class PlageMesure {
 
         this.mesures.add(new InfoMesure("Hauteur", TypeMesure.Numeric, "cm"));
         this.mesures.add(new InfoMesure("Largeur", TypeMesure.Numeric, "cm"));
+        updateNames();
+    }
+
+    private void updateNames(){
+        this.noms.clear();
         for(InfoMesure m : this.getAll()){
             this.noms.add(m.getName());
         }
     }
 
-    public void addMesure(String name, String type, String unit){
-
+    public boolean addMesure(String name, String type, String unit){
         if( !(this.noms.contains(name)) ){
             this.mesures.add(new InfoMesure(name, type , unit));
             this.noms.add(name);
+            updateNames();
+            return true;
         }
+        return false;
+    }
 
+    public boolean addMesure(String name, TypeMesure type, String unit){
+        if( !(this.noms.contains(name)) ){
+            this.mesures.add(new InfoMesure(name, type , unit));
+            this.noms.add(name);
+            updateNames();
+            return true;
+        }
+        return false;
+    }
+
+    public void removeMesure(String name){
+        int index = this.noms.indexOf(name);
+        if(index != -1){
+            this.noms.remove(index);
+            this.mesures.remove(index);
+        }
     }
 
     public List<InfoMesure> getConditions(){

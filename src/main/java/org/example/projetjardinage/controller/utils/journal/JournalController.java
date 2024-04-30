@@ -9,15 +9,13 @@ import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
 import javafx.scene.layout.Pane;
 
-import javafx.util.StringConverter;
 import org.example.projetjardinage.GlobalData;
 import org.example.projetjardinage.controller.utils.ValidationPrompt;
-import org.example.projetjardinage.model.mesure.Journal;
+import org.example.projetjardinage.model.journal.Journal;
 
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 
 public class JournalController {
     @FXML private Label name;

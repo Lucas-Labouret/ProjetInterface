@@ -1,6 +1,9 @@
-package org.example.projetjardinage.model.mesure;
+package org.example.projetjardinage.model.journal;
 
-import java.util.ArrayList;
+import org.example.projetjardinage.model.journal.mesures.MesureList;
+import org.example.projetjardinage.model.journal.mesures.MesureNumerique;
+import org.example.projetjardinage.model.journal.mesures.MesureScale;
+
 import java.util.List;
 
 public class OptimalHolder {

@@ -1,4 +1,6 @@
-package org.example.projetjardinage.model.mesure;
+package org.example.projetjardinage.model.journal;
+
+import org.example.projetjardinage.model.journal.mesures.TypeMesure;
 
 public class InfoMesure {
     private String name;

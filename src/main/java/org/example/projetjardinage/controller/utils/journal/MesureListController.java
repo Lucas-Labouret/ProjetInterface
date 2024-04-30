@@ -4,20 +4,20 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
-import org.example.projetjardinage.model.mesure.MesureHolder;
-import org.example.projetjardinage.model.mesure.MesureList;
+import org.example.projetjardinage.model.journal.JournalEntry;
+import org.example.projetjardinage.model.journal.mesures.MesureHolder;
+import org.example.projetjardinage.model.journal.mesures.MesureList;
 
-public class MesureListController {
+public class MesureListController extends MesureController {
     @FXML private Label name;
     @FXML private MenuButton menu;
 
-    private MesureHolder mesure;
-
-    public MesureListController(MesureHolder mesure) {
-        this.mesure = mesure;
+    public MesureListController(MesureHolder mesure, JournalEntry entry) {
+        super(entry, mesure);
     }
 
     public void initialize() {
+        setContextMenu();
         name.setText(mesure.getName());
         menu.setText(((MesureList) mesure.getMesure()).getType());
         for (String type : (((MesureList) mesure.getMesure()).getTypes())) {
