@@ -21,12 +21,20 @@ import java.nio.file.InvalidPathException;
 import java.nio.file.Paths;
 
 public class EspeceController extends Observer {
-    @FXML private AnchorPane espece;
-    @FXML private ImageView image;
-    @FXML private Label text;
+
+    @FXML
+    private AnchorPane espece;
+
+    @FXML
+    private ImageView image;
+
+    @FXML
+    private Label text;
 
     private Species species;
+
     private int especeid;
+
     private int specimen = -1;
 
     public EspeceController(int i) {;

@@ -1,15 +1,11 @@
 package org.example.projetjardinage.model;
 
-import org.example.projetjardinage.model.journal.InfoMesure;
-import org.example.projetjardinage.model.journal.mesures.MesureHolder;
-import org.example.projetjardinage.model.journal.PlageMesure;
 import org.example.projetjardinage.model.journal.*;
 
 import java.time.LocalDate;
 import java.time.Month;
 import java.util.ArrayList;
 import java.util.List;
-import org.example.projetjardinage.model.journal.mesures.MesureHolder;
 
 public class Specimen {
     private Species species;
@@ -37,7 +33,7 @@ public class Specimen {
         this.journal = new Journal(species);
     }
 
-    public Specimen(List<String> elem, Species spe, List<List<String>> journ, List<List<String>> photos){
+    public Specimen(List<String> elem, Species spe, List<List<String>> journ){
         this.name = elem.get(0);
         this.oldName = elem.get(0);
         String date = elem.get(1);
@@ -51,7 +47,7 @@ public class Specimen {
         this.noteSpecimen = elem.get(5);
         this.noteEntretien = elem.get(6);
         this.species = spe;
-        this.journal = new Journal(journ,photos, spe.getMesures(), spe);
+        this.journal = new Journal(journ, spe.getMesures(), spe);
     }
 
     public Species getSpecies() {
@@ -93,7 +89,7 @@ public class Specimen {
     public boolean isAlive(){ return alive; }
     public void setStatus(boolean alive){ this.alive = alive; }
 
-    public void addJournalEntry(LocalDate date, org.example.projetjardinage.model.journal.JournalEntry entry){
+    public void addJournalEntry(LocalDate date, JournalEntry entry){
         for (LocalDate d: journal.keySet())
             if (date.isEqual(d)) throw new RuntimeException("Date already has an associated entry");
 
@@ -101,25 +97,4 @@ public class Specimen {
     }
 
     public void addTask(Task tache){this.taskList.add(tache);}
-
-    public List<MesureHolder> getMoyenne(InfoMesure info){
-        List <MesureHolder> mesures = new ArrayList<>();
-        for(org.example.projetjardinage.model.journal.JournalEntry journ : this.journal.values()){
-            MesureHolder mes = journ.getMesureInfo(info);
-            if(!((mes.getMesure()).toString().equals("<Echec>"))){
-                mesures.add(mes);
-            }
-        }
-        return mesures;
-    }
-
-    public LocalDate getMiseEnTerre() {
-        return miseEnTerre;
-    }
-
-    public String getNoteSpecimen(){
-        return noteSpecimen;
-    }
-
-    public String getNoteEntretien(){return noteEntretien;}
 }

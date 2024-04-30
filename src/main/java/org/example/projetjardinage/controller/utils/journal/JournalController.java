@@ -69,7 +69,7 @@ public class JournalController {
                     journal.remove(dateToDelete);
                     dateMenu.getItems().removeIf(item -> item.getText().equals(dateMenu.getText()));
                     if (journal.isEmpty()) mainPanel.getChildren().clear();
-                    else switchToEntry(journal.getSortedDates().get(journal.getSortedDates().size()-1));
+                    else switchToEntry(journal.getSortedDates().get(journal.getSortedDates().size() - 1));
                 }
             });
         });
@@ -78,8 +78,8 @@ public class JournalController {
             addItemToMenu(date);
         }
 
-        dateMenu.setText(journal.getSortedDates().get(journal.getSortedDates().size()-1).format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
-        switchToEntry(journal.getSortedDates().get(journal.getSortedDates().size()-1));
+        dateMenu.setText(journal.getSortedDates().get(journal.getSortedDates().size() - 1).format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
+        switchToEntry(journal.getSortedDates().get(journal.getSortedDates().size() - 1));
     }
 
     private void addItemToMenu(LocalDate date){

@@ -2,8 +2,6 @@ package org.example.projetjardinage.model.journal.mesures;
 
 import org.example.projetjardinage.model.journal.InfoMesure;
 
-import java.util.ArrayList;
-
 public class MesureHolder {
 
     private String name;
@@ -21,8 +19,8 @@ public class MesureHolder {
         this.type = info.getType();
         switch(info.getType()) {
             case Bool -> mesure = new MesureBool(val);
-            case Scale -> mesure = new MesureScale(info.getUnit(), val);
-            case Numeric -> mesure = new MesureNumerique(info.getUnit(), val) ;
+            case Scale -> mesure = new MesureScale(val);
+            case Numeric -> mesure = new MesureNumerique(val, info.getUnit()) ;
             case Text -> mesure = new MesureText(val) ;
             case List -> mesure = new MesureList(val);
             default -> {
@@ -57,7 +55,7 @@ public class MesureHolder {
         }
     }
 
-    public static MesureHolder newMesureText(String name, String texte){
+    public static MesureHolder newMesureTexte(String name, String texte){
         Mesure mesure = new MesureText(texte);
         return new MesureHolder(name, TypeMesure.Text, mesure);
     }
@@ -76,10 +74,6 @@ public class MesureHolder {
         Mesure mesure = new MesureList(type);
         return new MesureHolder(name, TypeMesure.List, mesure);
     }
-    public static MesureHolder newMesureList(String name, ArrayList<String> types) {
-        Mesure mesure = new MesureList(types);
-        return new MesureHolder(name, TypeMesure.List, mesure);
-    }
 
     public static MesureHolder newMesureScale(String name, int niveau, int min, int max){
         Mesure mesure = new MesureScale(niveau, min, max);
@@ -94,8 +88,4 @@ public class MesureHolder {
 
     public Mesure getMesure() { return mesure; }
     public void setMesure(Mesure mesure) { this.mesure = mesure; }
-
-    public String getMesureString(){
-        return String.valueOf(mesure.getValue());
-    }
 }
