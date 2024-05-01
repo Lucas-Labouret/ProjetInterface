@@ -2,6 +2,9 @@ package org.example.projetjardinage.model.journal;
 
 import org.example.projetjardinage.model.journal.mesures.TypeMesure;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class InfoMesure {
     private String name;
     private TypeMesure type;
@@ -20,6 +23,8 @@ public class InfoMesure {
             case "N" -> this.type = TypeMesure.Numeric;
             case "T" -> this.type = TypeMesure.Text;
             case "B" -> this.type = TypeMesure.Bool;
+            case "L" -> this.type = TypeMesure.List;
+            case "S" -> this.type = TypeMesure.Scale;
             default -> System.out.println("Erreur constructeur InfoMesure");
         }
 
@@ -37,5 +42,11 @@ public class InfoMesure {
         return this.unit;
     }
 
-
+    public ArrayList<String> getSpecificInfos(){
+        if (this.type == TypeMesure.List || this.type == TypeMesure.Scale){
+            return new ArrayList<>(List.of(this.unit.split("<SEP>")));
+        } else {
+            return null;
+        }
+    }
 }

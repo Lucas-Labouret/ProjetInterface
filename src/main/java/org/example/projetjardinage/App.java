@@ -1,6 +1,7 @@
 package org.example.projetjardinage;
 
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -58,7 +59,10 @@ public class App extends Application {
         primaryStage.show();
 
         GlobalData.primaryStage = primaryStage;
-        primaryStage.setOnHidden(e -> renameDirectories());
+        primaryStage.setOnHidden(e -> {
+            renameDirectories();
+            Platform.exit();
+        });
     }
 
     private void renameDirectories(){
