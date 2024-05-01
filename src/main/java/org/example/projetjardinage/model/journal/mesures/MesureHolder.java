@@ -94,4 +94,11 @@ public class MesureHolder {
 
     public Mesure getMesure() { return mesure; }
     public void setMesure(Mesure mesure) { this.mesure = mesure; }
+
+
+    public String getMesureString(){
+        return String.valueOf(mesure.getValue());
+    }
+
+
 }
