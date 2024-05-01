@@ -8,13 +8,11 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import org.example.projetjardinage.controller.MainWindow;
-import org.example.projetjardinage.model.Species;
 
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.FileSystems;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 
 public class App extends Application {
@@ -75,9 +73,9 @@ public class App extends Application {
 
                 for(char c :a ){
                     t += c ;
-                    if(i == '\\'){
-                        t += c ;
-                    }
+                    //if(i == '\\'){
+                    //    t += c ;
+                   // }
                 }
                 File ancienDossier = new File(t);
                 System.out.println(ancienDossier + "");
