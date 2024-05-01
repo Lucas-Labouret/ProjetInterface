@@ -16,6 +16,7 @@ import org.example.projetjardinage.model.journal.Journal;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 
 public class JournalController {
     @FXML private Label name;
@@ -73,8 +74,11 @@ public class JournalController {
                 }
             });
         });
-
-        for (LocalDate date: journal.getSortedDates().reversed()){
+        ArrayList<LocalDate> tmp = new ArrayList<>();
+        for(int i =0;i<journal.getSortedDates().size()-1;i=i+1){
+            tmp.add(journal.getSortedDates().get(i));
+        }
+        for (LocalDate date: tmp){
             addItemToMenu(date);
         }
 
