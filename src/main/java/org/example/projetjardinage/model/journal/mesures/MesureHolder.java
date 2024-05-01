@@ -2,6 +2,8 @@ package org.example.projetjardinage.model.journal.mesures;
 
 import org.example.projetjardinage.model.journal.InfoMesure;
 
+import java.util.ArrayList;
+
 public class MesureHolder {
 
     private String name;
@@ -19,7 +21,7 @@ public class MesureHolder {
         this.type = info.getType();
         switch(info.getType()) {
             case Bool -> mesure = new MesureBool(val);
-            case Scale -> mesure = new MesureScale(val);
+            case Scale -> mesure = new MesureScale(val, info.getUnit());
             case Numeric -> mesure = new MesureNumerique(val, info.getUnit()) ;
             case Text -> mesure = new MesureText(val) ;
             case List -> mesure = new MesureList(val);
@@ -55,7 +57,7 @@ public class MesureHolder {
         }
     }
 
-    public static MesureHolder newMesureTexte(String name, String texte){
+    public static MesureHolder newMesureText(String name, String texte){
         Mesure mesure = new MesureText(texte);
         return new MesureHolder(name, TypeMesure.Text, mesure);
     }
@@ -72,6 +74,10 @@ public class MesureHolder {
 
     public static MesureHolder newMesureList(String name, String type) {
         Mesure mesure = new MesureList(type);
+        return new MesureHolder(name, TypeMesure.List, mesure);
+    }
+    public static MesureHolder newMesureList(String name, ArrayList<String> types) {
+        Mesure mesure = new MesureList(types);
         return new MesureHolder(name, TypeMesure.List, mesure);
     }
 

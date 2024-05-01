@@ -15,6 +15,7 @@ public class JournalEntry extends Observable {
     private boolean couper = false;
     private boolean recolter = false;
 
+
     private List<String> images = new ArrayList<>();
 
     JournalEntry(Species species) {
@@ -22,7 +23,7 @@ public class JournalEntry extends Observable {
         notes = "";
     }
 
-    public JournalEntry(PlageMesure infos, List<String> vals, Species species){
+    public JournalEntry(PlageMesure infos, List<String> vals, Species species, List<Boolean> bools,List<String> photos){
         this.species = species;
         int nb = infos.getTaille();
         for(int i = 0; i < nb;i++){
@@ -30,6 +31,10 @@ public class JournalEntry extends Observable {
                 mesures.add(new MesureHolder(infos.getAll().get(i), vals.get(i)));
             }
         }
+        this.rempoter = bools.get(0);
+        this.couper = bools.get(1);
+        this.recolter = bools.get(2);
+        this.images = photos;
     }
 
     public JournalEntry(JournalEntry journalEntry) {
@@ -68,8 +73,14 @@ public class JournalEntry extends Observable {
     public void setRecolter(boolean r){recolter = r;}
     public boolean isRecolter(){return recolter;}
 
+    public List<String> getImages(){return images;}
     public void addImage(String path){
         images.add(path);
         sendNotif();
+    }
+
+    public MesureHolder getMesureInfo(InfoMesure info){
+        MesureHolder mes = MesureHolder.newMesureText("Echec","dans le recuperage d'entrees");
+        return mes;
     }
 }
