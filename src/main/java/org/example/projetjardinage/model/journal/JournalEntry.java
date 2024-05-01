@@ -15,7 +15,6 @@ public class JournalEntry extends Observable {
     private boolean couper = false;
     private boolean recolter = false;
 
-    private List<String> photos = new ArrayList<>();
 
     private List<String> images = new ArrayList<>();
 
@@ -35,7 +34,7 @@ public class JournalEntry extends Observable {
         this.rempoter = bools.get(0);
         this.couper = bools.get(1);
         this.recolter = bools.get(2);
-        this.photos = photos;
+        this.images = photos;
     }
 
     public JournalEntry(JournalEntry journalEntry) {
