@@ -21,6 +21,8 @@ public class MainWindow {
         return instance;
     }
 
+
+
     public enum Display {
         TODO_LIST,
         SPECIES_LIST,
@@ -129,6 +131,9 @@ public class MainWindow {
 
     public SpecimenController getSpecimenController() {
         return specimenController;
+    }
+    public GalleryController getGalleryController() {
+        return galleryController;
     }
 
     public Display getCurrentDisplay(){
