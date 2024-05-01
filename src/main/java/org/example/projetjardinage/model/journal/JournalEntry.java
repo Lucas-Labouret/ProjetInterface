@@ -15,6 +15,10 @@ public class JournalEntry extends Observable {
     private boolean couper = false;
     private boolean recolter = false;
 
+    public boolean getRempot(){return rempoter;}
+    public boolean getCoup(){return couper;}
+    public boolean getRecolt(){return recolter;}
+
 
     private List<String> images = new ArrayList<>();
 
@@ -80,7 +84,21 @@ public class JournalEntry extends Observable {
     }
 
     public MesureHolder getMesureInfo(InfoMesure info){
-        MesureHolder mes = MesureHolder.newMesureText("Echec","dans le recuperage d'entrees");
+        MesureHolder mes = MesureHolder.newMesureNumerique("Echec",(float)0,"");
+        for(MesureHolder mesureHolder : mesures){
+            if(mesureHolder.getName().equals(info.getName())){
+                return mesureHolder;
+            }
+        }
         return mes;
+    }
+
+    public boolean contientMesure(InfoMesure info){
+        for(MesureHolder mesureHolder : mesures){
+            if(mesureHolder.getName().equals(info.getName())){
+                return true;
+            }
+        }
+        return false;
     }
 }

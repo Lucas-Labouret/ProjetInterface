@@ -1,15 +1,14 @@
 package org.example.projetjardinage.model;
 
 import org.example.projetjardinage.model.journal.InfoMesure;
-import org.example.projetjardinage.model.journal.mesures.MesureHolder;
+import org.example.projetjardinage.model.journal.Journal;
 import org.example.projetjardinage.model.journal.PlageMesure;
-import org.example.projetjardinage.model.journal.*;
+import org.example.projetjardinage.model.journal.mesures.MesureHolder;
 
 import java.time.LocalDate;
 import java.time.Month;
 import java.util.ArrayList;
 import java.util.List;
-import org.example.projetjardinage.model.journal.mesures.MesureHolder;
 
 public class Specimen {
     private Species species;
@@ -18,6 +17,7 @@ public class Specimen {
     private boolean alive;
     private LocalDate miseEnTerre;
 
+    private final List<LocalDate> lesDates = new ArrayList<>(4);
 
 
     private String profilePic;
@@ -35,6 +35,13 @@ public class Specimen {
         this.alive = true;
         this.miseEnTerre = miseEnTerre;
         this.journal = new Journal(species);
+        this.setLesDates();
+    }
+
+    private void setLesDates(){
+        for(int i = 0; i<4; i++){
+            this.lesDates.set(i,this.miseEnTerre);
+        }
     }
 
     public Specimen(List<String> elem, Species spe, List<List<String>> journ, List<List<String>> photos){
@@ -52,7 +59,25 @@ public class Specimen {
         this.noteEntretien = elem.get(6);
         this.species = spe;
         this.journal = new Journal(journ,photos, spe.getMesures(), spe);
+        //this.setLesDatesLect();
     }
+
+    /**private void setLesDatesLect(){
+        ArrayList<LocalDate> datesOrd = journal.getSortedDates();
+        this.lesDates.set(0,datesOrd.get(datesOrd.size()-1));
+        boolean Coupe = true;
+        boolean Rempot = true;
+        boolean Recolte = true;
+        while(Coupe && Rempot && Recolte && datesOrd.size()>0){
+            LocalDate date = datesOrd.get(datesOrd.size()-1);
+            if(journal.get(date).getRecolt()){this.lesDates.set(3,date); Recolte = true;}
+            if(journal.get(date).getRempot()){this.lesDates.set(1,date); Rempot = true;}
+            if(journal.get(date).getCoup()){this.lesDates.set(2,date); Coupe = true;}
+        }
+        if(!Coupe){this.lesDates.set(2,miseEnTerre);}
+        if(!Rempot){this.lesDates.set(1,miseEnTerre);}
+        if(!Recolte){this.lesDates.set(3,miseEnTerre);}
+    }**/
 
     public Species getSpecies() {
         return species;
@@ -98,6 +123,11 @@ public class Specimen {
             if (date.isEqual(d)) throw new RuntimeException("Date already has an associated entry");
 
         journal.put(date, entry);
+
+        this.lesDates.set(0,LocalDate.now());
+        if(entry.getRempot()){this.lesDates.set(1,LocalDate.now());}
+        if(entry.getCoup()){this.lesDates.set(2,LocalDate.now());}
+        if(entry.getRecolt()){this.lesDates.set(3,LocalDate.now());}
     }
 
     public void addTask(Task tache){this.taskList.add(tache);}
@@ -111,5 +141,31 @@ public class Specimen {
             }
         }
         return mesures;
+    }
+
+    public LocalDate getMiseEnTerre() {
+        return miseEnTerre;
+    }
+
+    public String getNoteSpecimen(){
+        return noteSpecimen;
+    }
+
+    public String getNoteEntretien(){return noteEntretien;}
+
+    public LocalDate getDateCoupe(){  //rempoter, couper, recolyter
+        return this.lesDates.get(2);
+    }
+
+    public LocalDate getDateRempot(){
+        return this.lesDates.get(1);
+    }
+
+    public LocalDate getDateRecolte(){
+        return this.lesDates.get(3);
+    }
+
+    public LocalDate getDerniereEntree(){
+        return this.lesDates.get(0);
     }
 }

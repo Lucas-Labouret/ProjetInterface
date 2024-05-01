@@ -175,7 +175,7 @@ public class SpeciesController extends Observer implements BodyController {
         update();
     }
 
-    public void fillTodoList(TodoList todoList) {
+    private void fillTodoList(TodoList todoList) {
         ArrayList<Task> unexplored = new ArrayList<>();
         for (Task task: GlobalData.tasks.getElements()){
             if (task.getLinkedSpecies().contains(this.species))

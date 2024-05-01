@@ -11,6 +11,7 @@ import org.example.projetjardinage.controller.Observer;
 import org.example.projetjardinage.controller.utils.FrameGalleryController;
 import org.example.projetjardinage.model.Lists.ObservableList;
 import org.example.projetjardinage.model.Species;
+import org.example.projetjardinage.model.Specimen;
 
 import java.io.File;
 import java.nio.file.FileSystems;
@@ -55,6 +56,8 @@ public class GalleryController extends Observer implements BodyController {
     private final ObservableList<Species> plantes;
 
     private List<FrameGalleryController> frameGalleryControllers = new ArrayList<>();
+
+    private Specimen specimen = null;
 
     public GalleryController() {
         plantes = GlobalData.species;
@@ -158,9 +161,9 @@ public class GalleryController extends Observer implements BodyController {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/utils/FrameGallery.fxml"));
                 FrameGalleryController frameGalleryController;
                 try {
-                System.out.println("/galerie/" + species.getOldName() + "/" + species.getSpecimens().get(x).getOldName() + "/" + listOfFiles[i].getName());
-                frameGalleryController = new FrameGalleryController(species, x, "/galerie/" + species.getOldName() + "/" + species.getSpecimens().get(x).getOldName() + "/" + listOfFiles[i].getName());
-                }catch (Exception e) {
+                    System.out.println("/galerie/" + species.getOldName() + "/" + species.getSpecimens().get(x).getOldName() + "/" + listOfFiles[i].getName());
+                    frameGalleryController = new FrameGalleryController(species, x, "/galerie/" + species.getOldName() + "/" + species.getSpecimens().get(x).getOldName() + "/" + listOfFiles[i].getName());
+                } catch (Exception e) {
                     frameGalleryController = new FrameGalleryController(species, x, "/icons/267203.png");
                     System.out.println("lololol");
                 }
@@ -170,13 +173,14 @@ public class GalleryController extends Observer implements BodyController {
                 try {
                     especeView = loader.load();
                     photos.getChildren().add(especeView);
-                        System.out.println("tamsy");
+                    System.out.println("tamsy");
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
 
         }
+
 
 
     }
@@ -227,13 +231,27 @@ public class GalleryController extends Observer implements BodyController {
             controller.resetBackground();
         }
         this.species = species;
+        this.specimen = null;
+        update();
+    }
+
+    public void switchSpecimen(Specimen specimen) {
+        for (FrameGalleryController controller: frameGalleryControllers) {
+            controller.resetBackground();
+        }
+        this.specimen = specimen;
+
         update();
     }
 
     public void showSpecimens() {
-        if(species != null) {
+        if(species != null && specimen == null) {
             for (int i = 0; i < species.getSpecimens().size(); i++) {
                 loadImage(species, i);
+            }
+        }else {
+            if(specimen != null){
+                loadImage(specimen.getSpecies(), specimen.getSpecies().getSpecimens().indexOf(specimen));
             }
         }
     }
