@@ -37,7 +37,7 @@ public class Specimen {
         this.journal = new Journal(species);
     }
 
-    public Specimen(List<String> elem, Species spe, List<List<String>> journ){
+    public Specimen(List<String> elem, Species spe, List<List<String>> journ, List<List<String>> photos){
         this.name = elem.get(0);
         this.oldName = elem.get(0);
         String date = elem.get(1);
@@ -51,7 +51,7 @@ public class Specimen {
         this.noteSpecimen = elem.get(5);
         this.noteEntretien = elem.get(6);
         this.species = spe;
-        this.journal = new Journal(journ, spe.getMesures(), spe);
+        this.journal = new Journal(journ,photos, spe.getMesures(), spe);
     }
 
     public Species getSpecies() {
