@@ -112,4 +112,14 @@ public class Specimen {
         }
         return mesures;
     }
+
+    public LocalDate getMiseEnTerre() {
+        return miseEnTerre;
+    }
+
+    public String getNoteSpecimen(){
+        return noteSpecimen;
+    }
+
+    public String getNoteEntretien(){return noteEntretien;}
 }
