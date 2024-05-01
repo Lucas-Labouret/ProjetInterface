@@ -1,8 +1,6 @@
 package org.example.projetjardinage.model;
 
-import org.example.projetjardinage.model.mesure.InfoMesure;
-import org.example.projetjardinage.model.mesure.OptimalHolder;
-import org.example.projetjardinage.model.mesure.PlageMesure;
+import org.example.projetjardinage.model.mesure.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -83,4 +81,45 @@ public class Species extends Observable {
     public PlageMesure getMesures(){ return this.mesuresPoss;}
 
     public int getNbMesures(){return this.mesuresPoss.getTaille();}
+
+    public MesureHolder moyenne(List<MesureHolder> mes, InfoMesure info){
+        TypeMesure type = info.getType();
+        MesureHolder moy;
+        switch(type){
+            case Bool : {
+                int vrai = 0;
+                int faux = 0;
+                for (MesureHolder mesure : mes){
+                    if((boolean)(mesure.getMesure().getValue())){
+                        vrai = vrai +1;
+                    } else {
+                        faux = faux +1;
+                    }
+                }
+                float res = (float)(100*vrai) / (float)(faux+vrai);
+                String newName = info.getName()+(" Moyenne");
+                moy = MesureHolder.newMesureNumerique(newName,res,"%");
+            }
+            default : moy = MesureHolder.newMesureBool("Echec", true);
+        }
+        return moy;
+    }
+
+    public List<MesureHolder> getMesuresMoyennes(){
+        List<MesureHolder> moyennes = new ArrayList<>();
+        for(int i = 0; i< this.mesuresPoss.getTaille();i++){
+            InfoMesure info = this.mesuresPoss.getAll().get(i);
+            TypeMesure type = info.getType();
+            List<MesureHolder> mes = new ArrayList<>();
+            for(Specimen spe : this.specimens){
+                List<MesureHolder> speMoy = spe.getMoyenne(info);
+                if(speMoy.size()>0){
+                    mes.add(this.moyenne(speMoy,info));
+                }
+            }
+            moyennes.add(this.moyenne(mes,info));
+
+        }
+        return moyennes;
+    }
 }

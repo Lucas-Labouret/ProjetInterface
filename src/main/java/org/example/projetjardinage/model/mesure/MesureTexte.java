@@ -5,6 +5,11 @@ public class MesureTexte extends Mesure {
 
     MesureTexte(String texte){ this.texte = texte; }
 
-    String getTexte(){ return texte; }
+    public String getValue(){ return texte; }
     void setTexte(String texte){ this.texte = texte; }
+
+
+    public TypeMesure getType(){
+        return TypeMesure.Texte;
+    }
 }

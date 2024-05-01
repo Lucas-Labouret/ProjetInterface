@@ -36,4 +36,13 @@ public class JournalEntry {
     public void setNotes(String n) {notes = n;}
 
     public void addMesure(MesureHolder holder){mesures.add(holder);}
+
+    public MesureHolder getMesureInfo(InfoMesure info){
+        for(MesureHolder mes : this.mesures){
+            if (mes.getName().equals(info.getName())){
+                return mes;
+            }
+        }
+        return MesureHolder.newMesureTexte("<Echec>", "Pour get l'info");
+    }
 }

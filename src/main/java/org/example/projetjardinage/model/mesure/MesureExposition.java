@@ -28,7 +28,7 @@ public class MesureExposition extends Mesure {
         }
     }
 
-    public Force getForce() { return force; }
+    public Force getValue() { return force; }
 
     public String getEcritForce() {
         if (this.force == Force.Ombrage){
@@ -43,5 +43,7 @@ public class MesureExposition extends Mesure {
     }
     public void setForce(Force force) { this.force = force; }
 
-
+    public TypeMesure getType(){
+        return TypeMesure.Exposition;
+    }
 }

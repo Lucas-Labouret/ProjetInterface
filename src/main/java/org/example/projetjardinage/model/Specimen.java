@@ -1,5 +1,7 @@
 package org.example.projetjardinage.model;
 
+import org.example.projetjardinage.model.mesure.InfoMesure;
+import org.example.projetjardinage.model.mesure.MesureHolder;
 import org.example.projetjardinage.model.mesure.PlageMesure;
 
 import java.time.LocalDate;
@@ -97,4 +99,15 @@ public class Specimen {
     }
 
     public void addTask(Task tache){this.taskList.add(tache);}
+
+    public List<MesureHolder> getMoyenne(InfoMesure info){
+        List <MesureHolder> mesures = new ArrayList<>();
+        for(JournalEntry journ : this.journal.values()){
+            MesureHolder mes = journ.getMesureInfo(info);
+            if(!((mes.getMesure()).toString().equals("<Echec>"))){
+                mesures.add(mes);
+            }
+        }
+        return mesures;
+    }
 }

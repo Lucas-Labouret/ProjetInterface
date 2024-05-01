@@ -12,7 +12,7 @@ public class MesureArrosage extends Mesure {
 
     public MesureArrosage(String val){ this.setNiveauLect(val);}
 
-    public Niveau getNiveau(){ return niveau; }
+    public Niveau getValue(){ return niveau; }
     public void setNiveau(Niveau niveau) { this.niveau = niveau; }
     public void setNiveauLect(String niv){
         int niveau = Integer.parseInt(niv);
@@ -28,4 +28,10 @@ public class MesureArrosage extends Mesure {
             System.out.println("Erreur dans le typage de l'arrosage a la lecture.");
         }
     }
+
+    public TypeMesure getType(){
+        return TypeMesure.Arrosage;
+    }
+
+
 }

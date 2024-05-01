@@ -52,4 +52,8 @@ public class PlageMesure {
         return this.noms.size();
     }
 
+    public TypeMesure getType(int ind){
+        return this.mesures.get(ind).getType();
+    }
+
 }

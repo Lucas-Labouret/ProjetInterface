@@ -16,7 +16,7 @@ public class MesureTypeSol extends Mesure {
 
     public MesureTypeSol(String val){ this.setTypeLect(val);}
 
-    public Type getType() { return type; }
+    public Type getValue() { return type; }
     public void setType(Type type) { this.type = type; }
 
     public void setTypeLect(String type){
@@ -26,5 +26,9 @@ public class MesureTypeSol extends Mesure {
             case "Ca" -> this.type = Type.Calcaire;
             default -> System.out.println("Erreur typage du sol a la lecture");
         }
+    }
+
+    public TypeMesure getType(){
+        return TypeMesure.TypeSol;
     }
 }

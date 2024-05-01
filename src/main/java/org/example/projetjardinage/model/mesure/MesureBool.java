@@ -12,7 +12,7 @@ public class MesureBool extends Mesure{
         this.setValueLect(val);
     }
 
-    public boolean getValue() { return value; }
+    public Boolean getValue() { return value; }
     public void setValue(boolean value) { this.value = value; }
 
     public void setValueLect(String val) {
@@ -25,5 +25,7 @@ public class MesureBool extends Mesure{
         }
     }
 
-
+    public TypeMesure getType(){
+        return TypeMesure.Bool;
+    }
 }
