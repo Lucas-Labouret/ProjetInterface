@@ -23,8 +23,8 @@ public class InfoMesure {
             case "N" -> this.type = TypeMesure.Numeric;
             case "T" -> this.type = TypeMesure.Text;
             case "B" -> this.type = TypeMesure.Bool;
-            case "L" -> this.type = TypeMesure.List;
             case "S" -> this.type = TypeMesure.Scale;
+            case "L" -> this.type = TypeMesure.List;
             default -> System.out.println("Erreur constructeur InfoMesure");
         }
 
@@ -49,4 +49,18 @@ public class InfoMesure {
             return null;
         }
     }
+    public String getStringType(){
+        String ty ="";
+        switch (type) {
+            case Numeric -> ty = "N" ;
+            case Text -> ty = "T" ;
+            case Bool -> ty = "B" ;
+            case Scale -> ty = "S" ;
+            case List -> ty = "L";
+            default -> System.out.println("Erreur constructeur InfoMesure");
+        }
+        return ty;
+    }
+
+
 }

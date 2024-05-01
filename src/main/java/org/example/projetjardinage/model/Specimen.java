@@ -2,6 +2,7 @@ package org.example.projetjardinage.model;
 
 import org.example.projetjardinage.model.journal.InfoMesure;
 import org.example.projetjardinage.model.journal.Journal;
+import org.example.projetjardinage.model.journal.JournalEntry;
 import org.example.projetjardinage.model.journal.PlageMesure;
 import org.example.projetjardinage.model.journal.mesures.MesureHolder;
 

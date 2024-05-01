@@ -92,7 +92,7 @@ public class JournalEntry extends Observable {
     }
 
     public MesureHolder getMesureInfo(InfoMesure info){
-        MesureHolder mes = MesureHolder.newMesureNumerique("Echec",(float)0,"");
+        MesureHolder mes = MesureHolder.newMesureText("Echec","dans le recuperage d'entrees");
         for(MesureHolder mesureHolder : mesures){
             if(mesureHolder.getName().equals(info.getName())){
                 return mesureHolder;

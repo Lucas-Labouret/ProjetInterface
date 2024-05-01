@@ -4,6 +4,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
@@ -155,6 +156,8 @@ public class SpeciesController extends Observer implements BodyController {
         nbSpecimen.setText(species.getSpecimens().size() + " spécimens");
         notes.setText(species.getNotes());
         heart.setText(species.getFavorite() ? "♥" : "♡");
+        try { speciesImage.setImage(new Image(getClass().getResourceAsStream(species.getProfilePicURL()))); }
+        catch (NullPointerException ignored) {}
 
         try { this.unsubscribeFrom(specimens); }
         catch (NullPointerException ignored) {}

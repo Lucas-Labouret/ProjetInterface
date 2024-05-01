@@ -25,11 +25,6 @@ public class MesureList extends Mesure {
         this.type = types.get(0);
     }
 
-    public String getValue(){
-        return this.type;
-    }
-
-
     public MesureList(ArrayList<String> types, String type){
         this.types = types;
         if (!types.contains(type)) throw new IllegalArgumentException("Type invalid");

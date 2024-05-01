@@ -80,8 +80,8 @@ public class Lecteur {
         this.bookmark = this.bookmark+2;
         for(int i = 0; i < nb; i=i+1){
 
-            List<String> cas = new ArrayList<> (9);
-            //9 cases par mesures, NOM, FAV, PIC, NOTES, 5 * MESURES, NBnouvelles mesures, Nouvelles mesures (3 cases chacunes)
+            List<String> cas = new ArrayList<> ();
+            //9 cases par mesures, NOM, FAV, PIC, NOTES, 8 * MESURES, NBnouvelles mesures, Nouvelles mesures (3 cases chacunes)
             for(int j = 0; j < 9; j++){
                 cas.add(this.text.get(this.bookmark));
                 this.bookmark = this.bookmark+1;
@@ -116,21 +116,16 @@ public class Lecteur {
                 cas.add(this.text.get(this.bookmark ));
                 this.bookmark = this.bookmark+1;
             }
-
-            int nbNouvellesMesures = Integer.parseInt(this.text.get(this.bookmark));
-            this.bookmark = this.bookmark + 1;
             cas.add(this.text.get(this.bookmark));
             int nbEntries = Integer.parseInt(this.text.get(this.bookmark));
             this.bookmark = this.bookmark+1;
-
             for (int j = 0; j < nbEntries; j++) {
-                int nbCases = 8 + nbNouvellesMesures + 3;
-                int nbPhotos = Integer.parseInt(this.text.get(bookmark+nbCases+1));
-                nbCases = nbCases + 1 + nbPhotos;
-                List<String> entree = this.text.subList(this.bookmark, this.bookmark + nbCases + 1);
-                cas.addAll(entree);
-                this.bookmark = this.bookmark + nbCases +1 ;
+                int nbNouvellesMesures = Integer.parseInt(this.text.get(this.bookmark));
+                this.bookmark = this.bookmark + 1;
 
+                int nbCases = 8 + nbNouvellesMesures;
+                cas.addAll(this.text.subList(this.bookmark, this.bookmark + nbCases + 1));
+                this.bookmark = this.bookmark + nbCases +1;
             }
 
             spe.add(cas);
@@ -234,18 +229,13 @@ public class Lecteur {
         for (List<String> spe : donnees) {
             Species esp = plantes.get(indexPlantes.get(spe.get(4)));
             List<List<String>> journ = new ArrayList<>();
-            List<List<String>> photos = new ArrayList<>();
             int nbEntree = Integer.parseInt(spe.get(7));
-            int nbMes = esp.getNbMesures() + 1+3; //+1 pour la date, +3 pour les booleans
-            int cmpt = 0;
+            int nbMes = esp.getNbMesures() + 1;
             for (int i = 0; i < nbEntree; i++) {
-                journ.add(spe.subList(8+cmpt + i * nbMes, 8 +cmpt+ (i + 1) * nbMes));
-                int nbPhotos = Integer.parseInt(spe.get(8 + (i + 1) * nbMes));
-                photos.add(spe.subList( (8+cmpt + (i + 1) * nbMes)+1, (8 +cmpt+ (i + 1) * nbMes)+1 + nbPhotos));
-                cmpt = nbPhotos+1;
+                journ.add(spe.subList(8 + i * nbMes, 8 + (i + 1) * nbMes));
             }
             System.out.println(journ);
-            Specimen test = new Specimen(spe, esp, journ, photos);
+            Specimen test = new Specimen(spe, esp, journ);
             esp.addSpecimens(test);
             indexSpecimen.put(test.getName(), test);
         }
@@ -338,6 +328,7 @@ public class Lecteur {
                 new Task("Task 8", "Description 8", LocalDate.of(2025, 2, 6))
         ));
         taches.get(0).addSubTasks(
+
                 new Task("SubTask 1", "SubDescription 1", LocalDate.of(2024, 1, 1)),
                 new Task("SubTask 2", "SubDescription 2", LocalDate.of(2024, 1, 1)),
                 new Task("SubTask 3", "SubDescription 3", LocalDate.of(2024, 1, 1))
