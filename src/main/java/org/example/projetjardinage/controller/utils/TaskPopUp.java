@@ -90,7 +90,7 @@ public class TaskPopUp {
 
     private void refill(Task t1, Task t2) {
         t2.setParent(t1.getParent());
-        t2.setName(t1.getName());
+        t2.setName(t1.getName().split("<SEP>")[0]);
         t2.setDescription(t1.getDescription());
         t2.setDueDate(t1.getDueDate());
         t2.setDone(t1.isDone());
@@ -105,6 +105,21 @@ public class TaskPopUp {
 
     private void validateChanges() {
         refill(dummy, task);
+        int i = 0;
+        while (true) {
+            String newName = task.getName() + "<SEP>" + i;
+            boolean found = false;
+            for (String name : GlobalData.taskNames) {
+                if (newName.equals(name)) {
+                    found = true;
+                    break;
+                }
+            }
+            if (!found) {
+                task.setName(newName);
+                break;
+            }
+        }
     }
 
     public void initialize() {
@@ -200,7 +215,6 @@ public class TaskPopUp {
                 Alert.newAlert("Veuillez renseigner un nom pour la tâche.");
             else if (datePicker.getValue() == null)
                 Alert.newAlert("Veuillez renseigner une date pour la tâche.");
-
             else {
                 if (task.getParent() != null) task.getParent().addSubTasks(task);
                 else {
@@ -213,7 +227,7 @@ public class TaskPopUp {
 
         supprimer.setOnAction(e -> {
             ValidationPrompt validationPrompt = ValidationPrompt.newValidationPrompt(
-                    "Voulez-vous vraiment supprimer \""  + task.getName() + "\" ?"
+                    "Voulez-vous vraiment supprimer \""  + task.getName().split("<sep>")[0] + "\" ?"
             );
             validationPrompt.getStage().setOnHidden(f -> {
                 if (validationPrompt.getResult()) {
@@ -248,10 +262,8 @@ public class TaskPopUp {
     private Button getSpeciesButton(Species species) {
         Button button = new Button(species.getName());
         button.setOnMouseClicked(e -> {
-            if (e.getButton() == MouseButton.SECONDARY) {
-                dummy.removeLinkedSpecies(species);
-                speciesZone.getChildren().remove(button);
-            }
+            dummy.removeLinkedSpecies(species);
+            speciesZone.getChildren().remove(button);
         });
         return button;
     }

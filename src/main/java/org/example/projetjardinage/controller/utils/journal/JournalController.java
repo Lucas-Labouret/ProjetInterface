@@ -74,7 +74,7 @@ public class JournalController {
             });
         });
 
-        for (LocalDate date: journal.getSortedDates()){
+        for (LocalDate date: journal.getSortedDates().reversed()){
             addItemToMenu(date);
         }
 

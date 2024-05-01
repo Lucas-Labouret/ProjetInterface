@@ -326,7 +326,7 @@ public class Lecteur {
                 nomsvieux.put(specimen.getName(), specimen.getName());
             }
         }
-
+        ArrayList<String> taskNames = new ArrayList<>();
         taches.addAll(List.of(
                 new Task("Task 1", "Description 1", LocalDate.of(2024, 1, 1)),
                 new Task("Task 2", "Description 2", LocalDate.of(2024, 1, 1)),
@@ -350,8 +350,14 @@ public class Lecteur {
         taches.get(0).getSubTasks().get(taches.get(0).getSubTasks().size()-1).getSubTasks().get(taches.get(0).getSubTasks().get(taches.get(0).getSubTasks().size()-1).getSubTasks().size()-1).addSubTasks(
                 new Task("SubSubSubTask 1", "SubSubSubDescription 1", LocalDate.of(2024, 1, 1))
         );
+        taskNames.addAll(List.of("Task 1", "Task 2", "Task 3", "Task 4", "Task 5", "Task 6", "Task 7", "Task 8"));
+        taskNames.addAll(List.of("SubTask 1", "SubTask 2", "SubTask 3"));
+        taskNames.addAll(List.of("SubSubTask 1", "SubSubTask 2", "SubSubTask 3"));
+        taskNames.add("SubSubSubTask 1");
+
+        taskNames.addAll(indexTask.keySet());
 
         addParents(taches);
-        return new ArrayList<>(List.of(plantes, taches, vieuxnoms, nomsvieux));
+        return new ArrayList<>(List.of(plantes, taches, vieuxnoms, nomsvieux, taskNames));
     }
 }

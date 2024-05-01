@@ -17,6 +17,7 @@
             <CheckBox fx:id="couper" layoutX="120.0" layoutY="209.0" mnemonicParsing="false" AnchorPane.leftAnchor="130.0" AnchorPane.topAnchor="250.0" />
             <CheckBox fx:id="recolter" layoutX="120.0" layoutY="229.0" mnemonicParsing="false" AnchorPane.leftAnchor="130.0" AnchorPane.topAnchor="270.0" />
             <MenuButton fx:id="addMesure" layoutX="1.0" layoutY="2.0" mnemonicParsing="false" prefWidth="170.0" text="Ajouter une mesure" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="0.0" />
+            <Button fx:id="deleteAll" layoutX="239.0" layoutY="2.0" mnemonicParsing="false" text="Tout retirer" AnchorPane.leftAnchor="190.0" AnchorPane.topAnchor="0.0" />
          </AnchorPane>
          <HBox fx:id="photoBox" alignment="CENTER_LEFT" />
       </VBox>

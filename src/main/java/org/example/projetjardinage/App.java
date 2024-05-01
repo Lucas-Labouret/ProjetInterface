@@ -58,7 +58,7 @@ public class App extends Application {
 
         GlobalData.primaryStage = primaryStage;
         primaryStage.setOnHidden(e -> {
-            renameDirectories();
+            //renameDirectories();
             Platform.exit();
         });
     }
@@ -77,9 +77,6 @@ public class App extends Application {
 
                 for(char c :a ){
                     t += c ;
-                    //if(i == '\\'){
-                    //    t += c ;
-                   // }
                 }
                 File ancienDossier = new File(t);
                 System.out.println(ancienDossier + "");
