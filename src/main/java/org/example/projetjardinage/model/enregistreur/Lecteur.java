@@ -244,7 +244,6 @@ public class Lecteur {
                 photos.add(spe.subList( (8+cmpt + (i + 1) * nbMes)+1, (8 +cmpt+ (i + 1) * nbMes)+1 + nbPhotos));
                 cmpt = nbPhotos+1;
             }
-            System.out.println(journ);
             Specimen test = new Specimen(spe, esp, journ, photos);
             esp.addSpecimens(test);
             indexSpecimen.put(test.getName(), test);
