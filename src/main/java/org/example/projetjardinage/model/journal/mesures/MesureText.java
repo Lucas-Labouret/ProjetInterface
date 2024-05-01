@@ -6,5 +6,7 @@ public class MesureText extends Mesure {
     MesureText(String texte){ this.texte = texte; }
 
     public String getText(){ return texte; }
+
+    public String getValue(){ return texte;}
     public void setText(String texte){ this.texte = texte; }
 }

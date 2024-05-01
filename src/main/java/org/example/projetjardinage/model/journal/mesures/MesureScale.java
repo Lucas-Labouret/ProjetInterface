@@ -25,10 +25,14 @@ public class MesureScale extends Mesure {
     public int getMax(){ return max; }
     public void setMax(int max) { this.max = max; }
 
+    public Integer getValue(){
+        return this.niveau;
+    }
+
     public void setNiveauLect(String niv){
         ArrayList<String> nivList = new ArrayList<>(List.of(niv.split("<SEP>")));
         if (nivList.size() == 1) {
-            this.niveau = Integer.parseInt(nivList.getFirst());
+            this.niveau = Integer.parseInt(nivList.get(0));
             this.min = 0;
             this.max = 3;
         } else {

@@ -24,6 +24,6 @@ public class MesureNumerique extends Mesure {
     public void setUnit(String unit) { this.unit = unit; }
 
     public TypeMesure getType(){
-        return TypeMesure.Numerique;
+        return TypeMesure.Numeric;
     }
 }

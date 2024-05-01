@@ -1,10 +1,15 @@
 package org.example.projetjardinage.model;
 
+import org.example.projetjardinage.model.journal.mesures.MesureHolder;
+import org.example.projetjardinage.model.journal.mesures.MesureList;
+import org.example.projetjardinage.model.journal.mesures.TypeMesure;
 import org.example.projetjardinage.model.mesure.*;
 import org.example.projetjardinage.model.journal.OptimalHolder;
 import org.example.projetjardinage.model.journal.PlageMesure;
+import org.example.projetjardinage.model.journal.InfoMesure;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class Species extends Observable {
@@ -87,6 +92,7 @@ public class Species extends Observable {
 
     public MesureHolder moyenne(List<MesureHolder> mes, InfoMesure info){
         TypeMesure type = info.getType();
+        String newName = info.getName()+(" Moyenne");
         MesureHolder moy;
         switch(type){
             case Bool : {
@@ -100,8 +106,45 @@ public class Species extends Observable {
                     }
                 }
                 float res = (float)(100*vrai) / (float)(faux+vrai);
-                String newName = info.getName()+(" Moyenne");
+
                 moy = MesureHolder.newMesureNumerique(newName,res,"%");
+            }
+            case Numeric: {
+                float somme = 0;
+                for(MesureHolder mesure : mes){
+                    somme = somme + (float) mesure.getMesure().getValue();
+                }
+                moy = MesureHolder.newMesureNumerique(newName, somme/mes.size(), info.getUnit());
+            }
+            case Scale : {
+                float somme = 0;
+                for(MesureHolder mesure : mes){
+                    somme = somme + (float) mesure.getMesure().getValue();
+                }
+                String scale = info.getUnit();
+                ArrayList<String> minMax = new ArrayList<>(List.of(scale.split("<SEP>")));
+                int min = Integer.parseInt(minMax.get(0));
+                int max = Integer.parseInt(minMax.get(1));
+                moy = MesureHolder.newMesureScale(newName, (int) somme/mes.size(), min ,max);
+            }
+            case List: {
+                HashMap<String, Integer> compt = new HashMap<String, Integer>();
+                MesureList test = (MesureList) mes.get(0).getMesure();
+                List<String> types = test.getTypes();
+                for (String typ : types){
+                    compt.put(typ, 0);
+                }
+                for(MesureHolder mesure : mes){
+                    String typ = (String) mesure.getMesure().getValue();
+                    compt.replace(typ, compt.get(typ)+1);
+                }
+                String max = test.getValue();
+                for(String typ : compt.keySet()){
+                    if(compt.get(typ) > compt.get(max)){
+                        max = typ;
+                    }
+                }
+                moy = MesureHolder.newMesureList(newName,max);
             }
             default : moy = MesureHolder.newMesureBool("Echec", true);
         }

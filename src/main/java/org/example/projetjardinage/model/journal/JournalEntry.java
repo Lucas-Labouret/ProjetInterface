@@ -72,4 +72,9 @@ public class JournalEntry extends Observable {
         images.add(path);
         sendNotif();
     }
+
+    public MesureHolder getMesureInfo(InfoMesure info){
+        MesureHolder mes = MesureHolder.newMesureTexte("Echec","dans le recuperage d'entrees");
+        return mes;
+    }
 }

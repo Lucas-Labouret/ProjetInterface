@@ -20,6 +20,8 @@ public class InfoMesure {
             case "N" -> this.type = TypeMesure.Numeric;
             case "T" -> this.type = TypeMesure.Text;
             case "B" -> this.type = TypeMesure.Bool;
+            case "S" -> this.type = TypeMesure.Scale;
+            case "L" -> this.type = TypeMesure.List;
             default -> System.out.println("Erreur constructeur InfoMesure");
         }
 

@@ -11,10 +11,10 @@ public class MesureList extends Mesure {
         ArrayList<String> typesList = new ArrayList<>(List.of(types.split("<SEP>")));
         if (typesList.size() == 1){
             this.types.addAll(List.of("Ca Ce Co".split(" ")));
-            this.type = typesList.getFirst();
+            this.type = typesList.get(0);
         } else {
-            String type = typesList.getLast();
-            typesList.removeLast();
+            String type = typesList.get(typesList.size()-1);
+            typesList.remove(typesList.size()-1);
             this.types = typesList;
             this.setType(type);
         }
@@ -22,8 +22,13 @@ public class MesureList extends Mesure {
 
     public MesureList(ArrayList<String> types){
         this.types = types;
-        this.type = types.getFirst();
+        this.type = types.get(0);
     }
+
+    public String getValue(){
+        return this.type;
+    }
+
 
     public MesureList(ArrayList<String> types, String type){
         this.types = types;

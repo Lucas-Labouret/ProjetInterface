@@ -1,8 +1,8 @@
 package org.example.projetjardinage.model;
 
-import org.example.projetjardinage.model.mesure.InfoMesure;
-import org.example.projetjardinage.model.mesure.MesureHolder;
-import org.example.projetjardinage.model.mesure.PlageMesure;
+import org.example.projetjardinage.model.journal.InfoMesure;
+import org.example.projetjardinage.model.journal.mesures.MesureHolder;
+import org.example.projetjardinage.model.journal.PlageMesure;
 
 import java.util.ArrayList;
 import java.util.List;
