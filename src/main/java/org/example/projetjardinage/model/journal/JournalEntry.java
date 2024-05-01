@@ -80,7 +80,23 @@ public class JournalEntry extends Observable {
     }
 
     public MesureHolder getMesureInfo(InfoMesure info){
-        MesureHolder mes = MesureHolder.newMesureText("Echec","dans le recuperage d'entrees");
+        MesureHolder mes = MesureHolder.newMesureTexte("Echec","dans le recuperage d'entrees");
+        for(MesureHolder mesureHolder : mesures){
+            if(mesureHolder.getName().equals(info.getName())){
+                return mesureHolder;
+            }
+        }
         return mes;
     }
+
+    public boolean contientMesure(InfoMesure info){
+        for(MesureHolder mesureHolder : mesures){
+            if(mesureHolder.getName().equals(info.getName())){
+                return true;
+            }
+        }
+        return false;
+    }
+
+
 }

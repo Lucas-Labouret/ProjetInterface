@@ -80,8 +80,8 @@ public class Lecteur {
         this.bookmark = this.bookmark+2;
         for(int i = 0; i < nb; i=i+1){
 
-            List<String> cas = new ArrayList<> (9);
-            //9 cases par mesures, NOM, FAV, PIC, NOTES, 5 * MESURES, NBnouvelles mesures, Nouvelles mesures (3 cases chacunes)
+            List<String> cas = new ArrayList<> ();
+            //9 cases par mesures, NOM, FAV, PIC, NOTES, 8 * MESURES, NBnouvelles mesures, Nouvelles mesures (3 cases chacunes)
             for(int j = 0; j < 9; j++){
                 cas.add(this.text.get(this.bookmark));
                 this.bookmark = this.bookmark+1;
