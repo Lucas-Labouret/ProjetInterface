@@ -25,6 +25,8 @@ public class Ecrivain {
 
     private String path;
 
+    private int nbTaches =0;
+
 
     public Ecrivain(String path, ObservableList<Species> species,  TodoList tasks ){
         this.path = path;
@@ -138,7 +140,7 @@ public class Ecrivain {
     }
     private void setTask(List<String> taches){
         texte.add("TASK");
-        texte.add(String.valueOf(tasks.getElements().size()));
+        texte.add(String.valueOf(nbTaches));
         texte.addAll(taches);
     }
 
@@ -160,6 +162,7 @@ public class Ecrivain {
         List<String> taskEcr = new ArrayList<>();
 
         for(Task t : taches){
+            nbTaches = nbTaches +1;
             taskEcr.add(t.getName());
             int bool = 0;
             if(t.isDone()){bool = 1;}

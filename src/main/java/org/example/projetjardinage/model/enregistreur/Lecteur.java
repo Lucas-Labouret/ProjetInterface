@@ -122,12 +122,10 @@ public class Lecteur {
             cas.add(this.text.get(this.bookmark));
             int nbEntries = Integer.parseInt(this.text.get(this.bookmark));
             this.bookmark = this.bookmark+1;
-            System.out.println(nbEntries);
 
             for (int j = 0; j < nbEntries; j++) {
                 int nbCases = 8 + nbNouvellesMesures + 3;
                 int nbPhotos = Integer.parseInt(this.text.get(bookmark+nbCases+1));
-                System.out.println(nbPhotos);
                 nbCases = nbCases + 1 + nbPhotos;
                 List<String> entree = this.text.subList(this.bookmark, this.bookmark + nbCases + 1);
                 cas.addAll(entree);
@@ -246,7 +244,6 @@ public class Lecteur {
                 photos.add(spe.subList( (8+cmpt + (i + 1) * nbMes)+1, (8 +cmpt+ (i + 1) * nbMes)+1 + nbPhotos));
                 cmpt = nbPhotos+1;
             }
-            System.out.println(journ);
             Specimen test = new Specimen(spe, esp, journ, photos);
             esp.addSpecimens(test);
             indexSpecimen.put(test.getName(), test);
