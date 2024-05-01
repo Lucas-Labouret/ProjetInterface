@@ -21,8 +21,8 @@ public class MesureHolder {
         this.type = info.getType();
         switch(info.getType()) {
             case Bool -> mesure = new MesureBool(val);
-            case Scale -> mesure = new MesureScale(val);
-            case Numeric -> mesure = new MesureNumerique(val, info.getUnit()) ;
+            case Scale -> mesure = new MesureScale(info.getUnit(), val);
+            case Numeric -> mesure = new MesureNumerique(info.getUnit(), val) ;
             case Text -> mesure = new MesureText(val) ;
             case List -> mesure = new MesureList(val);
             default -> {

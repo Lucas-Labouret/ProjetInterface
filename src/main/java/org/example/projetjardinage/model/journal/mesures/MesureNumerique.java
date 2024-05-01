@@ -15,11 +15,15 @@ public class MesureNumerique extends Mesure {
         this.unit = unit;
     }
 
-    public float getValue() { return value; }
+    public Float getValue() { return value; }
     public void setValue(float value) { this.value = value; }
 
     public void setValueLect(String val) {this.value = Integer.parseInt(val);}
 
     public String getUnit() { return unit; }
     public void setUnit(String unit) { this.unit = unit; }
+
+    public TypeMesure getType(){
+        return TypeMesure.Numeric;
+    }
 }
