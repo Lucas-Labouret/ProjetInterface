@@ -15,6 +15,10 @@ public class JournalEntry extends Observable {
     private boolean couper = false;
     private boolean recolter = false;
 
+    public boolean getRempot(){return rempoter;}
+    public boolean getCoup(){return couper;}
+    public boolean getRecolt(){return recolter;}
+
 
     private List<String> images = new ArrayList<>();
 
