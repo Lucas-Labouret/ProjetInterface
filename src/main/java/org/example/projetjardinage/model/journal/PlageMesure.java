@@ -85,9 +85,10 @@ public class PlageMesure {
     }
 
     public List<InfoMesure> getNvMesures(){
-        List<InfoMesure> nv = this.mesures;
+        List<InfoMesure> nv = new ArrayList<>();
+        nv.addAll(this.mesures);
         nv.remove(0);
-        nv.remove(1);
+        nv.remove(0);
         return nv;
 
     }

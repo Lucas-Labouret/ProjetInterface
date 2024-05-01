@@ -82,7 +82,7 @@ public class Lecteur {
 
             List<String> cas = new ArrayList<> (9);
             //9 cases par mesures, NOM, FAV, PIC, NOTES, 5 * MESURES, NBnouvelles mesures, Nouvelles mesures (3 cases chacunes)
-            for(int j = 0; j < 9; j++){
+            for(int j = 0; j < 10; j++){
                 cas.add(this.text.get(this.bookmark));
                 this.bookmark = this.bookmark+1;
             }
@@ -122,10 +122,12 @@ public class Lecteur {
             cas.add(this.text.get(this.bookmark));
             int nbEntries = Integer.parseInt(this.text.get(this.bookmark));
             this.bookmark = this.bookmark+1;
+            System.out.println(nbEntries);
 
             for (int j = 0; j < nbEntries; j++) {
                 int nbCases = 8 + nbNouvellesMesures + 3;
                 int nbPhotos = Integer.parseInt(this.text.get(bookmark+nbCases+1));
+                System.out.println(nbPhotos);
                 nbCases = nbCases + 1 + nbPhotos;
                 List<String> entree = this.text.subList(this.bookmark, this.bookmark + nbCases + 1);
                 cas.addAll(entree);
@@ -327,29 +329,7 @@ public class Lecteur {
             }
         }
 
-        taches.addAll(List.of(
-                new Task("Task 1", "Description 1", LocalDate.of(2024, 1, 1)),
-                new Task("Task 2", "Description 2", LocalDate.of(2024, 1, 1)),
-                new Task("Task 3", "Description 3", LocalDate.of(2024, 1, 1)),
-                new Task("Task 4", "Description 4", LocalDate.of(2024, 1, 2)),
-                new Task("Task 5", "Description 5", LocalDate.of(2024, 1, 3)),
-                new Task("Task 6", "Description 6", LocalDate.of(2024, 2, 4)),
-                new Task("Task 7", "Description 7", LocalDate.of(2025, 2, 5)),
-                new Task("Task 8", "Description 8", LocalDate.of(2025, 2, 6))
-        ));
-        taches.get(0).addSubTasks(
-                new Task("SubTask 1", "SubDescription 1", LocalDate.of(2024, 1, 1)),
-                new Task("SubTask 2", "SubDescription 2", LocalDate.of(2024, 1, 1)),
-                new Task("SubTask 3", "SubDescription 3", LocalDate.of(2024, 1, 1))
-        );
-        taches.get(0).getSubTasks().get(taches.get(0).getSubTasks().size()-1).addSubTasks(
-                new Task("SubSubTask 1", "SubSubDescription très très très très très très très très très très très très très très très très très très longue", LocalDate.of(2024, 1, 1)),
-                new Task("SubSubTask 2", "SubSubDescription 2", LocalDate.of(2024, 1, 1)),
-                new Task("SubSubTask 3", "SubSubDescription 3", LocalDate.of(2024, 1, 1))
-        );
-        taches.get(0).getSubTasks().get(taches.get(0).getSubTasks().size()-1).getSubTasks().get(taches.get(0).getSubTasks().get(taches.get(0).getSubTasks().size()-1).getSubTasks().size()-1).addSubTasks(
-                new Task("SubSubSubTask 1", "SubSubSubDescription 1", LocalDate.of(2024, 1, 1))
-        );
+
 
         addParents(taches);
         return new ArrayList<>(List.of(plantes, taches, vieuxnoms, nomsvieux));

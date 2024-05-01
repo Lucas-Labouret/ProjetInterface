@@ -49,10 +49,11 @@ public class GlobalData {
         nomsvieux = (HashMap<String, String>) data.get(3);
 
 
-        System.out.println("Milieu");
-        Ecrivain ecrivain = new Ecrivain("test2.txt", species, tasks);
-        ecrivain.enregistrer();
-        System.out.println("Oui");
 
+    }
+
+    public static void enregistre(String path){
+        Ecrivain ecrivain = new Ecrivain("test.txt", species, tasks);
+        ecrivain.enregistrer();
     }
 }
