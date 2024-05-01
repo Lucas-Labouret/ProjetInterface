@@ -3,17 +3,24 @@ package org.example.projetjardinage.controller.utils.journal;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.MenuButton;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextArea;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import org.example.projetjardinage.controller.Observer;
+import org.example.projetjardinage.model.journal.InfoMesure;
 import org.example.projetjardinage.model.journal.JournalEntry;
 import org.example.projetjardinage.model.journal.mesures.MesureHolder;
 
+import java.io.InputStream;
 import java.util.ArrayList;
 
 public class JournalEntryController extends Observer {
     @FXML VBox mesureBox;
+    @FXML MenuButton addMesure;
     @FXML TextArea notes;
     @FXML CheckBox rempotter;
     @FXML CheckBox couper;
@@ -79,8 +86,58 @@ public class JournalEntryController extends Observer {
                 }
             }
 
-
+            for (String image : journalEntry.getImages()) {
+                InputStream img = getClass().getResourceAsStream(image);
+                if (img == null) continue;
+                ImageView imageView = new ImageView(new Image(img));
+                try { photoBox.getChildren().add(imageView); }
+                catch (Exception e) { e.printStackTrace(); }
+            }
         }
+
+        MenuItem nouvelle = new MenuItem("Nouvelle mesure");
+        nouvelle.setOnAction(e -> {});
+        addMesure.getItems().add(nouvelle);
+
+        ArrayList<String> noms = new ArrayList<>();
+        for (MesureController mesureController : mesureControllers) {
+            noms.add(mesureController.getMesureName());
+        }
+        for (InfoMesure info: journalEntry.getSpecies().getMesuresInfos().getAll()) {
+            if (!noms.contains(info.getName())) {
+                MenuItem item = getMenuItem(info);
+                addMesure.getItems().add(item);
+            }
+        }
+    }
+
+    private  MenuItem getMenuItem(InfoMesure info) {
+        MenuItem item = new MenuItem(info.getName());
+        item.setOnAction(e -> {
+            switch (info.getType()){
+                case Numeric -> journalEntry.addMesure(MesureHolder.newMesureNumerique(info.getName(), (float) 0, info.getUnit()));
+                case Bool -> journalEntry.addMesure(MesureHolder.newMesureBool(info.getName(), false));
+                case Scale -> {
+                    ArrayList<String> specificInfos = info.getSpecificInfos();
+                    journalEntry.addMesure(MesureHolder.newMesureScale(
+                            info.getName(),
+                            Integer.parseInt(specificInfos.get(2)),
+                            Integer.parseInt(specificInfos.get(0)),
+                            Integer.parseInt(specificInfos.get(1))
+                    ));
+                }
+                case List -> {
+                    ArrayList<String> specificInfos = info.getSpecificInfos();
+                    journalEntry.addMesure(MesureHolder.newMesureList(
+                            info.getName(),
+                            specificInfos
+                    ));
+                }
+                case Text -> journalEntry.addMesure(MesureHolder.newMesureText(info.getName(), ""));
+            }
+            update();
+        });
+        return item;
     }
 
     public void update() {

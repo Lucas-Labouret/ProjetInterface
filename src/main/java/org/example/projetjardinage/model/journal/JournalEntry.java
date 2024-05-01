@@ -73,6 +73,7 @@ public class JournalEntry extends Observable {
     public void setRecolter(boolean r){recolter = r;}
     public boolean isRecolter(){return recolter;}
 
+    public List<String> getImages(){return images;}
     public void addImage(String path){
         images.add(path);
         sendNotif();
