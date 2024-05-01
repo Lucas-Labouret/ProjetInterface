@@ -36,7 +36,7 @@ public class Journal extends HashMap<LocalDate, JournalEntry> {
                     bools.add(true);
                 }
             }
-            JournalEntry entry = new JournalEntry(plage, vals, species, bools,photos.get(i));
+            JournalEntry entry = new JournalEntry(plage, vals, species, bools,photos.get(i), this);
             this.put(date, entry);
         }
     }
@@ -66,12 +66,18 @@ public class Journal extends HashMap<LocalDate, JournalEntry> {
     }
 
     public void newEntry(LocalDate value) {
-        if (this.isEmpty()) this.put(value, new JournalEntry(species));
+        if (this.isEmpty()) this.put(value, new JournalEntry(species, this));
         else {
             LocalDate lastDate = this.getSortedDates().get(this.getSortedDates().size()-1);
             JournalEntry last = this.get(lastDate);
             this.remove(value);
             this.put(value, new JournalEntry(last));
+        }
+    }
+
+    public void deleteMesure(MesureHolder mesure){
+        for (JournalEntry entry: this.values()){
+            entry.deleteMesure(mesure);
         }
     }
 }

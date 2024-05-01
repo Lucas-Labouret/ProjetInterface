@@ -1,7 +1,5 @@
 package org.example.projetjardinage.model;
 
-import org.example.projetjardinage.controller.utils.RecursiveTask;
-
 import java.time.LocalDate;
 import java.time.Month;
 import java.util.ArrayList;

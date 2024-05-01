@@ -8,9 +8,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class JournalEntry extends Observable {
-    private final ArrayList<MesureHolder> mesures = new ArrayList<>();
     private final Species species;
-    private String notes;
+    private final Journal journal;
+
+    private final ArrayList<MesureHolder> mesures = new ArrayList<>();
+    private String notes = "";
     private boolean rempoter = false;
     private boolean couper = false;
     private boolean recolter = false;
@@ -22,13 +24,15 @@ public class JournalEntry extends Observable {
 
     private List<String> images = new ArrayList<>();
 
-    JournalEntry(Species species) {
+    JournalEntry(Species species, Journal journal) {
         this.species = species;
+        this.journal = journal;
         notes = "";
     }
 
-    public JournalEntry(PlageMesure infos, List<String> vals, Species species, List<Boolean> bools,List<String> photos){
+    public JournalEntry(PlageMesure infos, List<String> vals, Species species, List<Boolean> bools,List<String> photos, Journal journal){
         this.species = species;
+        this.journal = journal;
         int nb = infos.getTaille();
         for(int i = 0; i < nb;i++){
             if(! (vals.get(i).equals("<N>")) ) {
@@ -42,8 +46,8 @@ public class JournalEntry extends Observable {
     }
 
     public JournalEntry(JournalEntry journalEntry) {
-        notes = "";
         species = journalEntry.getSpecies();
+        journal = journalEntry.getJournal();
         for (MesureHolder holder: journalEntry.getMesures()){
             mesures.add(new MesureHolder(holder));
         }
@@ -58,7 +62,11 @@ public class JournalEntry extends Observable {
             }
         }
     }
+    public void deleteMesure(MesureHolder holder){
+        deleteMesure(holder.getName());
+    }
 
+    public Journal getJournal() {return journal;}
     public ArrayList<MesureHolder> getMesures() {return mesures;}
 
     public Species getSpecies() {return species;}

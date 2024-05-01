@@ -1,7 +1,7 @@
 package org.example.projetjardinage.model.journal.mesures;
 
 public class MesureNumerique extends Mesure {
-    private float value;
+    private Float value;
     private String unit;
 
 
@@ -18,7 +18,7 @@ public class MesureNumerique extends Mesure {
     public Float getValue() { return value; }
     public void setValue(float value) { this.value = value; }
 
-    public void setValueLect(String val) {this.value = Integer.parseInt(val);}
+    public void setValueLect(String val) {this.value = Float.parseFloat(val);}
 
     public String getUnit() { return unit; }
     public void setUnit(String unit) { this.unit = unit; }

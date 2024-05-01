@@ -134,7 +134,7 @@ public class Specimen {
 
     public List<MesureHolder> getMoyenne(InfoMesure info){
         List <MesureHolder> mesures = new ArrayList<>();
-        for(org.example.projetjardinage.model.journal.JournalEntry journ : this.journal.values()){
+        for(JournalEntry journ : this.journal.values()){
             MesureHolder mes = journ.getMesureInfo(info);
             if(!((mes.getMesure()).toString().equals("<Echec>"))){
                 mesures.add(mes);

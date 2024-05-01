@@ -19,6 +19,8 @@ public class GlobalData {
     public static ObservableList<Species> species;
     public static TodoList tasks;
 
+    public static ArrayList<String> taskNames;
+
     public static HashMap<String , String> vieuxnoms , nomsvieux;
 
     public static Stage primaryStage;
@@ -46,5 +48,6 @@ public class GlobalData {
         tasks = new TodoList((ArrayList<Task>) data.get(1));
         vieuxnoms = (HashMap<String, String>) data.get(2);
         nomsvieux = (HashMap<String, String>) data.get(3);
+        taskNames = (ArrayList<String>) data.get(4);
     }
 }

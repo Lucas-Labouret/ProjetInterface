@@ -2,10 +2,7 @@ package org.example.projetjardinage.controller.utils.journal;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.MenuButton;
-import javafx.scene.control.MenuItem;
-import javafx.scene.control.TextArea;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
@@ -21,6 +18,8 @@ import java.util.ArrayList;
 public class JournalEntryController extends Observer {
     @FXML VBox mesureBox;
     @FXML MenuButton addMesure;
+    @FXML
+    Button deleteAll;
     @FXML TextArea notes;
     @FXML CheckBox rempotter;
     @FXML CheckBox couper;
@@ -86,6 +85,11 @@ public class JournalEntryController extends Observer {
                 }
             }
 
+            deleteAll.setOnAction(e -> {
+                journalEntry.getMesures().clear();
+                update();
+            });
+
             for (String image : journalEntry.getImages()) {
                 InputStream img = getClass().getResourceAsStream(image);
                 if (img == null) continue;
@@ -96,7 +100,9 @@ public class JournalEntryController extends Observer {
         }
 
         MenuItem nouvelle = new MenuItem("Nouvelle mesure");
-        nouvelle.setOnAction(e -> {});
+        nouvelle.setOnAction(e -> {
+            System.out.println("Pas implémenté :3");
+        });
         addMesure.getItems().add(nouvelle);
 
         ArrayList<String> noms = new ArrayList<>();
@@ -112,7 +118,8 @@ public class JournalEntryController extends Observer {
     }
 
     private  MenuItem getMenuItem(InfoMesure info) {
-        MenuItem item = new MenuItem(info.getName());
+        MenuItem item = new MenuItem();
+        item.setText(info.getName());
         item.setOnAction(e -> {
             switch (info.getType()){
                 case Numeric -> journalEntry.addMesure(MesureHolder.newMesureNumerique(info.getName(), (float) 0, info.getUnit()));
@@ -142,6 +149,8 @@ public class JournalEntryController extends Observer {
 
     public void update() {
         mesureBox.getChildren().clear();
+        addMesure.getItems().clear();
+        mesureControllers.clear();
         initialize();
     }
 }

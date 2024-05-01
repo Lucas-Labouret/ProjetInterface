@@ -16,6 +16,7 @@ import org.example.projetjardinage.model.Lists.TodoList;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class RecursiveTask extends Observer {
     @FXML private CheckBox check;
@@ -32,6 +33,7 @@ public class RecursiveTask extends Observer {
     double lastHeight;
 
     private final ArrayList<RecursiveTask> recursiveTasks;
+    private final HashMap<RecursiveTask, Parent> views = new HashMap<>();
 
     public RecursiveTask(Task task, TodoList todoList,int depth) {
         recursiveTasks = new ArrayList<>();
@@ -59,13 +61,12 @@ public class RecursiveTask extends Observer {
             }
         });
 
-        pane.setText(task.getName() + " - " + task.getDueDate().getDayOfMonth() + " " + task.getMonthName() + " " + task.getDueDate().getYear());
+        pane.setText(task.getName().split("<SEP>")[0] + ((depth>0)? (" - " + task.getDueDate().getDayOfMonth() + " " + task.getMonthName() + " " + task.getDueDate().getYear()) : ""));
         check.setSelected(task.isDone());
         description.setText(task.getDescription());
 
         for (Task subTask : task.getSubTasks()) loadSubTask(subTask);
-
-        updateSize(lastWidth, lastHeight);
+        update();
     }
 
     public void setDone(boolean done) {
@@ -105,13 +106,15 @@ public class RecursiveTask extends Observer {
         RecursiveTask recursiveTask = new RecursiveTask(subTask, todoList, depth + 1);
         loader.setController(recursiveTask);
         Parent view;
-        try { view = loader.load(); }
+        try {
+            view = loader.load();
+            recursiveTasks.add(recursiveTask);
+            views.put(recursiveTask, view);
+        }
         catch (IOException e) {
             e.printStackTrace();
-            return;
         }
-        recursiveTasks.add(recursiveTask);
-        box.getChildren().add(view);
+
     }
 
     public void updateSize(double width, double height) {
@@ -131,11 +134,12 @@ public class RecursiveTask extends Observer {
             knownTasks.add(recursiveTask.getTask());
         }
         for (Task subTask : task.getSubTasks()) {
-            if (!knownTasks.contains(subTask)) loadSubTask(subTask);
+            if (!knownTasks.contains(subTask)) {
+                loadSubTask(subTask);
+            }
         }
 
-        if (depth == 0) pane.setText(task.getName());
-        else pane.setText(task.getName() + " - " + task.getDueDate().getDayOfMonth() + " " + task.getMonthName() + " " + task.getDueDate().getYear());
+        pane.setText(task.getName().split("<SEP>")[0] + ((depth>0)? (" - " + task.getDueDate().getDayOfMonth() + " " + task.getMonthName() + " " + task.getDueDate().getYear()) : ""));
 
         check.setSelected(task.isDone());
         description.setText(task.getDescription());
@@ -155,9 +159,9 @@ public class RecursiveTask extends Observer {
         for (RecursiveTask recursiveTask: recursiveTasks) {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/utils/RecursiveTask.fxml"));
             loader.setController(recursiveTask);
-            try { box.getChildren().add(loader.load()); }
-            catch (IOException e) { e.printStackTrace(); }
+            box.getChildren().add(views.get(recursiveTask));
         }
+
         updateSize(lastWidth, lastHeight);
     }
 }
