@@ -8,8 +8,11 @@ import org.example.projetjardinage.model.journal.*;
 import java.time.LocalDate;
 import java.time.Month;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import org.example.projetjardinage.model.journal.mesures.MesureHolder;
+import org.example.projetjardinage.model.journal.mesures.MesureList;
+import org.example.projetjardinage.model.journal.mesures.TypeMesure;
 
 public class Specimen {
     private Species species;
@@ -18,7 +21,7 @@ public class Specimen {
     private boolean alive;
     private LocalDate miseEnTerre;
 
-    private final List<LocalDate> lesDates = new ArrayList<>(4);
+    private List<LocalDate> lesDates = new ArrayList<>(4);
 
 
     private String profilePic;
@@ -30,6 +33,7 @@ public class Specimen {
 
     private List<Task> taskList = new ArrayList<>();
 
+
     public Specimen(Species species, String name, LocalDate miseEnTerre) {
         this.species = species;
         this.name = name;
@@ -40,8 +44,8 @@ public class Specimen {
     }
 
     private void setLesDates(){
-        for(int i = 0; i<4; i++){
-            this.lesDates.set(i,this.miseEnTerre);
+        for(int i = 0; i<4; i++) {
+            this.lesDates.add(this.miseEnTerre);
         }
     }
 
@@ -64,20 +68,40 @@ public class Specimen {
     }
 
     private void setLesDatesLect(){
+        this.setLesDates();
         ArrayList<LocalDate> datesOrd = journal.getSortedDates();
-        this.lesDates.set(0,datesOrd.get(datesOrd.size()-1));
-        boolean Coupe = true;
-        boolean Rempot = true;
-        boolean Recolte = true;
-        while(Coupe && Rempot && Recolte && datesOrd.size()>0){
-            LocalDate date = datesOrd.get(datesOrd.size()-1);
-            if(journal.get(date).getRecolt()){this.lesDates.set(3,date); Recolte = true;}
-            if(journal.get(date).getRempot()){this.lesDates.set(1,date); Rempot = true;}
-            if(journal.get(date).getCoup()){this.lesDates.set(2,date); Coupe = true;}
+        if(datesOrd.size() == 0){
+            this.setLesDates();
+        } else {
+            this.lesDates.set(0,datesOrd.get(datesOrd.size() - 1));
+            boolean Coupe = true;
+            boolean Rempot = true;
+            boolean Recolte = true;
+            while (Coupe && Rempot && Recolte && datesOrd.size() > 0) {
+                LocalDate date = datesOrd.get(datesOrd.size() - 1);
+                if (journal.get(date).getRecolt()) {
+                    this.lesDates.set(3, date);
+                    Recolte = false;
+                }
+                if (journal.get(date).getRempot()) {
+                    this.lesDates.set(1, date);
+                    Rempot = false;
+                }
+                if (journal.get(date).getCoup()) {
+                    this.lesDates.set(2, date);
+                    Coupe = false;
+                }
+            }
+            if (!Coupe) {
+                this.lesDates.set(2, miseEnTerre);
+            }
+            if (!Rempot) {
+                this.lesDates.set(1, miseEnTerre);
+            }
+            if (!Recolte) {
+                this.lesDates.set(3, miseEnTerre);
+            }
         }
-        if(!Coupe){this.lesDates.set(2,miseEnTerre);}
-        if(!Rempot){this.lesDates.set(1,miseEnTerre);}
-        if(!Recolte){this.lesDates.set(3,miseEnTerre);}
     }
 
     public Species getSpecies() {
@@ -156,6 +180,75 @@ public class Specimen {
 
     public LocalDate getDateCoupe(){  //rempoter, couper, recolyter
         return this.lesDates.get(2);
+    }
+
+    public MesureHolder moyenne(List<MesureHolder> mes, InfoMesure info){
+        TypeMesure type = info.getType();
+        String newName = info.getName()+(" Moyenne");
+        MesureHolder moy;
+        switch(type){
+            case Bool : {
+                int vrai = 0;
+                int faux = 0;
+                for (MesureHolder mesure : mes){
+                    if((boolean)(mesure.getMesure().getValue())){
+                        vrai = vrai +1;
+                    } else {
+                        faux = faux +1;
+                    }
+                }
+                float res = (float)(100*vrai) / (float)(faux+vrai);
+
+                moy = MesureHolder.newMesureNumerique(newName,res,"%");
+            }
+            case Numeric: {
+                float somme = 0;
+                for(MesureHolder mesure : mes){
+                    somme = somme + (float) mesure.getMesure().getValue();
+                }
+                moy = MesureHolder.newMesureNumerique(newName, somme/mes.size(), info.getUnit());
+            }
+            case Scale : {
+                float somme = 0;
+                for(MesureHolder mesure : mes){
+                    somme = somme + (float) mesure.getMesure().getValue();
+                }
+                String scale = info.getUnit();
+                ArrayList<String> minMax = new ArrayList<>(List.of(scale.split("<SEP>")));
+                int min = Integer.parseInt(minMax.get(0));
+                int max = Integer.parseInt(minMax.get(1));
+                moy = MesureHolder.newMesureScale(newName, (int) somme/mes.size(), min ,max);
+            }
+            case List: {
+                HashMap<String, Integer> compt = new HashMap<String, Integer>();
+                MesureList test = (MesureList) mes.get(0).getMesure();
+                List<String> types = test.getTypes();
+                for (String typ : types){
+                    compt.put(typ, 0);
+                }
+                for(MesureHolder mesure : mes){
+                    String typ = (String) mesure.getMesure().getValue();
+                    compt.replace(typ, compt.get(typ)+1);
+                }
+                String max = test.getValue();
+                for(String typ : compt.keySet()){
+                    if(compt.get(typ) > compt.get(max)){
+                        max = typ;
+                    }
+                }
+                moy = MesureHolder.newMesureList(newName,max);
+            }
+            default : moy = MesureHolder.newMesureBool("Echec", true);
+        }
+        return moy;
+    }
+    public List<MesureHolder> getMesuresMoyennes(){
+        List<MesureHolder> moyennes = new ArrayList<>();
+        for(InfoMesure info : species.getMesuresInfos().getAll()){
+            List<MesureHolder> mesures = this.getMoyenne(info);
+            moyennes.add(moyenne(mesures,info));
+        }
+        return moyennes;
     }
 
     public LocalDate getDateRempot(){
