@@ -45,13 +45,13 @@ public class MesureHolder {
                 MesureNumerique num = (MesureNumerique) holder.getMesure();
                 mesure = new MesureNumerique(num.getValue(), num.getUnit());
             }
-            case Text -> mesure = new MesureText(((MesureText) holder.getMesure()).getText()) ;
+            case Text -> mesure = new MesureText(((MesureText) holder.getMesure()).getValue()) ;
             case List -> {
                 MesureList list = (MesureList) holder.getMesure();
-                mesure = new MesureList(list.getTypes(), list.getType());
+                mesure = new MesureList(list.getTypes(), list.getValue());
             }
             default -> {
-                mesure = new MesureText(((MesureText) holder.getMesure()).getText());
+                mesure = new MesureText(((MesureText) holder.getMesure()).getValue());
                 System.out.println("Erreur constructeur MesureHolder");
             }
         }

@@ -20,7 +20,7 @@ public class MesureTextController extends MesureController {
         setContextMenu();
         name.setText(mesure.getName());
         unit.setVisible(false);
-        field.setText(((MesureText) mesure.getMesure()).getText());
+        field.setText(((MesureText) mesure.getMesure()).getValue());
         field.textProperty().addListener((obs, old, newValue) -> {
             ((MesureText) mesure.getMesure()).setText(newValue);
         });

@@ -31,7 +31,7 @@ public class MesureList extends Mesure {
         this.type = type;
     }
 
-    public String getType() { return type; }
+    public String getValue() { return type; }
     public void setType(String type) {
         if (!types.contains(type)) throw new IllegalArgumentException("Type invalid : " + type + " not in " + types);
         this.type = type;

@@ -230,7 +230,7 @@ public class Specimen {
                     String typ = (String) mesure.getMesure().getValue();
                     compt.replace(typ, compt.get(typ)+1);
                 }
-                String max = test.getValue();
+                String max = test.getValue().toString();
                 for(String typ : compt.keySet()){
                     if(compt.get(typ) > compt.get(max)){
                         max = typ;

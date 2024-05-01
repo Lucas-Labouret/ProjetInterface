@@ -9,12 +9,10 @@ import org.example.projetjardinage.model.journal.InfoMesure;
 import org.example.projetjardinage.model.journal.JournalEntry;
 import org.example.projetjardinage.model.journal.OptimalHolder;
 import org.example.projetjardinage.model.journal.PlageMesure;
-import org.example.projetjardinage.model.journal.mesures.MesureHolder;
 
 import java.io.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class Ecrivain {
@@ -147,7 +145,7 @@ public class Ecrivain {
         OptimalHolder optis =  spe.getMesuresOpti();
         mes.add(String.valueOf(optis.getExp().getValue()));
         mes.add(String.valueOf(optis.getArrosage().getValue()));
-        mes.add(optis.getTypeSol().getType());
+        mes.add(optis.getTypeSol().getValue());
         mes.add(String.valueOf(optis.getPh().getValue()));
         mes.add(String.valueOf(optis.getEspaceAuSol().getValue()));
         int bool = 0;

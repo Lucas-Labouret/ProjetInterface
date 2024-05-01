@@ -15,7 +15,7 @@ public class MesureNumerique extends Mesure {
         this.unit = unit;
     }
 
-    public float getValue() { return value; }
+    public Float getValue() { return value; }
     public void setValue(float value) { this.value = value; }
 
     public void setValueLect(String val) {this.value = Float.parseFloat(val);}
