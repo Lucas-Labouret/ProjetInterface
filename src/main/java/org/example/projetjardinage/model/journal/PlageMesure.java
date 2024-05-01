@@ -83,10 +83,11 @@ public class PlageMesure {
     }
 
     public List<InfoMesure> getNvMesures(){
-        List<InfoMesure> mes = this.mesures;
-        mes.remove(0); //hauteur
-        mes.remove(1); //largeur
-        return mes;
+        List<InfoMesure> nv = new ArrayList<>(this.mesures);
+        nv.remove(0);
+        nv.remove(0);
+        return nv;
+
     }
 
 }

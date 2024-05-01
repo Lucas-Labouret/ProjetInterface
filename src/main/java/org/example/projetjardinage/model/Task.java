@@ -13,7 +13,7 @@ public class Task extends Observable {
     private Task parent;
     private boolean done;
 
-    private Integer recurrence = null;
+    private Integer recurrence = 0;
     private final List<Task> subTasks = new ArrayList<>();
 
     private final List<Specimen> linkedSpecimens = new ArrayList<>();

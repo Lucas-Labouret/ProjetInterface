@@ -95,7 +95,17 @@ public class MesureHolder {
     public Mesure getMesure() { return mesure; }
     public void setMesure(Mesure mesure) { this.mesure = mesure; }
 
+
     public String getMesureString(){
+        if(type == TypeMesure.Bool){
+            String s = "0";
+            if((boolean)this.mesure.getValue()){
+                s = "1";
+            }
+            return s;
+        }
         return String.valueOf(mesure.getValue());
     }
+
+
 }

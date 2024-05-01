@@ -49,6 +49,7 @@ public class InfoMesure {
             return null;
         }
     }
+
     public String getStringType(){
         String ty ="";
         switch (type) {
@@ -57,10 +58,8 @@ public class InfoMesure {
             case Bool -> ty = "B" ;
             case Scale -> ty = "S" ;
             case List -> ty = "L";
-            default -> System.out.println("Erreur constructeur InfoMesure");
+            default -> { throw new IllegalArgumentException("Erreur constructeur InfoMesure"); }
         }
         return ty;
     }
-
-
 }

@@ -58,7 +58,8 @@ public class App extends Application {
 
         GlobalData.primaryStage = primaryStage;
         primaryStage.setOnHidden(e -> {
-            //renameDirectories();
+            renameDirectories();
+            GlobalData.enregistre("test.txt");
             Platform.exit();
         });
     }

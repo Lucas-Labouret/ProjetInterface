@@ -31,12 +31,12 @@ public class Species extends Observable {
         this.favorite = (fav != 0);
         this.profilePic = elem.get(2);
         this.notes = elem.get(3);
-        List<String> opti = elem.subList(4,9);
+        List<String> opti = elem.subList(4,10);
         this.mesuresOpti = new OptimalHolder(opti);
         this.mesuresPoss = new PlageMesure();
-        int nbNouvellesMesures = Integer.parseInt(elem.get(9));
+        int nbNouvellesMesures = Integer.parseInt(elem.get(10));
         for(int i = 0; i<nbNouvellesMesures*3;i=i+3){
-            this.mesuresPoss.addMesure(elem.get(10+i),elem.get(10+i+1),elem.get(10+i+2));
+            this.mesuresPoss.addMesure(elem.get(11+i),elem.get(11+i+1),elem.get(11+i+2));
         }
     }
 

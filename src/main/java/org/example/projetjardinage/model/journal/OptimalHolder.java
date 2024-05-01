@@ -1,5 +1,6 @@
 package org.example.projetjardinage.model.journal;
 
+import org.example.projetjardinage.model.journal.mesures.MesureBool;
 import org.example.projetjardinage.model.journal.mesures.MesureList;
 import org.example.projetjardinage.model.journal.mesures.MesureNumerique;
 import org.example.projetjardinage.model.journal.mesures.MesureScale;
@@ -13,12 +14,17 @@ public class OptimalHolder {
     private MesureNumerique ph = new MesureNumerique(Float.valueOf(0), "");
     private MesureNumerique espaceAuSol = new MesureNumerique((float)0, "cm2") ;
 
+    private MesureBool enTerre = new MesureBool(true);
+
     public OptimalHolder(List<String> elem){
         exp = new MesureScale(elem.get(0));
         arr = new MesureScale(elem.get(1));
         ts = new MesureList(elem.get(2));
         ph.setValueLect(elem.get(3));
         espaceAuSol.setValueLect(elem.get(4));
+        boolean enT = true;
+        if(elem.get(5).equals("0")){enT = false;}
+        enTerre.setValue(enT);
     }
 
     public MesureScale getExp() { return exp; }
@@ -35,4 +41,6 @@ public class OptimalHolder {
 
     public MesureNumerique getEspaceAuSol() { return espaceAuSol; }
     public void setEspaceAuSol(float value) { espaceAuSol.setValue(value); }
+
+    public MesureBool getEnTerre() {return enTerre;}
 }
