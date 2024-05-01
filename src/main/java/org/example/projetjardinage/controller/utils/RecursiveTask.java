@@ -140,7 +140,7 @@ public class RecursiveTask extends Observer {
         check.setSelected(task.isDone());
         description.setText(task.getDescription());
 
-        TextArea description = (TextArea) box.getChildren().getFirst();
+        TextArea description = (TextArea) box.getChildren().get(0);
         box.getChildren().clear();
         box.getChildren().add(description);
 
