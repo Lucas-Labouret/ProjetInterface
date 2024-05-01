@@ -79,10 +79,10 @@ public class Lecteur {
         int nb = Integer.parseInt(this.text.get(this.bookmark + 1));
         this.bookmark = this.bookmark+2;
         for(int i = 0; i < nb; i=i+1){
-
+            System.out.println(this.text.get(this.bookmark));
             List<String> cas = new ArrayList<> ();
             //9 cases par mesures, NOM, FAV, PIC, NOTES, 8 * MESURES, NBnouvelles mesures, Nouvelles mesures (3 cases chacunes)
-            for(int j = 0; j < 9; j++){
+            for(int j = 0; j < 10; j++){
                 cas.add(this.text.get(this.bookmark));
                 this.bookmark = this.bookmark+1;
             }
