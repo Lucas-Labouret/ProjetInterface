@@ -80,7 +80,7 @@ public class JournalEntry extends Observable {
     }
 
     public MesureHolder getMesureInfo(InfoMesure info){
-        MesureHolder mes = MesureHolder.newMesureTexte("Echec","dans le recuperage d'entrees");
+        MesureHolder mes = MesureHolder.newMesureText("Echec","dans le recuperage d'entrees");
         return mes;
     }
 }

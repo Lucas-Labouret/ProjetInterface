@@ -18,7 +18,7 @@ public class MesureScale extends Mesure {
 
     public MesureScale(String val){ this.setNiveauLect(val); }
 
-    public MesureScale(String unit, String val){
+    public MesureScale(String val, String unit){
         ArrayList<String> minMax = new ArrayList<>(List.of(unit.split("<SEP>")));
         this.niveau = Integer.parseInt(val);
         this.min = Integer.parseInt(minMax.get(0));
