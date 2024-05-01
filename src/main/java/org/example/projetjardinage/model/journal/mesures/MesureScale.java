@@ -1,5 +1,7 @@
 package org.example.projetjardinage.model.journal.mesures;
 
+import org.example.projetjardinage.model.journal.InfoMesure;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,6 +17,13 @@ public class MesureScale extends Mesure {
     }
 
     public MesureScale(String val){ this.setNiveauLect(val); }
+
+    public MesureScale(String unit, String val){
+        ArrayList<String> minMax = new ArrayList<>(List.of(unit.split("<SEP>")));
+        this.niveau = Integer.parseInt(val);
+        this.min = Integer.parseInt(minMax.get(0));
+        this.max = Integer.parseInt(minMax.get(1));
+    }
 
     public int getNiveau(){ return niveau; }
     public void setNiveau(int niveau) { this.niveau = niveau; }
