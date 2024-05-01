@@ -7,6 +7,7 @@ import org.example.projetjardinage.model.Lists.ObservableList;
 import org.example.projetjardinage.model.Species;
 import org.example.projetjardinage.model.Task;
 import org.example.projetjardinage.model.Lists.TodoList;
+import org.example.projetjardinage.model.enregistreur.Ecrivain;
 import org.example.projetjardinage.model.enregistreur.Lecteur;
 
 import java.time.LocalDate;
@@ -46,5 +47,12 @@ public class GlobalData {
         tasks = new TodoList((ArrayList<Task>) data.get(1));
         vieuxnoms = (HashMap<String, String>) data.get(2);
         nomsvieux = (HashMap<String, String>) data.get(3);
+
+
+        System.out.println("Milieu");
+        Ecrivain ecrivain = new Ecrivain("test2.txt", species, tasks);
+        ecrivain.enregistrer();
+        System.out.println("Oui");
+
     }
 }

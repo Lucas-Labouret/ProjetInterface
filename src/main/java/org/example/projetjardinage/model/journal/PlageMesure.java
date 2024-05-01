@@ -11,6 +11,8 @@ public class PlageMesure {
     private final List<InfoMesure> condition = new ArrayList<>();
     private final List<InfoMesure> mesures = new ArrayList<>();
 
+
+
     public PlageMesure(){
         this.condition.add(new InfoMesure("Exposition", TypeMesure.Scale, "1<SEP>4<SEP>1"));
         this.condition.add(new InfoMesure("Arrosage", TypeMesure.Scale, "1<SEP>4<SEP>1"));

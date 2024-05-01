@@ -9,12 +9,14 @@ import org.example.projetjardinage.model.journal.InfoMesure;
 import org.example.projetjardinage.model.journal.JournalEntry;
 import org.example.projetjardinage.model.journal.PlageMesure;
 
+import java.io.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class Ecrivain {
-    private List<String> texte;
+    private List<String> texte = new ArrayList<>();
 
     public static ObservableList<Species> species;
     public static TodoList tasks;
@@ -28,17 +30,19 @@ public class Ecrivain {
         this.tasks = tasks;
     }
 
-    private void setEsp(List<String> species){
+    private void setEsp(List<String> spe){
         texte.add("ESP");
-        texte.add(String.valueOf(species.size()));
-        texte.addAll(species);
+        texte.add(String.valueOf(species.getElements().size()));
+        texte.addAll(spe);
     }
     private List<String> ajoutEsp() {
         List<String> speciesEcr = new ArrayList<>();
         for (Species spe : species.getElements()) {
             //9 cases par espece, NOM, FAV, PIC, NOTES, 8 * MESURES, NBnouvelles mesures, Nouvelles mesures (3 cases chacunes)
             speciesEcr.add(spe.getName());
-            speciesEcr.add(String.valueOf(spe.getFavorite()));
+            int bool = 0;
+            if(spe.isFavorite()){bool = 1;}
+            speciesEcr.add(String.valueOf(bool));
             speciesEcr.add(spe.getProfilePicURL());
             speciesEcr.add(spe.getNotes());
             speciesEcr.addAll(getMesures(spe));
@@ -56,7 +60,11 @@ public class Ecrivain {
     }
     private void setSpe(List<String> specimens){
         texte.add("SPE");
-        texte.add(String.valueOf(specimens.size()));
+        int nb = 0;
+        for(Species spe : species.getElements()){
+            nb = nb + spe.getSpecimens().size();
+        }
+        texte.add(String.valueOf(nb));
         texte.addAll(specimens);
     }
 
@@ -82,6 +90,14 @@ public class Ecrivain {
                 entreeEcr.add("<N>");
             }
         }
+
+        entreeEcr.add(String.valueOf(entree.isRempoter()));
+        entreeEcr.add(String.valueOf(entree.isRecolter()));
+        entreeEcr.add(String.valueOf(entree.isCouper()));
+
+        entreeEcr.add(String.valueOf(entree.getImages().size()));
+        entreeEcr.addAll(entree.getImages());
+
         return entreeEcr;
     }
     private List<String> ajoutSpe(){
@@ -91,7 +107,9 @@ public class Ecrivain {
                 //9 cases par mesures, NOM, DATE, ALIVE, PIC, SPE, NOTES1, NOTES2, JOURNAL
                 speEcr.add(spe.getName());
                 speEcr.add(StringOF(spe.getMiseEnTerre()));
-                speEcr.add(String.valueOf(spe.isAlive()));
+                int bool = 0;
+                if(spe.isAlive()){bool = 1;}
+                speEcr.add(String.valueOf(bool));
                 speEcr.add(spe.getProfilePic());
                 speEcr.add(esp.getName());
                 speEcr.add(spe.getNoteSpecimen());
@@ -111,12 +129,13 @@ public class Ecrivain {
     }
     private void setTask(List<String> taches){
         texte.add("TASK");
-        texte.add(String.valueOf(taches.size()));
+        texte.add(String.valueOf(tasks.getElements().size()));
         texte.addAll(taches);
     }
 
     private List<String> getMesures(Species spe){
         List<String> mes = new ArrayList<>();
+        //
         return mes;
     }
 
@@ -125,7 +144,9 @@ public class Ecrivain {
 
         for(Task t : taches){
             taskEcr.add(t.getName());
-            taskEcr.add(String.valueOf(t.isDone()));
+            int bool = 0;
+            if(t.isDone()){bool = 1;}
+            taskEcr.add(String.valueOf(bool));
             taskEcr.add(String.valueOf(t.getDescription()));
             taskEcr.add(StringOF(t.getDueDate()));
             if(t.getParent()==null){
@@ -153,6 +174,13 @@ public class Ecrivain {
     private List<String> ajoutTask(){
         return ajoutTaskRec(tasks.getElements());
     }
+
+    private void virguleCheck(){
+        for(int i = 0; i<texte.size();i++){
+            String s = texte.get(i);
+            texte.set(i,s.replace(",","<C>"));
+        }
+    }
     public void enregistrer(){
 
         //Ajout des especes
@@ -163,6 +191,25 @@ public class Ecrivain {
 
         //Ajout des tasks;
         setTask(ajoutTask());
+
+        virguleCheck();
+
+        try {
+            BufferedWriter ecrivain = new BufferedWriter(new FileWriter(path));
+            for(String s : this.texte){
+                ecrivain.write(s);
+                ecrivain.write(",");
+            }
+            ecrivain.close();
+        } catch (FileNotFoundException e) {
+            System.out.println("Problème à la lecture du fichier.");
+            throw new RuntimeException(e);
+
+        } catch (IOException e) {
+            System.out.println("Problème de lecture de ligne à la lecture du fichier.");
+            throw new RuntimeException(e);
+        }
+
     }
 
 
