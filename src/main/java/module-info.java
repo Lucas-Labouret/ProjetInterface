@@ -10,6 +10,7 @@ module org.example.projetjardinage {
     requires org.kordamp.bootstrapfx.core;
     requires eu.hansolo.tilesfx;
     requires com.almasb.fxgl.all;
+    requires java.desktop;
 
     exports org.example.projetjardinage;
     opens org.example.projetjardinage to javafx.fxml;

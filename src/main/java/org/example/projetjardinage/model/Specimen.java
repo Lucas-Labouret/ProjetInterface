@@ -2,18 +2,20 @@ package org.example.projetjardinage.model;
 
 import org.example.projetjardinage.model.journal.InfoMesure;
 import org.example.projetjardinage.model.journal.Journal;
-import org.example.projetjardinage.model.journal.JournalEntry;
 import org.example.projetjardinage.model.journal.PlageMesure;
 import org.example.projetjardinage.model.journal.mesures.MesureHolder;
+import org.example.projetjardinage.model.journal.mesures.MesureList;
+import org.example.projetjardinage.model.journal.mesures.TypeMesure;
 
+import java.io.File;
+import java.nio.file.FileSystems;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.time.LocalDate;
 import java.time.Month;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import org.example.projetjardinage.model.journal.mesures.MesureHolder;
-import org.example.projetjardinage.model.journal.mesures.MesureList;
-import org.example.projetjardinage.model.journal.mesures.TypeMesure;
 
 public class Specimen {
     private Species species;
@@ -127,6 +129,37 @@ public class Specimen {
     }
     public void setName(String name) {
         this.name = name;
+    }
+
+    public void resetProfilePic(){
+        Path absolutePath = FileSystems.getDefault().getPath(
+                "src/main/resources/galerie/" + species.getName() +
+                        "/" + this.getName()
+        ).toAbsolutePath();
+
+        System.out.println(absolutePath + "aaaaaaaaaaaaaaa");
+        char[] a = absolutePath.toString().toCharArray();
+
+        String t = "";
+
+        for (char c : a) {
+            t += c;
+        }
+        File dossier = new File(t);
+        File[] listOfFiles = dossier.listFiles();
+        Path oldpath = FileSystems.getDefault().getPath(
+                    "src/main/resources/" + profilePic).toAbsolutePath();
+        if(!Files.exists(oldpath)) {
+            if (listOfFiles.length > 0) {
+                profilePic = "/galerie/" + species.getName() + "/" + name +"/"+listOfFiles[0].getName();
+                System.out.println(profilePic);
+            } else{
+            profilePic = "/icons/267203.png";
+        }
+
+    }
+        System.out.println(name);
+        System.out.println(profilePic);
     }
 
     public String getOldName() {

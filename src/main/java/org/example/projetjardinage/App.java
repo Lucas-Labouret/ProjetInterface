@@ -59,6 +59,12 @@ public class App extends Application {
         GlobalData.primaryStage = primaryStage;
         primaryStage.setOnHidden(e -> {
             renameDirectories();
+            for (int i = 0; i < GlobalData.species.size(); i++) {
+                for (int j = 0; j < GlobalData.species.get(i).getSpecimens().size(); j++) {
+                    GlobalData.species.get(i).getSpecimens().get(j).resetProfilePic();
+                }
+                GlobalData.species.get(i).resetProfilePic();
+            }
             GlobalData.enregistre("test.txt");
             Platform.exit();
         });

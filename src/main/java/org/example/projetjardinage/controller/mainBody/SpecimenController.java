@@ -8,16 +8,21 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import org.example.projetjardinage.GlobalData;
 import org.example.projetjardinage.controller.MainWindow;
 import org.example.projetjardinage.controller.utils.journal.JournalController;
-import org.example.projetjardinage.model.lists.TodoList;
 import org.example.projetjardinage.model.Specimen;
 import org.example.projetjardinage.model.Task;
+import org.example.projetjardinage.model.lists.TodoList;
 
+import java.io.*;
+import java.nio.file.FileSystems;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 public class SpecimenController implements BodyController {
 
@@ -30,6 +35,8 @@ public class SpecimenController implements BodyController {
     @FXML private Button editNotesEntretien;
 
     @FXML private Pane taskPane;
+
+    @FXML private Button ajouterImage;
 
     @FXML private Button addEntretienButton;
 
@@ -139,7 +146,81 @@ public class SpecimenController implements BodyController {
             MainWindow.getInstance().getGalleryController().switchSpecimen(specimen);
             MainWindow.getInstance().switchController(MainWindow.Display.GALLERY);
         });
+        ajouterImage.setOnAction(e -> {
+            FileChooser fC = new FileChooser();
 
+            fC.getExtensionFilters().add(new FileChooser.ExtensionFilter("Image Files", "*.png", "*.jpg", "*.jpeg", "*.gif"));
+            List<File> f = fC.showOpenMultipleDialog(null);//stores files in f object list of type: File
+            if (f != null){
+                for (File file : f) {
+                    //System.out.println(file.getAbsoluteFile());
+                    /**BufferedImage img = null;
+                    try {
+                        img = ImageIO.read(file);
+
+                    } catch (IOException ex) {
+                        throw new RuntimeException(ex);
+                    }
+                    System.out.println(img);
+                    String uniqueID = UUID.randomUUID().toString();
+                    Path newimg = FileSystems.getDefault().getPath(
+                            "src/main/resources/galerie/"+specimen.getSpecies().getOldName()+"/"+specimen.getOldName()+"/"+uniqueID+".jpg");
+
+                    System.out.println(newimg.toAbsolutePath());
+                    try {
+                        File fichier = new File(newimg.toAbsolutePath().toString());
+                        fichier.createNewFile();
+                        ImageIO.write(img, " jpg", fichier);
+                    } catch (Exception ex){
+                        ex.printStackTrace();
+                        System.out.println("Error");
+                    }
+                }
+            }**/
+                    FileInputStream in = null;
+                    try {
+                        in = new FileInputStream(file);
+                    } catch (FileNotFoundException ex) {
+                        throw new RuntimeException(ex);
+                    }
+                    FileOutputStream ou = null;
+                    String uniqueID = UUID.randomUUID().toString();
+                    Path newimg = FileSystems.getDefault().getPath(
+                            "src/main/resources/galerie/"+specimen.getSpecies().getOldName()+"/"+specimen.getOldName()+"/"+uniqueID+".jpg");
+                    try {
+                        ou = new FileOutputStream(newimg.toAbsolutePath().toString());
+                    } catch (FileNotFoundException ex) {
+                        throw new RuntimeException(ex);
+                    }
+                    BufferedInputStream bin = new BufferedInputStream(in);
+                    BufferedOutputStream bou = new BufferedOutputStream(ou);
+                    int b=0;
+                    while(b!=-1){
+                        try {
+                            b=bin.read();
+                        } catch (IOException ex) {
+                            throw new RuntimeException(ex);
+                        }
+                        try {
+                            bou.write(b);
+                        } catch (IOException ex) {
+                            throw new RuntimeException(ex);
+                        }
+                    }
+                    try {
+                        bin.close();
+                    } catch (IOException ex) {
+                        throw new RuntimeException(ex);
+                    }
+                    try {
+                        bou.close();
+                    } catch (IOException ex) {
+                        throw new RuntimeException(ex);
+                    }
+
+                }
+                }
+        });
     }
 
     public void updateSize(double width, double height) {}

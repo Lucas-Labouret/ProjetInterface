@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.*?>
-<?import javafx.scene.effect.*?>
-<?import javafx.scene.image.*?>
+<?import javafx.scene.effect.Blend?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.shape.*?>
+<?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.*?>
+<?import javafx.stage.FileChooser ?>
+
 
 <AnchorPane prefHeight="560.0" prefWidth="560.0" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.projetjardinage.controller.mainBody.SpecimenController">
     <Button fx:id="editName" alignment="CENTER" contentDisplay="CENTER" ellipsisString="" layoutX="196.0" layoutY="32.0" mnemonicParsing="false" prefHeight="16.0" prefWidth="16.0">
@@ -144,4 +147,5 @@
     <Button fx:id="ajouterImage" layoutX="444.0" layoutY="434.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="126.0" text="Button" />
     <Button fx:id="gallery" layoutX="440.0" layoutY="486.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="126.0" text="photos specimen" />
    <Label layoutX="26.0" layoutY="375.0" text="To-do List :" />
+
 </AnchorPane>

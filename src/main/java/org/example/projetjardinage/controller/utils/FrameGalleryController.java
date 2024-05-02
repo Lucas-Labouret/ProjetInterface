@@ -68,8 +68,8 @@ public class FrameGalleryController extends Observer {
         }else {
             text.setText(species.getSpecimens().get(specimen).getName());
             try {
-                Paths.get(species.getProfilePicURL());
                 image.setImage(new Image(getClass().getResourceAsStream(img)));
+                System.out.println(img);
             } catch (InvalidPathException | NullPointerException ex) {
                 image.setImage(new Image(getClass().getResourceAsStream("/icons/267203.png")));
             }

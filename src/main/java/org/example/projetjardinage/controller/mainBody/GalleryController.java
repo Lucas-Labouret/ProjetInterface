@@ -32,6 +32,9 @@ public class GalleryController extends Observer implements BodyController {
     private Species species = null;
     ArrayList<VBox> vBoxes = new ArrayList<>();
 
+    ArrayList<VBox> vBoxesSpecimens = new ArrayList<>();
+
+    int pos = 0 ;
 
 
 
@@ -142,7 +145,12 @@ public class GalleryController extends Observer implements BodyController {
 
         } else {
 
-
+            for (int i = 0; i < nbColumns; i++) {
+                VBox vBox = new VBox();
+                vBox.setAlignment(Pos.TOP_CENTER);
+                vBoxesSpecimens.add(vBox);
+                photos.getChildren().add(vBox);
+            }
             Path absolutePath = FileSystems.getDefault().getPath(
                     "src/main/resources/galerie/" + species.getOldName() +
                             "/" + species.getSpecimens().get(x).getOldName()
@@ -161,19 +169,19 @@ public class GalleryController extends Observer implements BodyController {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/utils/FrameGallery.fxml"));
                 FrameGalleryController frameGalleryController;
                 try {
-                    System.out.println("/galerie/" + species.getOldName() + "/" + species.getSpecimens().get(x).getOldName() + "/" + listOfFiles[i].getName());
                     frameGalleryController = new FrameGalleryController(species, x, "/galerie/" + species.getOldName() + "/" + species.getSpecimens().get(x).getOldName() + "/" + listOfFiles[i].getName());
+                    System.out.println("/galerie/" + species.getOldName() + "/" + species.getSpecimens().get(x).getOldName() + "/" + listOfFiles[i].getName());
                 } catch (Exception e) {
                     frameGalleryController = new FrameGalleryController(species, x, "/icons/267203.png");
-                    System.out.println("lololol");
                 }
                 loader.setController(frameGalleryController);
 
                 Parent especeView;
                 try {
                     especeView = loader.load();
-                    photos.getChildren().add(especeView);
+                    vBoxesSpecimens.get(pos % nbColumns).getChildren().add(especeView);
                     System.out.println("tamsy");
+                    pos++;
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -201,6 +209,7 @@ public class GalleryController extends Observer implements BodyController {
         ArrayList<Species> knownPlants = new ArrayList<>();
         for (SpeciesViewPair pair : controllerViewPairs) knownPlants.add(pair.getSpecies());
         photos.getChildren().clear();
+        vBoxesSpecimens.clear();
         for (int i = 0; i < plantes.size(); i++) {
             if (!knownPlants.contains(plantes.get(i))) {
                 loadImage(i);
@@ -223,6 +232,7 @@ public class GalleryController extends Observer implements BodyController {
         }
 
         showSpecimens();
+        pos = 0 ;
 
     }
 

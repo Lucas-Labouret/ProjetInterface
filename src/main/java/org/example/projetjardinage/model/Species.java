@@ -3,6 +3,10 @@ package org.example.projetjardinage.model;
 import org.example.projetjardinage.model.journal.OptimalHolder;
 import org.example.projetjardinage.model.journal.PlageMesure;
 
+import java.io.File;
+import java.nio.file.FileSystems;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -79,6 +83,45 @@ public class Species extends Observable {
     public OptimalHolder getMesuresOpti() { return mesuresOpti; }
 
     public PlageMesure getMesures(){ return this.mesuresPoss;}
+
+
+
+
+    public void resetProfilePic(){
+        if(specimens.size() == 0){
+            profilePic = "/icons/267203.png";
+            return;
+        }
+        Path absolutePath = FileSystems.getDefault().getPath(
+                "src/main/resources/galerie/" + getName() +
+                        "/" + getSpecimens().get(0).getName()
+        ).toAbsolutePath();
+
+
+        char[] a = absolutePath.toString().toCharArray();
+
+        String t = "";
+
+        for (char c : a) {
+            t += c;
+        }
+        File dossier = new File(t);
+        File[] listOfFiles = dossier.listFiles();
+        Path oldpath = FileSystems.getDefault().getPath(
+                "src/main/resources/" + profilePic).toAbsolutePath();
+        if(!Files.exists(oldpath)) {
+            if (listOfFiles.length > 0) {
+                profilePic = "/galerie/" + getName() + "/" + getSpecimens().get(0).getName() +"/"+listOfFiles[0].getName();
+                System.out.println(profilePic);
+            } else{
+                profilePic = "/icons/267203.png";
+            }
+
+        }
+        System.out.println(name);
+        System.out.println(profilePic);
+    }
+
 
     public int getNbMesures(){return this.mesuresPoss.getTaille();}
 
