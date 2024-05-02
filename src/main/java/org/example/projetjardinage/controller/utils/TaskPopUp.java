@@ -279,14 +279,8 @@ public class TaskPopUp {
     private Button getSpecimenButton(Specimen specimen) {
         Button button = new Button(specimen.getName());
         button.setOnMouseClicked(e -> {
-            if (e.getClickCount() == 2) {
-                stage.close();
-                MainWindow.getInstance().switchController(MainWindow.Display.SPECIMEN);
-            }
-            if (e.getButton() == MouseButton.SECONDARY) {
-                dummy.removeLinkedSpecimens(specimen);
-                specimenZone.getChildren().remove(button);
-            }
+            dummy.removeLinkedSpecimens(specimen);
+            specimenZone.getChildren().remove(button);
         });
         return button;
     }

@@ -3,14 +3,13 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane prefHeight="541.0" prefWidth="528.0" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.projetjardinage.controller.mainBody.GalleryController">
-    <Label>Gallery</Label>
-   <ScrollPane layoutX="6.0" layoutY="37.0" prefHeight="139.0" prefWidth="516.0">
+<AnchorPane prefHeight="541.0" prefWidth="528.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.projetjardinage.controller.mainBody.GalleryController">
+   <ScrollPane layoutX="6.0" layoutY="37.0" prefHeight="139.0" prefWidth="516.0" vbarPolicy="NEVER" AnchorPane.bottomAnchor="380.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
       <content>
          <HBox fx:id="especes" prefHeight="111.0" prefWidth="502.0" />
       </content>
    </ScrollPane>
-   <ScrollPane layoutX="6.0" layoutY="182.0" prefHeight="353.0" prefWidth="516.0">
+   <ScrollPane layoutX="6.0" layoutY="182.0" prefHeight="353.0" prefWidth="516.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="180.0">
       <content>
          <HBox fx:id="photos" prefHeight="345.0" prefWidth="510.0" />
       </content>
