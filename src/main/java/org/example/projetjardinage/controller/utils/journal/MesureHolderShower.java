@@ -61,8 +61,8 @@ public class MesureHolderShower {
         stage.setAlwaysOnTop(true);
         stage.setScene(scene);
         element.setOnMouseEntered(e -> {
-            stage.setX(e.getScreenX() + 5);
-            stage.setY(e.getScreenY() + 5);
+            stage.setX(e.getScreenX() + 10);
+            stage.setY(e.getScreenY() + 10);
             stage.show();
         });
         element.setOnMouseExited(e -> {
