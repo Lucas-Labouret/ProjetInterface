@@ -137,7 +137,6 @@ public class Specimen {
                         "/" + this.getName()
         ).toAbsolutePath();
 
-        System.out.println(absolutePath + "aaaaaaaaaaaaaaa");
         char[] a = absolutePath.toString().toCharArray();
 
         String t = "";
