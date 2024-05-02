@@ -75,7 +75,7 @@ public class JournalController {
             });
         });
         ArrayList<LocalDate> tmp = new ArrayList<>();
-        for(int i =0;i<journal.getSortedDates().size()-1;i=i+1){
+        for(int i =journal.getSortedDates().size()-1; i>=0; i--){
             tmp.add(journal.getSortedDates().get(i));
         }
         for (LocalDate date: tmp){
