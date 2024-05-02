@@ -7,6 +7,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -60,6 +62,7 @@ public class SpecimenController implements BodyController {
     @FXML private Label widthLabel;
     @FXML private Label recolteLabel;
     @FXML private Button gallery;
+    @FXML private ImageView speciesImage;
 
 
 
@@ -79,6 +82,8 @@ public class SpecimenController implements BodyController {
         //recolteLabel.setText(s.getDateRecolte().toString());
         notesSpe.setText(s.getNoteSpecimen());
         notesEntretien.setText(s.getNoteEntretien());
+        speciesImage.setImage(new Image(getClass().getResourceAsStream(s.getProfilePic())));
+
 
         TodoList todoList = new TodoList();
         todoList.addFilter(t -> t.getLinkedSpecies().contains(this.specimen));
