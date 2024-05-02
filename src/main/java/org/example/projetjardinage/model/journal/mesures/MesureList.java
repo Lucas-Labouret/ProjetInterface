@@ -20,13 +20,13 @@ public class MesureList extends Mesure {
         }
     }
 
-    public MesureList(ArrayList<String> types){
-        this.types = types;
+    public MesureList(List<String> types){
+        this.types = new ArrayList<>(types);
         this.type = types.get(0);
     }
 
-    public MesureList(ArrayList<String> types, String type){
-        this.types = types;
+    public MesureList(List<String> types, String type){
+        this.types = new ArrayList<>(types);
         if (!types.contains(type)) throw new IllegalArgumentException("Type invalid");
         this.type = type;
     }

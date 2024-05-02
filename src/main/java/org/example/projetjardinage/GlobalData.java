@@ -3,10 +3,10 @@ package org.example.projetjardinage;
 import javafx.stage.Stage;
 
 import javafx.util.StringConverter;
-import org.example.projetjardinage.model.Lists.ObservableList;
+import org.example.projetjardinage.model.lists.ObservableList;
 import org.example.projetjardinage.model.Species;
 import org.example.projetjardinage.model.Task;
-import org.example.projetjardinage.model.Lists.TodoList;
+import org.example.projetjardinage.model.lists.TodoList;
 import org.example.projetjardinage.model.enregistreur.Ecrivain;
 import org.example.projetjardinage.model.enregistreur.Lecteur;
 

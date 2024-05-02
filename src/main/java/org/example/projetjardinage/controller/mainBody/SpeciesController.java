@@ -14,11 +14,11 @@ import javafx.scene.shape.Line;
 import org.example.projetjardinage.GlobalData;
 import org.example.projetjardinage.controller.Observer;
 import org.example.projetjardinage.controller.utils.EspeceController;
-import org.example.projetjardinage.model.Lists.ObservableList;
+import org.example.projetjardinage.model.lists.ObservableList;
 import org.example.projetjardinage.model.Species;
 import org.example.projetjardinage.model.Specimen;
 import org.example.projetjardinage.model.Task;
-import org.example.projetjardinage.model.Lists.TodoList;
+import org.example.projetjardinage.model.lists.TodoList;
 
 import java.util.ArrayList;
 import java.util.List;

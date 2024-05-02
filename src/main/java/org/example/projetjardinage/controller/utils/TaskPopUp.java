@@ -7,7 +7,6 @@ import javafx.scene.control.*;
 import javafx.scene.input.MouseButton;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.util.StringConverter;
 import org.example.projetjardinage.GlobalData;
 import org.example.projetjardinage.controller.MainWindow;
 import org.example.projetjardinage.model.Species;
@@ -16,11 +15,9 @@ import org.example.projetjardinage.model.Task;
 
 import javafx.fxml.FXML;
 import javafx.scene.layout.HBox;
-import org.example.projetjardinage.model.Lists.TodoList;
+import org.example.projetjardinage.model.lists.TodoList;
 
 import java.io.IOException;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 
 public class TaskPopUp {
     public static TaskPopUp newTaskPopUp(Task task, TodoList todoList) {

@@ -1,4 +1,4 @@
-package org.example.projetjardinage.model.Lists;
+package org.example.projetjardinage.model.lists;
 
 import org.example.projetjardinage.model.Observable;
 

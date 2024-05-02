@@ -3,6 +3,7 @@ package org.example.projetjardinage.model.journal.mesures;
 import org.example.projetjardinage.model.journal.InfoMesure;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class MesureHolder {
 
@@ -76,6 +77,9 @@ public class MesureHolder {
         Mesure mesure = new MesureList(type);
         return new MesureHolder(name, TypeMesure.List, mesure);
     }
+    public static MesureHolder newMesureList(String name, String type, String value) {
+        return new MesureHolder(name, TypeMesure.List, new MesureList(List.of(type.split("<SEP>")), value));
+    }
     public static MesureHolder newMesureList(String name, ArrayList<String> types) {
         Mesure mesure = new MesureList(types);
         return new MesureHolder(name, TypeMesure.List, mesure);
@@ -84,6 +88,9 @@ public class MesureHolder {
     public static MesureHolder newMesureScale(String name, int niveau, int min, int max){
         Mesure mesure = new MesureScale(niveau, min, max);
         return new MesureHolder(name, TypeMesure.Scale, mesure);
+    }
+    public static MesureHolder newMesureScale(String name, int min, int max){
+        return newMesureScale(name, min, min, max);
     }
 
     public String getName() { return name; }

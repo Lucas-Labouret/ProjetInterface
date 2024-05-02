@@ -15,7 +15,7 @@ import org.example.projetjardinage.controller.utils.TaskPopUp;
 import org.example.projetjardinage.model.Species;
 import org.example.projetjardinage.model.Specimen;
 import org.example.projetjardinage.model.Task;
-import org.example.projetjardinage.model.Lists.TodoList;
+import org.example.projetjardinage.model.lists.TodoList;
 
 import java.time.LocalDate;
 import java.util.ArrayList;

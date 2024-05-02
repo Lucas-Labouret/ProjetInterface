@@ -13,7 +13,7 @@ import org.example.projetjardinage.GlobalData;
 import org.example.projetjardinage.controller.Observer;
 import org.example.projetjardinage.controller.utils.AddSpeciesPopUp;
 import org.example.projetjardinage.controller.utils.EspeceController;
-import org.example.projetjardinage.model.Lists.ObservableList;
+import org.example.projetjardinage.model.lists.ObservableList;
 import org.example.projetjardinage.model.Species;
 
 import java.util.ArrayList;

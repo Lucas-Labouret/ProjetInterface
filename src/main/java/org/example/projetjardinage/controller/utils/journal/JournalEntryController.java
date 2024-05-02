@@ -7,7 +7,12 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+
 import org.example.projetjardinage.controller.Observer;
+import org.example.projetjardinage.controller.utils.journal.ajoutTypeMesure.AjoutTypeMesurePopUp;
+import org.example.projetjardinage.controller.utils.Alert;
 import org.example.projetjardinage.model.journal.InfoMesure;
 import org.example.projetjardinage.model.journal.JournalEntry;
 import org.example.projetjardinage.model.journal.mesures.MesureHolder;
@@ -18,8 +23,7 @@ import java.util.ArrayList;
 public class JournalEntryController extends Observer {
     @FXML VBox mesureBox;
     @FXML MenuButton addMesure;
-    @FXML
-    Button deleteAll;
+    @FXML Button deleteAll;
     @FXML TextArea notes;
     @FXML CheckBox rempotter;
     @FXML CheckBox couper;
@@ -99,10 +103,7 @@ public class JournalEntryController extends Observer {
             }
         }
 
-        MenuItem nouvelle = new MenuItem("Nouvelle mesure");
-        nouvelle.setOnAction(e -> {
-            System.out.println("Pas implémenté :3");
-        });
+        MenuItem nouvelle = getNouvelleMesureItem();
         addMesure.getItems().add(nouvelle);
 
         ArrayList<String> noms = new ArrayList<>();
@@ -115,6 +116,37 @@ public class JournalEntryController extends Observer {
                 addMesure.getItems().add(item);
             }
         }
+    }
+
+    private MenuItem getNouvelleMesureItem() {
+        MenuItem nouvelle = new MenuItem("Nouvelle mesure");
+        nouvelle.setOnAction(e -> {
+            Stage stage = new Stage();
+            stage.initOwner(addMesure.getScene().getWindow());
+            stage.initModality(Modality.WINDOW_MODAL);
+            AjoutTypeMesurePopUp popUp = AjoutTypeMesurePopUp.newAjoutTypeMesurePopUp(stage);
+
+            if (popUp == null) return;
+            stage.setOnHidden(e2 -> {
+                if (popUp.wasValidated()) {
+                    boolean successfulyAdded = journalEntry.getSpecies().getMesuresInfos().addMesure(popUp.getName(), popUp.getType(), popUp.getUnit());
+                    if (successfulyAdded) {
+                        switch (popUp.getType()){
+                            case Numeric -> journalEntry.addMesure(MesureHolder.newMesureNumerique(popUp.getName(), (float) 0, popUp.getUnit()));
+                            case Bool -> journalEntry.addMesure(MesureHolder.newMesureBool(popUp.getName(), false));
+                            case Scale -> journalEntry.addMesure(MesureHolder.newMesureScale(
+                                    popUp.getName(), Integer.parseInt(popUp.getUnit().split("<SEP>")[0]), Integer.parseInt(popUp.getUnit().split("<SEP>")[1])));
+                            case List -> journalEntry.addMesure(MesureHolder.newMesureList(popUp.getName(), popUp.getUnit(), popUp.getUnit().split("<SEP>")[0]));
+                            case Text -> journalEntry.addMesure(MesureHolder.newMesureText(popUp.getName(), ""));
+                        }
+                        update();
+                    } else {
+                        Alert.newAlert("Une mesure porte déjà ce nom");
+                    }
+                }
+            });
+        });
+        return nouvelle;
     }
 
     private  MenuItem getMenuItem(InfoMesure info) {

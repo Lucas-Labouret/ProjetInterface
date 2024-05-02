@@ -1,7 +1,7 @@
 package org.example.projetjardinage.model.enregistreur;
 
-import org.example.projetjardinage.model.Lists.ObservableList;
-import org.example.projetjardinage.model.Lists.TodoList;
+import org.example.projetjardinage.model.lists.ObservableList;
+import org.example.projetjardinage.model.lists.TodoList;
 import org.example.projetjardinage.model.Species;
 import org.example.projetjardinage.model.Specimen;
 import org.example.projetjardinage.model.Task;

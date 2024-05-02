@@ -9,7 +9,7 @@ import javafx.scene.layout.VBox;
 import org.example.projetjardinage.GlobalData;
 import org.example.projetjardinage.controller.Observer;
 import org.example.projetjardinage.controller.utils.FrameGalleryController;
-import org.example.projetjardinage.model.Lists.ObservableList;
+import org.example.projetjardinage.model.lists.ObservableList;
 import org.example.projetjardinage.model.Species;
 import org.example.projetjardinage.model.Specimen;
 

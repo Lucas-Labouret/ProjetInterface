@@ -12,7 +12,7 @@ import javafx.stage.Stage;
 import org.example.projetjardinage.GlobalData;
 import org.example.projetjardinage.controller.MainWindow;
 import org.example.projetjardinage.controller.utils.journal.JournalController;
-import org.example.projetjardinage.model.Lists.TodoList;
+import org.example.projetjardinage.model.lists.TodoList;
 import org.example.projetjardinage.model.Specimen;
 import org.example.projetjardinage.model.Task;
 
