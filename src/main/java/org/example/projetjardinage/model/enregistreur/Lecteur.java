@@ -235,6 +235,7 @@ public class Lecteur {
             Species esp = plantes.get(indexPlantes.get(spe.get(4)));
             List<List<String>> journ = new ArrayList<>();
             List<List<String>> photos = new ArrayList<>();
+            System.out.println(spe);
             int nbEntree = Integer.parseInt(spe.get(7));
             int nbMes = esp.getNbMesures() + 1+3; //+1 pour la date, +3 pour les booleans
             int cmpt = 0;
