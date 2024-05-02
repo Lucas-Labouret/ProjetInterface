@@ -100,7 +100,11 @@ public class Species extends Observable {
 
     public void resetProfilePic(){
         if(specimens.size() == 0){
-            profilePic = "/icons/267203.png";
+            Path oldpath = FileSystems.getDefault().getPath(
+                    "src/main/resources/" + profilePic).toAbsolutePath();
+            if(!Files.exists(oldpath)){
+                profilePic = "/icons/267203.png";
+            }else
             return;
         }
         Path absolutePath = FileSystems.getDefault().getPath(
