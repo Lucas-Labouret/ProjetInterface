@@ -147,16 +147,13 @@ public class Specimen {
         File[] listOfFiles = dossier.listFiles();
         Path oldpath = FileSystems.getDefault().getPath(
                     "src/main/resources/" + profilePic).toAbsolutePath();
-        System.out.println(profilePic);
-        if(profilePic == "/icons/267203.png" || !Files.exists(oldpath) ) {
-            System.out.println("sssssssssssssssssssss");
+        if(profilePic.equals( "/icons/267203.png") || !Files.exists(oldpath) ) {
             if (listOfFiles.length > 0) {
                 profilePic = "/galerie/" + species.getName() + "/" + name +"/"+listOfFiles[0].getName();
 
             } else{
             profilePic = "/icons/267203.png";
         }
-        System.out.println(profilePic);
     }
     }
 
