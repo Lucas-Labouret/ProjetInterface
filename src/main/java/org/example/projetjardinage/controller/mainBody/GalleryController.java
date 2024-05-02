@@ -76,47 +76,7 @@ public class GalleryController extends Observer implements BodyController {
 
     public void initialize()  {
         update();
-        //if(species == null){
 
-        //}
-
-        //Path dir = Paths.get("/galerie/Kougoro/Dame Grigri/");
-
-        //try {
-        //List<Path> imagePaths = Files.list(dir)
-        //.filter(Files::isRegularFile)
-        //.collect(Collectors.toList());
-
-
-        //img1 = new ImageView(new Image(getClass().getResourceAsStream(imagePaths.get(0).toUri().toString())));
-        //img2 = new ImageView(imagePaths.get(1).toUri().toString());
-
-        //for (int i = 0; i < imagePaths.size(); i++) {
-        //System.out.println(imagePaths.get(i).toUri());
-        //Image image = new Image(imagePaths.get(i).toUri().toString());
-        //ImageView imageView = new ImageView(image);
-        //imageView.setFitHeight(100);
-        //imageView.setFitWidth(100);
-        //grid.add(imageView, i % 5, i / 5);
-        //}
-
-        //System.out.println(imagePaths);
-        //} catch (IOException e) {
-        //e.printStackTrace();
-        //img1 = new ImageView();
-
-        //Image image = new Image(getClass().getResourceAsStream("/icons/267203.png"));
-        //System.out.println("tamsy");
-        //img1.setImage( image );
-
-        /**if(species != null){
-            for (int i = 0; i < plantes.size(); i++) {
-                if (plantes.get(i).equals(species)) {
-                    loadImage(i, 0);
-                    break;
-                }
-            }
-        }**/
 }
     private void loadImage(int i, int x){
         loadImage(plantes.get(i),x);
@@ -170,7 +130,6 @@ public class GalleryController extends Observer implements BodyController {
                 FrameGalleryController frameGalleryController;
                 try {
                     frameGalleryController = new FrameGalleryController(species, x, "/galerie/" + species.getOldName() + "/" + species.getSpecimens().get(x).getOldName() + "/" + listOfFiles[i].getName());
-                    System.out.println("/galerie/" + species.getOldName() + "/" + species.getSpecimens().get(x).getOldName() + "/" + listOfFiles[i].getName());
                 } catch (Exception e) {
                     frameGalleryController = new FrameGalleryController(species, x, "/icons/267203.png");
                 }
@@ -180,7 +139,6 @@ public class GalleryController extends Observer implements BodyController {
                 try {
                     especeView = loader.load();
                     vBoxesSpecimens.get(pos % nbColumns).getChildren().add(especeView);
-                    System.out.println("tamsy");
                     pos++;
                 } catch (Exception e) {
                     e.printStackTrace();

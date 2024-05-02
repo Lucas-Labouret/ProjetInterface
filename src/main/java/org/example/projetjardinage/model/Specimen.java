@@ -5,7 +5,6 @@ import org.example.projetjardinage.model.journal.Journal;
 import org.example.projetjardinage.model.journal.PlageMesure;
 import org.example.projetjardinage.model.journal.mesures.MesureHolder;
 import org.example.projetjardinage.model.journal.mesures.MesureList;
-import org.example.projetjardinage.model.journal.mesures.TypeMesure;
 
 import java.io.File;
 import java.nio.file.FileSystems;
@@ -148,17 +147,17 @@ public class Specimen {
         File[] listOfFiles = dossier.listFiles();
         Path oldpath = FileSystems.getDefault().getPath(
                     "src/main/resources/" + profilePic).toAbsolutePath();
-        if(!Files.exists(oldpath)) {
+        System.out.println(profilePic);
+        if(profilePic == "/icons/267203.png" || !Files.exists(oldpath) ) {
+            System.out.println("sssssssssssssssssssss");
             if (listOfFiles.length > 0) {
                 profilePic = "/galerie/" + species.getName() + "/" + name +"/"+listOfFiles[0].getName();
-                System.out.println(profilePic);
+
             } else{
             profilePic = "/icons/267203.png";
         }
-
-    }
-        System.out.println(name);
         System.out.println(profilePic);
+    }
     }
 
     public String getOldName() {

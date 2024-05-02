@@ -53,7 +53,7 @@ public class GlobalData {
     }
 
     public static void enregistre(String path){
-        Ecrivain ecrivain = new Ecrivain("test.txt", species, tasks);
+        Ecrivain ecrivain = new Ecrivain(path, species, tasks);
         ecrivain.enregistrer();
     }
 }

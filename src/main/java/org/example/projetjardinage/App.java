@@ -21,7 +21,7 @@ public class App extends Application {
     private final int minHeight = 600;
 
     public static void main(String[] args) {
-        String test = "test.txt";
+        String test = "Données.txt";
         GlobalData.recuperrageDesDonnees(test);
         Application.launch(args);
     }
@@ -65,7 +65,7 @@ public class App extends Application {
                 }
                 GlobalData.species.get(i).resetProfilePic();
             }
-            GlobalData.enregistre("test.txt");
+            GlobalData.enregistre("Données.txt");
             Platform.exit();
         });
     }
@@ -86,25 +86,22 @@ public class App extends Application {
                     t += c ;
                 }
                 File ancienDossier = new File(t);
-                System.out.println(ancienDossier + "");
 
                 File nouveauDossier = new File(
                         ancienDossier.getParentFile(), GlobalData.species.get(i).getSpecimens().get(j).getName()
                 );
 
-                System.out.println(nouveauDossier + "");
 
                 if (ancienDossier.renameTo(nouveauDossier)) {
-                    System.out.println("Le dossier a été renommé avec succès !");
+                    //System.out.println("Le dossier a été renommé avec succès !");
                 } else {
-                    System.out.println("Le renommage du dossier a échoué.");
+                    //System.out.println("Le renommage du dossier a échoué.");
                 }
             }
 
             Path absolutePath = FileSystems.getDefault().getPath(
                     "src/main/resources/galerie/"+GlobalData.species.get(i).getOldName()
             ).toAbsolutePath();
-            //Path absolutePath = FileSystems.getDefault().getPath("src/main/resources/galerie/Kougoro").toAbsolutePath();
 
             char [] a = absolutePath.toString().toCharArray();
 
@@ -119,20 +116,15 @@ public class App extends Application {
                     t += c ;
                 }
             }
-
-            //ArrayList<Character> path =new ArrayList<Character>( absolutePath.toString().toCharArray());
-            //File ancienDossier = new File("C:\\Users\\Fran\\IdeaProjects\\ProjetInterface\\src\\main\\resources\\galerie\\Kougoro");
             File ancienDossier = new File(t);
-            System.out.println(ancienDossier + "");
 
             File nouveauDossier = new File(ancienDossier.getParentFile(), GlobalData.species.get(i).getName());
 
-            System.out.println(nouveauDossier + "");
 
             if (ancienDossier.renameTo(nouveauDossier)) {
-                System.out.println("Le dossier a été renommé avec succès !");
+                //System.out.println("Le dossier a été renommé avec succès !");
             } else {
-                System.out.println("Le renommage du dossier a échoué.");
+                //System.out.println("Le renommage du dossier a échoué.");
             }
         }
     }

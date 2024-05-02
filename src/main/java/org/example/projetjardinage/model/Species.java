@@ -120,17 +120,16 @@ public class Species extends Observable {
         File[] listOfFiles = dossier.listFiles();
         Path oldpath = FileSystems.getDefault().getPath(
                 "src/main/resources/" + profilePic).toAbsolutePath();
-        if(!Files.exists(oldpath)) {
+        if(!Files.exists(oldpath) || profilePic == "/icons/267203.png"){
             if (listOfFiles.length > 0) {
                 profilePic = "/galerie/" + getName() + "/" + getSpecimens().get(0).getName() +"/"+listOfFiles[0].getName();
                 System.out.println(profilePic);
             } else{
                 profilePic = "/icons/267203.png";
+                System.out.println(profilePic);
             }
 
         }
-        System.out.println(name);
-        System.out.println(profilePic);
     }
 
     public int getNbMesures() {
