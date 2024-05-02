@@ -144,15 +144,22 @@ public class Ecrivain {
 
     private List<String> getMesures(Species spe){
         List<String> mes = new ArrayList<>();
-        OptimalHolder optis =  spe.getMesuresOpti();
-        mes.add(String.valueOf(optis.getExp().getValue()));
-        mes.add(String.valueOf(optis.getArrosage().getValue()));
-        mes.add(optis.getTypeSol().getValue());
-        mes.add(String.valueOf(optis.getPh().getValue()));
-        mes.add(String.valueOf(optis.getEspaceAuSol().getValue()));
-        int bool = 0;
-        if(optis.getEnTerre().getValue()){bool = 1;}
-        mes.add(String.valueOf(bool));
+        if(spe.hasMes()){
+            OptimalHolder optis =  spe.getMesuresOpti();
+            mes.add(String.valueOf(optis.getExp().getValue()));
+            mes.add(String.valueOf(optis.getArrosage().getValue()));
+            mes.add(optis.getTypeSol().getValue());
+            mes.add(String.valueOf(optis.getPh().getValue()));
+            mes.add(String.valueOf(optis.getEspaceAuSol().getValue()));
+            int bool = 0;
+            if(optis.getEnTerre().getValue()){bool = 1;}
+            mes.add(String.valueOf(bool));
+        } else {
+            for(int i = 0; i<6;i++){
+                mes.add("<N>");
+            }
+        }
+
         return mes;
     }
 

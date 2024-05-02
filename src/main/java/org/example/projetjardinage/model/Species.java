@@ -9,10 +9,10 @@ import java.util.List;
 public class Species extends Observable {
     private String name;
     private String oldName;
-    private boolean favorite;
-    private String profilePic;
+    private boolean favorite = false;
+    private String profilePic = "";
 
-    private String notes;
+    private String notes = "";
     private final ArrayList<Specimen> specimens = new ArrayList<>();
     private final ArrayList<Task> taskList = new ArrayList<>();
 
@@ -21,6 +21,7 @@ public class Species extends Observable {
     private PlageMesure mesuresPoss;
 
     public Species(String name) {
+
         this.name = name;
     }
 
@@ -32,12 +33,18 @@ public class Species extends Observable {
         this.profilePic = elem.get(2);
         this.notes = elem.get(3);
         List<String> opti = elem.subList(4,10);
-        this.mesuresOpti = new OptimalHolder(opti);
+        if(!(elem.get(4).equals("<N>"))){
+            this.mesuresOpti = new OptimalHolder(opti);
+        }
         this.mesuresPoss = new PlageMesure();
         int nbNouvellesMesures = Integer.parseInt(elem.get(10));
         for(int i = 0; i<nbNouvellesMesures*3;i=i+3){
             this.mesuresPoss.addMesure(elem.get(11+i),elem.get(11+i+1),elem.get(11+i+2));
         }
+    }
+
+    public boolean hasMes(){
+        return this.mesuresOpti != null;
     }
 
     public String getName() { return name; }
@@ -80,7 +87,13 @@ public class Species extends Observable {
 
     public PlageMesure getMesures(){ return this.mesuresPoss;}
 
-    public int getNbMesures(){return this.mesuresPoss.getTaille();}
+    public int getNbMesures() {
+        if (this.mesuresPoss == null) {
+            return 8;
+        } else {
+            return this.mesuresPoss.getTaille();
+        }
+    }
 
     public PlageMesure getMesuresInfos(){return this.mesuresPoss;}
 }
