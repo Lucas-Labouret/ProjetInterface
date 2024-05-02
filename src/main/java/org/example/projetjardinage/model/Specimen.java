@@ -215,11 +215,10 @@ public class Specimen {
     }
 
     public MesureHolder moyenne(List<MesureHolder> mes, InfoMesure info){
-        TypeMesure type = info.getType();
         String newName = info.getName()+(" Moyenne");
         MesureHolder moy;
-        switch(type){
-            case Bool : {
+        switch(info.getType()){
+            case Bool -> {
                 int vrai = 0;
                 int faux = 0;
                 for (MesureHolder mesure : mes){
@@ -233,26 +232,30 @@ public class Specimen {
 
                 moy = MesureHolder.newMesureNumerique(newName,res,"%");
             }
-            case Numeric: {
+            case Numeric -> {
                 float somme = 0;
                 for(MesureHolder mesure : mes){
                     somme = somme + (float) mesure.getMesure().getValue();
                 }
                 moy = MesureHolder.newMesureNumerique(newName, somme/mes.size(), info.getUnit());
             }
-            case Scale : {
-                float somme = 0;
+            case Scale -> {
+                int somme = 0;
                 for(MesureHolder mesure : mes){
-                    somme = somme + (float) mesure.getMesure().getValue();
+                    somme = somme + (int) mesure.getMesure().getValue();
                 }
                 String scale = info.getUnit();
                 ArrayList<String> minMax = new ArrayList<>(List.of(scale.split("<SEP>")));
                 int min = Integer.parseInt(minMax.get(0));
                 int max = Integer.parseInt(minMax.get(1));
-                moy = MesureHolder.newMesureScale(newName, (int) somme/mes.size(), min ,max);
+                moy = MesureHolder.newMesureScale(newName, somme/mes.size(), min ,max);
             }
-            case List: {
-                HashMap<String, Integer> compt = new HashMap<String, Integer>();
+            case List -> {
+                HashMap<String, Integer> compt = new HashMap<>();
+                System.out.println(info.getName());
+                System.out.println(mes.get(0).getName());
+                System.out.println(mes.get(0).getType());
+                System.out.println(info.getType());
                 MesureList test = (MesureList) mes.get(0).getMesure();
                 List<String> types = test.getTypes();
                 for (String typ : types){
@@ -270,7 +273,7 @@ public class Specimen {
                 }
                 moy = MesureHolder.newMesureList(newName,max);
             }
-            default : moy = MesureHolder.newMesureBool("Echec", true);
+            default -> moy = MesureHolder.newMesureBool("Echec", true);
         }
         return moy;
     }

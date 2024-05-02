@@ -80,4 +80,8 @@ public class Journal extends HashMap<LocalDate, JournalEntry> {
             entry.deleteMesure(mesure);
         }
     }
+
+    public JournalEntry getLastEntry() {
+        return this.get(this.getSortedDates().get(this.size() - 1));
+    }
 }

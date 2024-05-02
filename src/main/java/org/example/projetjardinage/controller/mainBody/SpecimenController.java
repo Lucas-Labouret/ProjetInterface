@@ -7,18 +7,28 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.HBox;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import org.example.projetjardinage.GlobalData;
 import org.example.projetjardinage.controller.MainWindow;
 import org.example.projetjardinage.controller.utils.journal.JournalController;
+import org.example.projetjardinage.controller.utils.journal.MesureHolderShower;
+import org.example.projetjardinage.model.journal.JournalEntry;
+import org.example.projetjardinage.model.lists.TodoList;
 import org.example.projetjardinage.model.Specimen;
 import org.example.projetjardinage.model.Task;
 import org.example.projetjardinage.model.lists.TodoList;
 
+import java.text.DateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.io.*;
 import java.nio.file.FileSystems;
 import java.nio.file.Path;
@@ -27,74 +37,80 @@ import java.util.List;
 import java.util.UUID;
 
 public class SpecimenController implements BodyController {
-
-
-    @FXML private TextField nom;
-    @FXML private Button editName;
-    @FXML private Button editNotesSpecimen;
-
-
-    @FXML private Button editNotesEntretien;
-
-    @FXML private Pane taskPane;
-
-    @FXML private Button ajouterImage;
-
-    @FXML private Button addEntretienButton;
-
     @FXML private Button addMesureButton;
-    @FXML private Label ageLabel;
-    @FXML private Label arrosageLabel;
+    @FXML private Button ajouterImage;
     @FXML private Label dateLastCoupe;
-    @FXML private Label dateLastEntry;
-    @FXML private Label dateLastPlantation;
-    @FXML private Button editButton;
-    @FXML private Label enTerreLabel;
-    @FXML private Label espaceAuSolLabel;
-    @FXML private Label expositionLabel;
-    @FXML private Label heightLabel;
+    @FXML private Label dateLastRecolte;
+    @FXML private Label dateLastRempotage;
+    @FXML private Button editName;
+    @FXML private Button editNotes;
+    @FXML private Button editNotesEntretien;
+    @FXML private Button gallery;
+    @FXML private HBox imageBox;
     @FXML private Button journalButton;
+    @FXML private TextField lastEntry;
+    @FXML private TextField mesureMoyenne;
+    @FXML private TextField nom;
     @FXML private TextArea notesEntretien;
     @FXML private TextArea notesSpe;
-    @FXML private Label phLabel;
     @FXML private Button speciesButton;
-    @FXML private Label temperatureLabel;
-    @FXML private Label widthLabel;
-    @FXML private Label recolteLabel;
-    @FXML private Button gallery;
     @FXML private ImageView speciesImage;
-
-
+    @FXML private Pane taskPane;
 
     private Specimen specimen;
 
     private TodoListController todoListController;
+
     public void switchSpecimen(Specimen s){
         specimen = s;
 
         nom.setText(s.getName());
-        //heightLabel.setText(s.getHeight());
-        //widthLabel.setText(s.getWidth());
-        //ageLabel.setText(s.getAge());
-        //dateLastPlantation.setText(s.getDateRempot().toString());
-        //dateLastCoupe.setText(s.getDateCoupe().toString());
-        //dateLastEntry.setText(s.getDerniereEntree().toString());
-        //recolteLabel.setText(s.getDateRecolte().toString());
         notesSpe.setText(s.getNoteSpecimen());
         notesEntretien.setText(s.getNoteEntretien());
         speciesImage.setImage(new Image(getClass().getResourceAsStream(s.getProfilePic())));
 
-
         TodoList todoList = new TodoList();
-        todoList.addFilter(t -> t.getLinkedSpecies().contains(this.specimen));
+        todoList.addFilter(t -> t.getLinkedSpecimens().contains(this.specimen));
         fillTodoList(todoList);
         todoListController = new TodoListController(todoList, specimen, false);
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/mainBody/TodoListBody.fxml"));
         loader.setController(todoListController);
         taskPane.getChildren().clear();
-        try { taskPane.getChildren().add(loader.load()); }
+        try {
+            taskPane.getChildren().add(loader.load());
+            todoListController.updateSize(300, 200);
+        }
         catch (Exception e) { e.printStackTrace(); }
 
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        for (LocalDate entry: specimen.getJournal().getSortedDates()){
+            if (specimen.getJournal().get(entry).getCoup()){
+                dateLastCoupe.setText(entry.format(formatter));
+                break;
+            }
+            dateLastCoupe.setText("N/A");
+        }
+        for (LocalDate entry: specimen.getJournal().getSortedDates()){
+            if (specimen.getJournal().get(entry).getRempot()){
+                dateLastRecolte.setText(entry.format(formatter));
+                break;
+            }
+            dateLastRecolte.setText(specimen.getMiseEnTerre().format(formatter));
+        }
+        for (LocalDate entry: specimen.getJournal().getSortedDates()){
+            if (specimen.getJournal().get(entry).getRempot()){
+                dateLastRempotage.setText(entry.format(formatter));
+                break;
+            }
+            dateLastRempotage.setText("N/A");
+        }
+
+        MesureHolderShower mesureHolderShowerMoyenne = new MesureHolderShower(specimen.getMesuresMoyennes());
+        mesureHolderShowerMoyenne.setOnHover(mesureMoyenne);
+
+        MesureHolderShower mesureHolderShowerLastEntry = new MesureHolderShower(specimen.getJournal().getLastEntry().getMesures());
+        mesureHolderShowerLastEntry.setOnHover(lastEntry);
     }
 
     private void fillTodoList(TodoList todoList) {
@@ -117,15 +133,17 @@ public class SpecimenController implements BodyController {
     }
     public SpecimenController(){}
     public void initialize(){
+        editName.setText("✎");
         editName.setOnAction(e -> {
             nom.setEditable(!nom.isEditable());
+            editName.setText(nom.isEditable() ? "✔" : "✎");
         });
         nom.setOnKeyTyped(e -> {
             specimen.setName(nom.getText());
         });
-        editNotesSpecimen.setOnAction(e -> {
+        editNotes.setOnAction(e -> {
             notesSpe.setEditable(!notesSpe.isEditable());
-            editNotesSpecimen.setText(notesSpe.isEditable() ? "✔" : "✎");
+            editNotes.setText(notesSpe.isEditable() ? "✔" : "✎");
         });
         editNotesEntretien.setOnAction(e -> {
             notesEntretien.setEditable(!notesEntretien.isEditable());
@@ -158,30 +176,6 @@ public class SpecimenController implements BodyController {
             List<File> f = fC.showOpenMultipleDialog(null);//stores files in f object list of type: File
             if (f != null){
                 for (File file : f) {
-                    //System.out.println(file.getAbsoluteFile());
-                    /**BufferedImage img = null;
-                    try {
-                        img = ImageIO.read(file);
-
-                    } catch (IOException ex) {
-                        throw new RuntimeException(ex);
-                    }
-                    System.out.println(img);
-                    String uniqueID = UUID.randomUUID().toString();
-                    Path newimg = FileSystems.getDefault().getPath(
-                            "src/main/resources/galerie/"+specimen.getSpecies().getOldName()+"/"+specimen.getOldName()+"/"+uniqueID+".jpg");
-
-                    System.out.println(newimg.toAbsolutePath());
-                    try {
-                        File fichier = new File(newimg.toAbsolutePath().toString());
-                        fichier.createNewFile();
-                        ImageIO.write(img, " jpg", fichier);
-                    } catch (Exception ex){
-                        ex.printStackTrace();
-                        System.out.println("Error");
-                    }
-                }
-            }**/
                     FileInputStream in = null;
                     try {
                         in = new FileInputStream(file);
@@ -224,7 +218,7 @@ public class SpecimenController implements BodyController {
                     }
 
                 }
-                }
+            }
         });
     }
 

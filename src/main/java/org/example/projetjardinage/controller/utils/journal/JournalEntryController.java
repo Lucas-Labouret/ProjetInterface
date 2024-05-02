@@ -31,8 +31,8 @@ public class JournalEntryController extends Observer {
     @FXML HBox photoBox;
 
 
-    private JournalEntry journalEntry;
-    private ArrayList<MesureController> mesureControllers = new ArrayList<>();
+    private final JournalEntry journalEntry;
+    private final ArrayList<MesureController> mesureControllers = new ArrayList<>();
 
     public JournalEntryController(JournalEntry journalEntry) {
         this.journalEntry = journalEntry;

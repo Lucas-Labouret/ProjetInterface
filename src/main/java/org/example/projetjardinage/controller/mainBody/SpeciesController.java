@@ -3,6 +3,7 @@ package org.example.projetjardinage.controller.mainBody;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -11,9 +12,11 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.layout.HBox;
 import javafx.scene.shape.Line;
+import javafx.stage.Stage;
 import org.example.projetjardinage.GlobalData;
 import org.example.projetjardinage.controller.Observer;
 import org.example.projetjardinage.controller.utils.EspeceController;
+import org.example.projetjardinage.controller.utils.journal.MesureHolderShower;
 import org.example.projetjardinage.model.lists.ObservableList;
 import org.example.projetjardinage.model.Species;
 import org.example.projetjardinage.model.Specimen;
@@ -47,11 +50,7 @@ public class SpeciesController extends Observer implements BodyController {
     @FXML private TextField nbSpecimen;
     @FXML private Button addSpecimen;
 
-    @FXML private Label moyenneLabel;
-    @FXML private GridPane moyennePanel;
-    @FXML private Label moyenne1;
-    @FXML private Label moyenne2;
-    @FXML private Label moyenne3;
+    @FXML private TextField mesuresMoyennes;
 
     @FXML private Label notesLabel;
     @FXML private Button editNotes;
@@ -68,13 +67,6 @@ public class SpeciesController extends Observer implements BodyController {
 
     @FXML private HBox imageBox;
     @FXML private ImageView speciesImage;
-
-    @FXML private GridPane mesuresPanel;
-    @FXML private Label mesure1;
-    @FXML private Label mesure2;
-    @FXML private Label mesure3;
-    @FXML private Label mesure4;
-    @FXML private Button mesuresEdit;
 
     @FXML private Label todoListLabel;
     @FXML private Pane taskPane;
@@ -175,6 +167,9 @@ public class SpeciesController extends Observer implements BodyController {
         try { taskPane.getChildren().add(loader.load()); }
         catch (Exception e) { e.printStackTrace(); }
 
+        MesureHolderShower mesureHolderShowerMoyennes = new MesureHolderShower(species.getMesuresMoyennes());
+        mesureHolderShowerMoyennes.setOnHover(mesuresMoyennes);
+
         update();
     }
 
@@ -258,12 +253,9 @@ public class SpeciesController extends Observer implements BodyController {
         addSpecimen.setPrefHeight(25);
         addSpecimen.setPrefWidth(25);
 
-        moyenneLabel.setLayoutX(offset + 20);
-        moyenneLabel.setLayoutY(80);
-        moyenneLabel.setPrefHeight(20);
-
-        moyennePanel.setLayoutX(offset + 160);
-        moyennePanel.setLayoutY(75);
+        mesuresMoyennes.setLayoutX(offset + 20);
+        mesuresMoyennes.setLayoutY(80);
+        mesuresMoyennes.setPrefHeight(20);
 
         notesLabel.setLayoutX(offset + 20);
         notesLabel.setLayoutY(180);
@@ -291,11 +283,6 @@ public class SpeciesController extends Observer implements BodyController {
         sepLine.setStartY(0);
 
         speciesImage.setLayoutY(20);
-
-        mesuresPanel.setPrefHeight(80);
-
-        mesuresEdit.setPrefWidth(20);
-        mesuresEdit.setPrefHeight(20);
 
         galleryLabel.setPrefHeight(20);
 
@@ -340,13 +327,6 @@ public class SpeciesController extends Observer implements BodyController {
         imageBox.setLayoutX(offset + 2*width/3 + 20);
         imageBox.setPrefWidth(width/3 - 40);
         imageBox.setLayoutY(20);
-
-        mesuresPanel.setLayoutX(offset + 2*width/3 + 20);
-        mesuresPanel.setLayoutY(40 + speciesImage.getFitHeight());
-        mesuresPanel.setPrefWidth(width/3 - 40);
-
-        mesuresEdit.setLayoutX(offset + width - 40);
-        mesuresEdit.setLayoutY(40 + speciesImage.getFitHeight());
 
         galleryLabel.setLayoutX(offset + 2*width/3 + 20);
         galleryLabel.setLayoutY(130 + speciesImage.getFitHeight());
