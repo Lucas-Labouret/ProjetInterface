@@ -6,12 +6,8 @@
 <?import javafx.scene.shape.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="560.0" prefWidth="560.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.projetjardinage.controller.mainBody.SpeciesController">
-   <Button fx:id="editName" alignment="CENTER" contentDisplay="CENTER" ellipsisString="" layoutX="196.0" layoutY="32.0" mnemonicParsing="false" prefHeight="16.0" prefWidth="16.0">
-      <font>
-         <Font size="14.0" />
-      </font>
-   </Button>
+<AnchorPane prefHeight="560.0" prefWidth="560.0" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.projetjardinage.controller.mainBody.SpeciesController">
+   <Button fx:id="editName" alignment="CENTER" contentDisplay="CENTER" ellipsisString="" layoutX="196.0" layoutY="32.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="32.0" text="✎" />
    <TextField fx:id="name" editable="false" layoutX="24.0" layoutY="24.0" prefHeight="31.0" prefWidth="166.0" text="Nom de l'espece">
       <font>
          <Font size="19.0" />

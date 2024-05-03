@@ -3,24 +3,21 @@ package org.example.projetjardinage.controller.mainBody;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
-import javafx.scene.layout.HBox;
 import javafx.scene.shape.Line;
-import javafx.stage.Stage;
 import org.example.projetjardinage.GlobalData;
 import org.example.projetjardinage.controller.Observer;
 import org.example.projetjardinage.controller.utils.EspeceController;
 import org.example.projetjardinage.controller.utils.journal.MesureHolderShower;
-import org.example.projetjardinage.model.lists.ObservableList;
 import org.example.projetjardinage.model.Species;
 import org.example.projetjardinage.model.Specimen;
 import org.example.projetjardinage.model.Task;
+import org.example.projetjardinage.model.lists.ObservableList;
 import org.example.projetjardinage.model.lists.TodoList;
 
 import java.util.ArrayList;
@@ -82,7 +79,6 @@ public class SpeciesController extends Observer implements BodyController {
     public SpeciesController(){}
 
     public void initialize(){
-        editName.setText("✎");
         editName.setOnAction(e -> {
             name.setEditable(!name.isEditable());
             editName.setText(name.isEditable() ? "✔" : "✎");
