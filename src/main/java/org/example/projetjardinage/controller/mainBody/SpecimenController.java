@@ -7,31 +7,25 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.HBox;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 import org.example.projetjardinage.GlobalData;
 import org.example.projetjardinage.controller.MainWindow;
 import org.example.projetjardinage.controller.utils.journal.JournalController;
 import org.example.projetjardinage.controller.utils.journal.MesureHolderShower;
-import org.example.projetjardinage.model.journal.JournalEntry;
-import org.example.projetjardinage.model.lists.TodoList;
 import org.example.projetjardinage.model.Specimen;
 import org.example.projetjardinage.model.Task;
 import org.example.projetjardinage.model.lists.TodoList;
 
-import java.text.DateFormat;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.io.*;
 import java.nio.file.FileSystems;
 import java.nio.file.Path;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -45,6 +39,7 @@ public class SpecimenController implements BodyController {
     @FXML private Button editName;
     @FXML private Button editNotes;
     @FXML private Button editNotesEntretien;
+    @FXML private Button speciesButton;
     @FXML private Button gallery;
     @FXML private HBox imageBox;
     @FXML private Button journalButton;
@@ -53,7 +48,6 @@ public class SpecimenController implements BodyController {
     @FXML private TextField nom;
     @FXML private TextArea notesEntretien;
     @FXML private TextArea notesSpe;
-    @FXML private Button speciesButton;
     @FXML private ImageView speciesImage;
     @FXML private Pane taskPane;
 
@@ -165,6 +159,12 @@ public class SpecimenController implements BodyController {
                 ex.printStackTrace();
             }
         });
+        speciesButton.setOnAction(e -> {
+            MainWindow.getInstance().getSpeciesController().switchSpecies(specimen.getSpecies());
+            MainWindow.getInstance().switchController(MainWindow.Display.SPECIES);
+        });
+
+
         gallery.setOnAction(e -> {
             MainWindow.getInstance().getGalleryController().switchSpecimen(specimen);
             MainWindow.getInstance().switchController(MainWindow.Display.GALLERY);
