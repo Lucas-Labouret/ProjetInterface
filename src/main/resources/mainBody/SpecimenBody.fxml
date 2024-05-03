@@ -17,9 +17,9 @@
         </font>
     </TextField>
     <Label layoutX="25.0" layoutY="219.0" text="Notes sur le spécimen" AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="200.0" />
-    <Button fx:id="editNotes" alignment="CENTER" contentDisplay="CENTER" ellipsisString="" layoutX="162.0" layoutY="218.0" mnemonicParsing="false" prefHeight="18.0" prefWidth="18.0" text="editer notes" AnchorPane.leftAnchor="180.0" AnchorPane.topAnchor="200.0">
+    <Button fx:id="editNotes" alignment="CENTER" contentDisplay="CENTER" ellipsisString="" layoutX="172.0" layoutY="192.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="26.0" text="✎" AnchorPane.leftAnchor="172.0" AnchorPane.topAnchor="192.0">
         <font>
-            <Font size="8.0" />
+            <Font size="11.0" />
         </font>
     </Button>
     <Button fx:id="addMesureButton" layoutX="127.0" layoutY="104.0" mnemonicParsing="false" prefHeight="10.0" prefWidth="10.0" text="+" AnchorPane.leftAnchor="120.0" AnchorPane.topAnchor="110.0" />
@@ -32,9 +32,9 @@
     <Button fx:id="speciesButton" alignment="CENTER" layoutX="243.0" layoutY="23.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="100.0" text="Nom Espece" textAlignment="CENTER" AnchorPane.leftAnchor="270.0" AnchorPane.topAnchor="20.0" />
     <Label layoutX="387.0" layoutY="186.0" text="Notes d'entretien" AnchorPane.leftAnchor="390.0" AnchorPane.topAnchor="210.0" />
     <Button fx:id="journalButton" layoutX="425.0" layoutY="237.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="96.0" text="Journal" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="110.0" />
-    <Button fx:id="editNotesEntretien" alignment="CENTER" contentDisplay="CENTER" ellipsisString="" layoutX="507.0" layoutY="185.0" mnemonicParsing="false" prefHeight="18.0" prefWidth="18.0" text="editer notes" AnchorPane.leftAnchor="510.0" AnchorPane.topAnchor="210.0">
+    <Button fx:id="editNotesEntretien" alignment="CENTER" contentDisplay="CENTER" ellipsisString="" layoutX="502.0" layoutY="202.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="26.0" text="✎" AnchorPane.leftAnchor="502.0" AnchorPane.topAnchor="202.0">
         <font>
-            <Font size="8.0" />
+            <Font size="11.0" />
         </font>
     </Button>
     <Button fx:id="ajouterImage" layoutX="444.0" layoutY="434.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="126.0" text="Ajouter un image" AnchorPane.leftAnchor="390.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="120.0" />

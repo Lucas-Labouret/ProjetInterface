@@ -61,7 +61,9 @@ public class SpecimenController implements BodyController {
         nom.setText(s.getName());
         notesSpe.setText(s.getNoteSpecimen());
         notesEntretien.setText(s.getNoteEntretien());
-        speciesImage.setImage(new Image(getClass().getResourceAsStream(s.getProfilePic())));
+        try {
+            speciesImage.setImage(new Image(getClass().getResourceAsStream(s.getProfilePic())));
+        } catch (Exception e) { speciesImage.setImage(new Image(getClass().getResourceAsStream("/icons/267203.png"))); }
 
         TodoList todoList = new TodoList();
         todoList.addFilter(t -> t.getLinkedSpecimens().contains(this.specimen));
